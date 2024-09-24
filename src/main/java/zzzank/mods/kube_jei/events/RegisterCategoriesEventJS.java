@@ -5,6 +5,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import net.minecraft.resources.ResourceLocation;
 import zzzank.mods.kube_jei.impl.RecipeType;
+import zzzank.mods.kube_jei.impl.KubeJEIRecipeTypes;
 import zzzank.mods.kube_jei.impl.builder.RecipeCategoryBuilder;
 import zzzank.mods.kube_jei.impl.builder.RecipeCategoryWrapperBuilder;
 import zzzank.mods.kube_jei.impl.CustomJSRecipe;
@@ -23,7 +24,7 @@ public class RegisterCategoriesEventJS extends JEIEventJS {
         ResourceLocation recipeType,
         Consumer<RecipeCategoryBuilder<CustomJSRecipe>> categoryConsumer
     ) {
-        return register(getOrCreateCustomRecipeType(recipeType), categoryConsumer);
+        return register(KubeJEIRecipeTypes.getOrCreateCustomRecipeType(recipeType), categoryConsumer);
     }
 
     public <T> CustomRecipeCategory<T> wrap(
