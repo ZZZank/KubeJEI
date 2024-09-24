@@ -1,0 +1,1 @@
+zzzank.mods.kube_jei.plugin.KubeJEI_KJSPlugin
