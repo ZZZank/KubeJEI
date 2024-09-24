@@ -17,7 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
-import zzzank.mods.kube_jei.impl.RecipeType;
+import zzzank.mods.kube_jei.impl.recipe_type.RecipeType;
 
 import java.util.List;
 

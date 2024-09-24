@@ -3,6 +3,7 @@ package zzzank.mods.kube_jei.impl;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import zzzank.mods.kube_jei.impl.recipe_type.RecipeType;
 
 import java.util.ArrayList;
 import java.util.List;

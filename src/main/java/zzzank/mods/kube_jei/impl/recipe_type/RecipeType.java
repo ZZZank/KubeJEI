@@ -1,4 +1,4 @@
-package zzzank.mods.kube_jei.impl;
+package zzzank.mods.kube_jei.impl.recipe_type;
 
 import com.github.bsideup.jabel.Desugar;
 import net.minecraft.resources.ResourceLocation;
@@ -8,8 +8,4 @@ import net.minecraft.resources.ResourceLocation;
  */
 @Desugar
 public record RecipeType<T>(ResourceLocation uid, Class<T> type) {
-
-	public static <T> RecipeType<T> create(ResourceLocation id, Class<T> type) {
-		return new RecipeType<>(id, type);
-	}
 }

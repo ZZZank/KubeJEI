@@ -3,8 +3,7 @@ package zzzank.mods.kube_jei.events;
 import dev.latvian.kubejs.event.EventJS;
 import mezz.jei.api.helpers.IJeiHelpers;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
-import zzzank.mods.kube_jei.impl.RecipeType;
+import zzzank.mods.kube_jei.impl.recipe_type.KubeJEIRecipeTypes;
 
 public class JEIEventJS extends EventJS {
     public static IJeiHelpers JEI_HELPERS;
@@ -17,7 +16,7 @@ public class JEIEventJS extends EventJS {
         return Minecraft.getInstance();
     }
 
-    public <T> RecipeType<T> createRecipeType(ResourceLocation id, Class<T> type) {
-        return new RecipeType<>(id, type);
+    public Class<KubeJEIRecipeTypes> getRecipeTypes() {
+        return KubeJEIRecipeTypes.class;
     }
 }

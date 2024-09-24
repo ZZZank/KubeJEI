@@ -2,9 +2,9 @@ package zzzank.mods.kube_jei.events;
 
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
-import zzzank.mods.kube_jei.impl.RecipeType;
+import zzzank.mods.kube_jei.impl.recipe_type.RecipeType;
 import zzzank.mods.kube_jei.impl.CustomJSRecipe;
-import zzzank.mods.kube_jei.impl.KubeJEIRecipeTypes;
+import zzzank.mods.kube_jei.impl.recipe_type.KubeJEIRecipeTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class RegisterRecipesEventJS extends JEIEventJS {
     }
 
     public CustomJSRecipe.CustomRecipeListBuilder custom(ResourceLocation recipeType) {
-        var recipeListBuilder = new CustomJSRecipe.CustomRecipeListBuilder(KubeJEIRecipeTypes.getOrCreateCustomRecipeType(recipeType));
+        var recipeListBuilder = new CustomJSRecipe.CustomRecipeListBuilder(KubeJEIRecipeTypes.CUSTOM.getOrCreateCustom(recipeType));
         customRecipeListBuilders.add(recipeListBuilder);
         return recipeListBuilder;
     }
