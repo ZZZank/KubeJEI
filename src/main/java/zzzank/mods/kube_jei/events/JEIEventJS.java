@@ -4,7 +4,7 @@ import dev.latvian.kubejs.event.EventJS;
 import mezz.jei.api.helpers.IJeiHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import zzzank.mods.kube_jei.RecipeType;
+import zzzank.mods.kube_jei.impl.RecipeType;
 import zzzank.mods.kube_jei.impl.CustomJSRecipe;
 
 import java.util.Map;

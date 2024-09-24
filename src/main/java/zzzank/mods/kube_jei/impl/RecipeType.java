@@ -1,4 +1,4 @@
-package zzzank.mods.kube_jei;
+package zzzank.mods.kube_jei.impl;
 
 import com.github.bsideup.jabel.Desugar;
 import net.minecraft.resources.ResourceLocation;

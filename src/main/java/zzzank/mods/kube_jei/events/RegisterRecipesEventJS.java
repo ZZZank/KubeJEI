@@ -2,7 +2,7 @@ package zzzank.mods.kube_jei.events;
 
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
-import zzzank.mods.kube_jei.RecipeType;
+import zzzank.mods.kube_jei.impl.RecipeType;
 import zzzank.mods.kube_jei.impl.CustomJSRecipe;
 
 import java.util.ArrayList;

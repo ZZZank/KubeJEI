@@ -1,6 +1,6 @@
 package zzzank.mods.kube_jei;
 
-public interface JEIEvents {
+public interface KubeJEIEvents {
 
 	String _PREFIX = "kube_jei.";
 	String _REGISTER_PREFIX = _PREFIX + "register_";

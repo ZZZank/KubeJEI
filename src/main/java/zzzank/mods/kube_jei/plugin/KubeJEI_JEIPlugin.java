@@ -1,4 +1,4 @@
-package zzzank.mods.kube_jei;
+package zzzank.mods.kube_jei.plugin;
 
 import dev.latvian.kubejs.script.ScriptType;
 import mezz.jei.api.IModPlugin;
@@ -15,20 +15,20 @@ import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
+import zzzank.mods.kube_jei.KubeJEI;
 import zzzank.mods.kube_jei.events.*;
 
-import static zzzank.mods.kube_jei.JEIEvents.*;
-import static zzzank.mods.kube_jei.KubeJEI.MOD_ID;
+import static zzzank.mods.kube_jei.KubeJEIEvents.*;
 
 @JeiPlugin
-public class JEIPlugin implements IModPlugin {
+public class KubeJEI_JEIPlugin implements IModPlugin {
     /**
      * The unique ID for this mod plugin.
      * The namespace should be your mod's modId.
      */
     @Override
     public @NotNull ResourceLocation getPluginUid() {
-        return new ResourceLocation(MOD_ID, "jei_plugin");
+        return KubeJEI.rl("jei_plugin");
     }
 
     /**

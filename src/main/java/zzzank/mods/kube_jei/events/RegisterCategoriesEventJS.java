@@ -4,7 +4,7 @@ import lombok.val;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import net.minecraft.resources.ResourceLocation;
-import zzzank.mods.kube_jei.RecipeType;
+import zzzank.mods.kube_jei.impl.RecipeType;
 import zzzank.mods.kube_jei.impl.builder.RecipeCategoryBuilder;
 import zzzank.mods.kube_jei.impl.builder.RecipeCategoryWrapperBuilder;
 import zzzank.mods.kube_jei.impl.CustomJSRecipe;

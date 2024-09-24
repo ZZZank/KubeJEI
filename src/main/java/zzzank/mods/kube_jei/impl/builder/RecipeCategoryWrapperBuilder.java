@@ -5,7 +5,7 @@ import lombok.Getter;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import org.jetbrains.annotations.NotNull;
-import zzzank.mods.kube_jei.RecipeType;
+import zzzank.mods.kube_jei.impl.RecipeType;
 
 @Getter
 public class RecipeCategoryWrapperBuilder<T> extends RecipeCategoryBuilder<T> {
