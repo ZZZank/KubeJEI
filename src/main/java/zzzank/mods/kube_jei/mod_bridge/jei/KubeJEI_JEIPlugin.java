@@ -1,4 +1,4 @@
-package zzzank.mods.kube_jei.plugin;
+package zzzank.mods.kube_jei.mod_bridge.jei;
 
 import dev.latvian.kubejs.script.ScriptType;
 import mezz.jei.api.IModPlugin;

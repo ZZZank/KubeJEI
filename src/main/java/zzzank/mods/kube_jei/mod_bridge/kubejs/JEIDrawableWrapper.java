@@ -1,4 +1,4 @@
-package zzzank.mods.kube_jei.plugin;
+package zzzank.mods.kube_jei.mod_bridge.kubejs;
 
 import mezz.jei.api.gui.drawable.IDrawable;
 import net.minecraft.world.item.ItemStack;

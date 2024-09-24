@@ -1,4 +1,4 @@
-package zzzank.mods.kube_jei.plugin;
+package zzzank.mods.kube_jei.mod_bridge.kubejs;
 
 import dev.latvian.kubejs.KubeJSPlugin;
 import dev.latvian.kubejs.script.ScriptType;
@@ -9,7 +9,7 @@ import mezz.jei.api.gui.drawable.IDrawable;
 public class KubeJEI_KJSPlugin extends KubeJSPlugin {
     @Override
     public void addTypeWrappers(ScriptType type, TypeWrappers typeWrappers) {
-		if (type != ScriptType.CLIENT || !Platform.isModLoaded("zzzank/mods/kube_jei")) {
+		if (type != ScriptType.CLIENT || !Platform.isModLoaded("jei")) {
 			return;
 		}
 		typeWrappers.register(IDrawable.class, JEIDrawableWrapper::of);
