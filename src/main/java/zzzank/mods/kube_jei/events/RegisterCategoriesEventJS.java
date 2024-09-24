@@ -20,40 +20,56 @@ public class RegisterCategoriesEventJS extends JEIEventJS {
         this.data = data;
     }
 
-    public CustomRecipeCategory<?> custom(
-        ResourceLocation recipeType,
-        Consumer<RecipeCategoryBuilder<CustomJSRecipe>> categoryConsumer
-    ) {
-        return register(
-            KubeJEIRecipeTypes.getOrCreateCustom(recipeType),
-            categoryConsumer
-        );
+    public RecipeCategoryBuilder<CustomJSRecipe> custom(ResourceLocation id) {
+        val builder = new RecipeCategoryBuilder<>(KubeJEIRecipeTypes.getOrCreateCustom(id), getJeiHelpers());
+        data.addRecipeCategories(builder.asCategory());
+        return builder;
     }
 
-    public <T> CustomRecipeCategory<T> wrap(
-        RecipeType<T> recipeType,
-        IRecipeCategory<T> existingCategory,
-        Consumer<RecipeCategoryWrapperBuilder<T>> categoryConsumer
+    public CustomRecipeCategory<?> custom(
+        ResourceLocation id,
+        Consumer<RecipeCategoryBuilder<CustomJSRecipe>> modifier
+    ) {
+        val builder = custom(id);
+        modifier.accept(builder);
+        return builder.asCategory();
+    }
+
+    public <T> RecipeCategoryWrapperBuilder<T> wrap(
+        RecipeType<T> type,
+        IRecipeCategory<T> existingCategory
     ) {
         val builder = new RecipeCategoryWrapperBuilder<>(
-            recipeType,
+            type,
             data.getJeiHelpers(),
             existingCategory
         );
-        categoryConsumer.accept(builder);
-        val customRecipeCategory = new CustomRecipeCategory<>(builder);
-        data.addRecipeCategories(customRecipeCategory);
-        return customRecipeCategory;
+        data.addRecipeCategories(builder.asCategory());
+        return builder;
+    }
+
+    public <T> CustomRecipeCategory<T> wrap(
+        RecipeType<T> type,
+        IRecipeCategory<T> existingCategory,
+        Consumer<RecipeCategoryWrapperBuilder<T>> modifier
+    ) {
+        val builder = wrap(type, existingCategory);
+        modifier.accept(builder);
+        return builder.asCategory();
+    }
+
+    public <T> RecipeCategoryBuilder<T> register(RecipeType<T> type) {
+        val builder = new RecipeCategoryBuilder<>(type, data.getJeiHelpers());
+        data.addRecipeCategories(builder.asCategory());
+        return builder;
     }
 
     public <T> CustomRecipeCategory<T> register(
-        RecipeType<T> recipeType,
-        Consumer<RecipeCategoryBuilder<T>> categoryModifier
+        RecipeType<T> type,
+        Consumer<RecipeCategoryBuilder<T>> modifier
     ) {
-        val category = new RecipeCategoryBuilder<>(recipeType, data.getJeiHelpers());
-        categoryModifier.accept(category);
-        val customRecipeCategory = new CustomRecipeCategory<>(category);
-        data.addRecipeCategories(customRecipeCategory);
-        return customRecipeCategory;
+        val builder = register(type);
+        modifier.accept(builder);
+        return builder.asCategory();
     }
 }

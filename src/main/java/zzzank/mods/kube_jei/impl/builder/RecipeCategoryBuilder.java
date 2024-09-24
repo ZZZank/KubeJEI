@@ -17,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
+import zzzank.mods.kube_jei.impl.CustomRecipeCategory;
 import zzzank.mods.kube_jei.impl.recipe_type.RecipeType;
 
 import java.util.List;
@@ -25,6 +26,12 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 public class RecipeCategoryBuilder<T> {
+
+    private CustomRecipeCategory<T> category;
+    public CustomRecipeCategory<T> asCategory() {
+        return category == null ? category = new CustomRecipeCategory<>(this) : category;
+    }
+
     @NotNull
     private final RecipeType<T> type;
     @NotNull

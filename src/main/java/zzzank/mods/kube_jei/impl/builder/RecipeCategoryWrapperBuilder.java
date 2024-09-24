@@ -14,20 +14,20 @@ public class RecipeCategoryWrapperBuilder<T> extends RecipeCategoryBuilder<T> {
     public RecipeCategoryWrapperBuilder(
         @NotNull RecipeType<T> recipeType,
         @NotNull IJeiHelpers jeiHelpers,
-        @NotNull IRecipeCategory<T> recipeCategory
+        @NotNull IRecipeCategory<T> existingCategory
     ) {
         super(recipeType, jeiHelpers);
-        this.sourceCategory = recipeCategory;
-        this.setDrawHandler(recipeCategory::draw)
-            .setIsRecipeHandledByCategory(recipeCategory::isHandled)
-            .setRecipeSetHandler(recipeCategory::setRecipe)
-            .setTooltipHandler(recipeCategory::getTooltipStrings)
-            .setInputHandler(recipeCategory::handleClick)
-            .setTitle(Text.of(recipeCategory.getTitleAsTextComponent()))
-            .setBackground(recipeCategory.getBackground())
-            .setIcon(recipeCategory.getIcon())
-            .handleLookup(recipeCategory::setRecipe)
-            .fillIngredients(recipeCategory::setIngredients);
+        this.sourceCategory = existingCategory;
+        this.setDrawHandler(existingCategory::draw)
+            .setIsRecipeHandledByCategory(existingCategory::isHandled)
+            .setRecipeSetHandler(existingCategory::setRecipe)
+            .setTooltipHandler(existingCategory::getTooltipStrings)
+            .setInputHandler(existingCategory::handleClick)
+            .setTitle(Text.of(existingCategory.getTitleAsTextComponent()))
+            .setBackground(existingCategory.getBackground())
+            .setIcon(existingCategory.getIcon())
+            .handleLookup(existingCategory::setRecipe)
+            .fillIngredients(existingCategory::setIngredients);
     }
 }
 
