@@ -4,10 +4,9 @@ import dev.latvian.kubejs.event.EventJS;
 import mezz.jei.api.registration.IRecipeTransferRegistration;
 
 public class RegisterRecipeTransferHandlersEventJS extends EventJS {
-    public final IRecipeTransferRegistration data;
+    public final IRecipeTransferRegistration registration;
 
-    public RegisterRecipeTransferHandlersEventJS(IRecipeTransferRegistration data) {
-        this.data = data;
+    public RegisterRecipeTransferHandlersEventJS(IRecipeTransferRegistration registration) {
+        this.registration = registration;
     }
-
 }

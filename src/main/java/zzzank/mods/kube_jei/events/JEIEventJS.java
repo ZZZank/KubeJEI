@@ -15,22 +15,6 @@ public class JEIEventJS extends EventJS {
     public static final Map<ResourceLocation, RecipeType> overriddenRecipeTypes = new TreeMap<>();
     public static IJeiHelpers JEI_HELPERS;
 
-    public IJeiHelpers getJeiHelpers() {
-        return JEI_HELPERS;
-    }
-
-    public Minecraft getMc() {
-        return Minecraft.getInstance();
-    }
-
-    public static void clearCustomRecipeTypes() {
-        customRecipeTypes.clear();
-    }
-
-    public static void clearOverriddenRecipeTypes() {
-        overriddenRecipeTypes.clear();
-    }
-
     public static void removeCustomRecipeType(ResourceLocation recipeType) {
         customRecipeTypes.remove(recipeType);
     }
@@ -49,13 +33,27 @@ public class JEIEventJS extends EventJS {
 
     public static RecipeType<CustomJSRecipe> getOrCreateCustomRecipeType(ResourceLocation recipeType) {
         customRecipeTypes.computeIfAbsent(
-                recipeType,
-                (key) -> RecipeType.create(key, CustomJSRecipe.class)
+            recipeType,
+            (key) -> RecipeType.create(key, CustomJSRecipe.class)
         );
         return customRecipeTypes.get(recipeType);
     }
 
-    public static <T> RecipeType<T> getOrCreateCustomOverriddenRecipeType(ResourceLocation recipeType, RecipeType<T> existingRecipeType) {
-        return overriddenRecipeTypes.computeIfAbsent(recipeType, (key) -> RecipeType.create(key, existingRecipeType.type()));
+    public static <T> RecipeType<T> getOrCreateCustomOverriddenRecipeType(
+        ResourceLocation recipeType,
+        RecipeType<T> existingRecipeType
+    ) {
+        return overriddenRecipeTypes.computeIfAbsent(
+            recipeType,
+            (key) -> RecipeType.create(key, existingRecipeType.type())
+        );
+    }
+
+    public IJeiHelpers getJeiHelpers() {
+        return JEI_HELPERS;
+    }
+
+    public Minecraft getMc() {
+        return Minecraft.getInstance();
     }
 }
