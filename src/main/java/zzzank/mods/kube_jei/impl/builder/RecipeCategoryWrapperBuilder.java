@@ -18,15 +18,16 @@ public class RecipeCategoryWrapperBuilder<T> extends RecipeCategoryBuilder<T> {
     ) {
         super(recipeType, jeiHelpers);
         this.sourceCategory = recipeCategory;
-        this.setDrawHandler(recipeCategory::draw);
-        this.setIsRecipeHandledByCategory(recipeCategory::isHandled);
-        this.setRecipeSetHandler(recipeCategory::setRecipe);
-        this.setTooltipHandler(recipeCategory::getTooltipStrings);
-        this.setInputHandler(recipeCategory::handleClick);
-        this.setTitle(Text.of(recipeCategory.getTitleAsTextComponent()));
-        this.setBackground(recipeCategory.getBackground());
-        this.setIcon(recipeCategory.getIcon());
-        this.handleLookup(recipeCategory::setRecipe);
+        this.setDrawHandler(recipeCategory::draw)
+            .setIsRecipeHandledByCategory(recipeCategory::isHandled)
+            .setRecipeSetHandler(recipeCategory::setRecipe)
+            .setTooltipHandler(recipeCategory::getTooltipStrings)
+            .setInputHandler(recipeCategory::handleClick)
+            .setTitle(Text.of(recipeCategory.getTitleAsTextComponent()))
+            .setBackground(recipeCategory.getBackground())
+            .setIcon(recipeCategory.getIcon())
+            .handleLookup(recipeCategory::setRecipe)
+            .fillIngredients(recipeCategory::setIngredients);
     }
 }
 
