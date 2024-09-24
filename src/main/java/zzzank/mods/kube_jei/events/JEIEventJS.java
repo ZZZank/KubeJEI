@@ -16,6 +16,10 @@ public class JEIEventJS extends EventJS {
         return Minecraft.getInstance();
     }
 
+    /**
+     * do we actually need this?
+     */
+    @Deprecated
     public Class<KubeJEIRecipeTypes> getRecipeTypes() {
         return KubeJEIRecipeTypes.class;
     }

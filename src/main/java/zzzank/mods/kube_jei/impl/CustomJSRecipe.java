@@ -7,12 +7,13 @@ import zzzank.mods.kube_jei.impl.recipe_type.RecipeType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class CustomJSRecipe {
     @NotNull
     private final RecipeType<CustomJSRecipe> recipeType;
-	@Setter
+    @Setter
     private Object recipeData;
 
     public CustomJSRecipe(Object recipeData, @NotNull RecipeType<CustomJSRecipe> recipeType) {
@@ -20,7 +21,7 @@ public class CustomJSRecipe {
         this.recipeType = recipeType;
     }
 
-	@Getter
+    @Getter
     public static class CustomRecipeListBuilder {
         @NotNull
         private final RecipeType<CustomJSRecipe> recipeType;
@@ -48,7 +49,11 @@ public class CustomJSRecipe {
         }
 
         public CustomRecipeListBuilder addAll(List<Object> recipeData) {
-            this.recipes.addAll(recipeData.stream().map(data -> new CustomJSRecipe(data, recipeType)).toList());
+            this.recipes.addAll(
+                recipeData.stream()
+                    .map(data -> new CustomJSRecipe(data, recipeType))
+                    .collect(Collectors.toList())
+            );
             return this;
         }
     }
