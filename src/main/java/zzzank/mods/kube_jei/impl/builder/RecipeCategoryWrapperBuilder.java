@@ -20,10 +20,9 @@ public class RecipeCategoryWrapperBuilder<T> extends RecipeCategoryBuilder<T> {
         this.sourceCategory = recipeCategory;
         this.setDrawHandler(recipeCategory::draw);
         this.setIsRecipeHandledByCategory(recipeCategory::isHandled);
-        this.setSetRecipeHandler(recipeCategory::setRecipe);
+        this.setRecipeSetHandler(recipeCategory::setRecipe);
         this.setTooltipHandler(recipeCategory::getTooltipStrings);
         this.setInputHandler(recipeCategory::handleClick);
-        this.setTooltipHandler(recipeCategory::getTooltipStrings);
         this.setTitle(Text.of(recipeCategory.getTitleAsTextComponent()));
         this.setBackground(recipeCategory.getBackground());
         this.setIcon(recipeCategory.getIcon());

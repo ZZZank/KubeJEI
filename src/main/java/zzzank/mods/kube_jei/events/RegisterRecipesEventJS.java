@@ -22,7 +22,7 @@ public class RegisterRecipesEventJS extends JEIEventJS {
     }
 
     public CustomJSRecipe.CustomRecipeListBuilder custom(ResourceLocation recipeType) {
-        var recipeListBuilder = new CustomJSRecipe.CustomRecipeListBuilder(KubeJEIRecipeTypes.CUSTOM.getOrCreateCustom(recipeType));
+        var recipeListBuilder = new CustomJSRecipe.CustomRecipeListBuilder(KubeJEIRecipeTypes.getOrCreateCustom(recipeType));
         customRecipeListBuilders.add(recipeListBuilder);
         return recipeListBuilder;
     }

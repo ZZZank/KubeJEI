@@ -24,7 +24,10 @@ public class RegisterCategoriesEventJS extends JEIEventJS {
         ResourceLocation recipeType,
         Consumer<RecipeCategoryBuilder<CustomJSRecipe>> categoryConsumer
     ) {
-        return register(KubeJEIRecipeTypes.CUSTOM.getOrCreateCustom(recipeType), categoryConsumer);
+        return register(
+            KubeJEIRecipeTypes.getOrCreateCustom(recipeType),
+            categoryConsumer
+        );
     }
 
     public <T> CustomRecipeCategory<T> wrap(

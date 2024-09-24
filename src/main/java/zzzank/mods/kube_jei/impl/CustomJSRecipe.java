@@ -12,34 +12,34 @@ import java.util.stream.Collectors;
 @Getter
 public class CustomJSRecipe {
     @NotNull
-    private final RecipeType<CustomJSRecipe> recipeType;
+    private final RecipeType<CustomJSRecipe> type;
     @Setter
-    private Object recipeData;
+    private Object data;
 
-    public CustomJSRecipe(Object recipeData, @NotNull RecipeType<CustomJSRecipe> recipeType) {
-        this.recipeData = recipeData;
-        this.recipeType = recipeType;
+    public CustomJSRecipe(Object data, @NotNull RecipeType<CustomJSRecipe> type) {
+        this.data = data;
+        this.type = type;
     }
 
     @Getter
     public static class CustomRecipeListBuilder {
         @NotNull
-        private final RecipeType<CustomJSRecipe> recipeType;
+        private final RecipeType<CustomJSRecipe> type;
         private final List<CustomJSRecipe> recipes;
 
-        public CustomRecipeListBuilder(@NotNull RecipeType<CustomJSRecipe> recipeType) {
-            this.recipeType = recipeType;
+        public CustomRecipeListBuilder(@NotNull RecipeType<CustomJSRecipe> type) {
+            this.type = type;
             this.recipes = new ArrayList<>();
         }
 
         public CustomJSRecipe custom(Object recipeData) {
-            var recipe = new CustomJSRecipe(recipeData, recipeType);
+            var recipe = new CustomJSRecipe(recipeData, type);
             recipes.add(recipe);
             return recipe;
         }
 
         public CustomRecipeListBuilder add(Object recipeData) {
-            recipes.add(new CustomJSRecipe(recipeData, recipeType));
+            recipes.add(new CustomJSRecipe(recipeData, type));
             return this;
         }
 
@@ -51,7 +51,7 @@ public class CustomJSRecipe {
         public CustomRecipeListBuilder addAll(List<Object> recipeData) {
             this.recipes.addAll(
                 recipeData.stream()
-                    .map(data -> new CustomJSRecipe(data, recipeType))
+                    .map(data -> new CustomJSRecipe(data, type))
                     .collect(Collectors.toList())
             );
             return this;

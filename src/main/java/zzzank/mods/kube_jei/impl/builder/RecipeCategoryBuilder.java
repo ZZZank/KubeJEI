@@ -35,7 +35,7 @@ public class RecipeCategoryBuilder<T> {
     private IDrawable background;
     @NotNull
     private IDrawable icon;
-    private SetRecipeHandler<T> setRecipeHandler;
+    private RecipeSetHandler<T> recipeSetHandler;
     private DrawHandler<T> drawHandler;
     private TooltipHandler<T> tooltipHandler;
     private InputHandler<T> inputHandler;
@@ -62,8 +62,8 @@ public class RecipeCategoryBuilder<T> {
         return setTooltipHandler(tooltipHandler);
     }
 
-    public RecipeCategoryBuilder<T> handleLookup(SetRecipeHandler<T> recipeHandler) {
-        return setSetRecipeHandler(recipeHandler);
+    public RecipeCategoryBuilder<T> handleLookup(RecipeSetHandler<T> recipeHandler) {
+        return setRecipeSetHandler(recipeHandler);
     }
 
     public RecipeCategoryBuilder<T> fillIngredients(FillIngredientsHandler<T> handler) {
@@ -71,7 +71,7 @@ public class RecipeCategoryBuilder<T> {
     }
 
     @FunctionalInterface
-    public interface SetRecipeHandler<T> {
+    public interface RecipeSetHandler<T> {
 		/**
 		 * Set the {@link IRecipeLayout} properties from the recipe.
 		 *

@@ -64,23 +64,30 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
 
 	@Override
 	public void setIngredients(@NotNull T recipe, @NotNull IIngredients ingredients) {
-
-	}
-
-	/**
-	 * Set the {@link IRecipeLayout} properties from the recipe.
-	 *
-	 * @param layout  the layout that needs its properties set.
-	 * @param recipe        the recipe, for extra information.
-	 * @param ingredients   the ingredients, already set earlier by {@link IRecipeCategory#setIngredients}
-	 */
-    @Override
-    public void setRecipe(@NotNull IRecipeLayout layout, @NotNull T recipe, @NotNull IIngredients ingredients) {
-        if (this.builder.getSetRecipeHandler() == null) {
+        if (this.builder.getFillIngredientsHandler() == null) {
             return;
         }
         try {
-            this.builder.getSetRecipeHandler().setRecipe(layout, recipe, ingredients);
+            this.builder.getFillIngredientsHandler().setIngredients(recipe, ingredients);
+        } catch (Throwable e) {
+            ConsoleJS.CLIENT.error("Error setting recipe for recipe category: " + this.getUid(), e);
+        }
+	}
+
+    /**
+     * Set the {@link IRecipeLayout} properties from the recipe.
+     *
+     * @param layout      the layout that needs its properties set.
+     * @param recipe      the recipe, for extra information.
+     * @param ingredients the ingredients, already set earlier by {@link IRecipeCategory#setIngredients}
+     */
+    @Override
+    public void setRecipe(@NotNull IRecipeLayout layout, @NotNull T recipe, @NotNull IIngredients ingredients) {
+        if (this.builder.getRecipeSetHandler() == null) {
+            return;
+        }
+        try {
+            this.builder.getRecipeSetHandler().setRecipe(layout, recipe, ingredients);
         } catch (Throwable e) {
             ConsoleJS.CLIENT.error("Error setting recipe for recipe category: " + this.getUid(), e);
         }
