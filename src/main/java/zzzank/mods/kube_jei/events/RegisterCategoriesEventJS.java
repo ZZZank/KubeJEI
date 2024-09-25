@@ -21,7 +21,10 @@ public class RegisterCategoriesEventJS extends JEIEventJS {
     }
 
     public RecipeCategoryBuilder<CustomJSRecipe> custom(ResourceLocation id) {
-        val builder = new RecipeCategoryBuilder<>(KubeJEIRecipeTypes.getOrCreateCustom(id), getJeiHelpers());
+        val builder = new RecipeCategoryBuilder<>(
+            KubeJEIRecipeTypes.getOrCreateCustom(id),
+            data.getJeiHelpers()
+        );
         data.addRecipeCategories(builder.asCategory());
         return builder;
     }
@@ -39,11 +42,7 @@ public class RegisterCategoriesEventJS extends JEIEventJS {
         RecipeType<T> type,
         IRecipeCategory<T> existingCategory
     ) {
-        val builder = new RecipeCategoryWrapperBuilder<>(
-            type,
-            data.getJeiHelpers(),
-            existingCategory
-        );
+        val builder = new RecipeCategoryWrapperBuilder<>(type, data.getJeiHelpers(), existingCategory);
         data.addRecipeCategories(builder.asCategory());
         return builder;
     }
