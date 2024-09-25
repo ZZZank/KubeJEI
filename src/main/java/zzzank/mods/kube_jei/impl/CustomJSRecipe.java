@@ -1,31 +1,25 @@
 package zzzank.mods.kube_jei.impl;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import zzzank.mods.kube_jei.impl.recipe_type.RecipeType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Getter
 public class CustomJSRecipe {
     @NotNull
-    private final RecipeType<CustomJSRecipe> type;
-    @Setter
-    private Object data;
+    public final RecipeType<CustomJSRecipe> type;
+    public Object data;
 
     public CustomJSRecipe(Object data, @NotNull RecipeType<CustomJSRecipe> type) {
         this.data = data;
         this.type = type;
     }
 
-    @Getter
     public static class CustomRecipeListBuilder {
         @NotNull
-        private final RecipeType<CustomJSRecipe> type;
-        private final List<CustomJSRecipe> recipes;
+        public final RecipeType<CustomJSRecipe> type;
+        public final List<CustomJSRecipe> recipes;
 
         public CustomRecipeListBuilder(@NotNull RecipeType<CustomJSRecipe> type) {
             this.type = type;
@@ -39,8 +33,7 @@ public class CustomJSRecipe {
         }
 
         public CustomRecipeListBuilder add(Object recipeData) {
-            recipes.add(new CustomJSRecipe(recipeData, type));
-            return this;
+            return add(new CustomJSRecipe(recipeData, type));
         }
 
         public CustomRecipeListBuilder add(CustomJSRecipe recipe) {
@@ -48,12 +41,8 @@ public class CustomJSRecipe {
             return this;
         }
 
-        public CustomRecipeListBuilder addAll(List<Object> recipeData) {
-            this.recipes.addAll(
-                recipeData.stream()
-                    .map(data -> new CustomJSRecipe(data, type))
-                    .collect(Collectors.toList())
-            );
+        public CustomRecipeListBuilder addAll(List<Object> recipeDatas) {
+            recipeDatas.forEach(this::add);
             return this;
         }
     }

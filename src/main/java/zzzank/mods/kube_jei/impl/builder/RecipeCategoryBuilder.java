@@ -2,7 +2,6 @@ package zzzank.mods.kube_jei.impl.builder;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.latvian.kubejs.text.Text;
-import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -22,32 +21,32 @@ import zzzank.mods.kube_jei.impl.recipe_type.RecipeType;
 
 import java.util.List;
 
-@Getter
 @Setter
 @Accessors(chain = true)
 public class RecipeCategoryBuilder<T> {
 
     private CustomRecipeCategory<T> category;
+
     public CustomRecipeCategory<T> asCategory() {
         return category == null ? category = new CustomRecipeCategory<>(this) : category;
     }
 
     @NotNull
-    private final RecipeType<T> type;
+    public final RecipeType<T> type;
     @NotNull
-    private final IJeiHelpers jeiHelpers;
+    public final IJeiHelpers jeiHelpers;
     @NotNull
-    private Text title;
+    public Text title;
     @NotNull
-    private IDrawable background;
+    public IDrawable background;
     @NotNull
-    private IDrawable icon;
-    private RecipeSetHandler<T> recipeSetHandler;
-    private DrawHandler<T> drawHandler;
-    private TooltipHandler<T> tooltipHandler;
-    private InputHandler<T> inputHandler;
-    private IsRecipeHandledByCategory<T> isRecipeHandledByCategory;
-	private FillIngredientsHandler<T> fillIngredientsHandler;
+    public IDrawable icon;
+    public RecipeSetHandler<T> recipeSetHandler;
+    public DrawHandler<T> drawHandler;
+    public TooltipHandler<T> tooltipHandler;
+    public InputHandler<T> inputHandler;
+    public IsRecipeHandledByCategory<T> recipeHandlePredicate;
+    public FillIngredientsHandler<T> fillIngredientsHandler;
 
     public RecipeCategoryBuilder(@NotNull RecipeType<T> recipeType, @NotNull IJeiHelpers jeiHelpers) {
         this.type = recipeType;
@@ -57,8 +56,8 @@ public class RecipeCategoryBuilder<T> {
         this.icon = this.jeiHelpers.getGuiHelper().createDrawableIngredient(new ItemStack(Items.TNT));
     }
 
-	public RecipeCategoryBuilder<T> isRecipeHandled(IsRecipeHandledByCategory<T> isRecipeHandledByCategory) {
-        return setIsRecipeHandledByCategory(isRecipeHandledByCategory);
+    public RecipeCategoryBuilder<T> isRecipeHandled(IsRecipeHandledByCategory<T> isRecipeHandledByCategory) {
+        return setRecipeHandlePredicate(isRecipeHandledByCategory);
     }
 
     public RecipeCategoryBuilder<T> onInput(InputHandler<T> inputHandler) {
@@ -79,45 +78,45 @@ public class RecipeCategoryBuilder<T> {
 
     @FunctionalInterface
     public interface RecipeSetHandler<T> {
-		/**
-		 * Set the {@link IRecipeLayout} properties from the recipe.
-		 *
-		 * @param layout        the layout that needs its properties set.
-		 * @param recipe        the recipe, for extra information.
-		 * @param ingredients   the ingredients, already set earlier by {@link IRecipeCategory#setIngredients}
-		 */
+        /**
+         * Set the {@link IRecipeLayout} properties from the recipe.
+         *
+         * @param layout      the layout that needs its properties set.
+         * @param recipe      the recipe, for extra information.
+         * @param ingredients the ingredients, already set earlier by {@link IRecipeCategory#setIngredients}
+         */
         void setRecipe(IRecipeLayout layout, T recipe, IIngredients ingredients);
     }
 
     @FunctionalInterface
     public interface DrawHandler<T> {
-		/**
-		 * Draw extras or additional info about the recipe.
-		 * Use the mouse position for things like button highlights.
-		 * Tooltips are handled by {@link IRecipeCategory#getTooltipStrings(Object, double, double)}
-		 *
-		 * @param mouseX the X position of the mouse, relative to the recipe.
-		 * @param mouseY the Y position of the mouse, relative to the recipe.
-		 * @see IDrawable for a simple class for drawing things.
-		 * @see IGuiHelper for useful functions.
-		 */
-		void draw(T recipe, PoseStack matrixStack, double mouseX, double mouseY);
-	}
+        /**
+         * Draw extras or additional info about the recipe.
+         * Use the mouse position for things like button highlights.
+         * Tooltips are handled by {@link IRecipeCategory#getTooltipStrings(Object, double, double)}
+         *
+         * @param mouseX the X position of the mouse, relative to the recipe.
+         * @param mouseY the Y position of the mouse, relative to the recipe.
+         * @see IDrawable for a simple class for drawing things.
+         * @see IGuiHelper for useful functions.
+         */
+        void draw(T recipe, PoseStack matrixStack, double mouseX, double mouseY);
+    }
 
     @FunctionalInterface
     public interface TooltipHandler<T> {
-		/**
-		 * Get the tooltip for whatever's under the mouse.
-		 * Ingredient tooltips are already handled by JEI, this is for anything else.
-		 * <p>
-		 * To add to ingredient tooltips, see {@link IGuiIngredientGroup#addTooltipCallback(ITooltipCallback)}
-		 *
-		 * @param mouseX the X position of the mouse, relative to the recipe.
-		 * @param mouseY the Y position of the mouse, relative to the recipe.
-		 * @return tooltip strings. If there is no tooltip at this position, return an empty list.
-		 */
-		@NotNull
-		List<Component> getTooltipStrings(T recipe, double mouseX, double mouseY);
+        /**
+         * Get the tooltip for whatever's under the mouse.
+         * Ingredient tooltips are already handled by JEI, this is for anything else.
+         * <p>
+         * To add to ingredient tooltips, see {@link IGuiIngredientGroup#addTooltipCallback(ITooltipCallback)}
+         *
+         * @param mouseX the X position of the mouse, relative to the recipe.
+         * @param mouseY the Y position of the mouse, relative to the recipe.
+         * @return tooltip strings. If there is no tooltip at this position, return an empty list.
+         */
+        @NotNull
+        List<Component> getTooltipStrings(T recipe, double mouseX, double mouseY);
     }
 
     @FunctionalInterface
@@ -145,11 +144,11 @@ public class RecipeCategoryBuilder<T> {
         boolean isHandled(T recipe);
     }
 
-	public interface FillIngredientsHandler<T> {
-		/**
-		 * Sets all the recipe's ingredients by filling out an instance of {@link IIngredients}.
-		 * This is used by JEI for lookups, to figure out what ingredients are inputs and outputs for a recipe.
-		 */
-		void setIngredients(T recipe, IIngredients ingredients);
-	}
+    public interface FillIngredientsHandler<T> {
+        /**
+         * Sets all the recipe's ingredients by filling out an instance of {@link IIngredients}.
+         * This is used by JEI for lookups, to figure out what ingredients are inputs and outputs for a recipe.
+         */
+        void setIngredients(T recipe, IIngredients ingredients);
+    }
 }

@@ -83,7 +83,7 @@ public class KubeJEI_JEIPlugin implements IModPlugin {
         RegisterRecipesEventJS event = new RegisterRecipesEventJS(registration);
 		event.post(ScriptType.CLIENT, REGISTER_RECIPES);
         for (var builder : event.customRecipeListBuilders) {
-            registration.addRecipes(builder.getRecipes(), builder.getType().uid());
+            registration.addRecipes(builder.recipes, builder.type.uid());
         }
     }
 

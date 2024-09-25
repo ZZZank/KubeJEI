@@ -19,7 +19,7 @@ public class RecipeCategoryWrapperBuilder<T> extends RecipeCategoryBuilder<T> {
         super(recipeType, jeiHelpers);
         this.sourceCategory = existingCategory;
         this.setDrawHandler(existingCategory::draw)
-            .setIsRecipeHandledByCategory(existingCategory::isHandled)
+            .setRecipeHandlePredicate(existingCategory::isHandled)
             .setRecipeSetHandler(existingCategory::setRecipe)
             .setTooltipHandler(existingCategory::getTooltipStrings)
             .setInputHandler(existingCategory::handleClick)
