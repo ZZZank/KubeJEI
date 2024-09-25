@@ -19,9 +19,11 @@ public class RegisterAdvancedEventJS extends JEIEventJS {
 		registration.addRecipeManagerPlugin(recipeManagerPlugin);
 	}
 
-	void createCustomRecipeManagerPlugin(Consumer<CustomRecipeManagerPluginBuilder> modifier) {
+	public CustomRecipeManagerPlugin createCustomRecipeManagerPlugin(Consumer<CustomRecipeManagerPluginBuilder> modifier) {
 		val builder = new CustomRecipeManagerPluginBuilder();
 		modifier.accept(builder);
-		addRecipeManagerPlugin(new CustomRecipeManagerPlugin(builder));
+		val plugin = new CustomRecipeManagerPlugin(builder);
+		addRecipeManagerPlugin(plugin);
+		return plugin;
 	}
 }
