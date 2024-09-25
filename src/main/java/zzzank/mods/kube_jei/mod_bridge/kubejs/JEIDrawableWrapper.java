@@ -27,6 +27,10 @@ public final class JEIDrawableWrapper {
         return INSTANCE;
     }
 
+    public boolean available() {
+        return JEIEventJS.JEI_HELPERS != null;
+    }
+
     public IDrawable of(Object o) {
         if (o == null) {
             return null;
@@ -34,9 +38,8 @@ public final class JEIDrawableWrapper {
 			return drawable;
         }
 
-        val jeiHelpers = JEIEventJS.JEI_HELPERS;
-        if (jeiHelpers == null) {
-            throw new IllegalStateException("IDrawable Type Wrapper unavailable before JEI Runtime is available.");
+        if (!available()) {
+            throw new IllegalStateException("IDrawable Type Wrapper unavailable before JEI helper is available.");
         }
 
         if (o instanceof String s) {
@@ -46,13 +49,11 @@ public final class JEIDrawableWrapper {
             return ingredient(fluidStackJS.getFluidStack());
         } else if (o instanceof ItemStackJS itemStackJS) {
             return ingredient(itemStackJS.getItemStack());
-        } else if (o instanceof ItemStack itemStack) {
-			return ingredient(itemStack);
         } else if (o instanceof ItemLike itemLike) {
 			return ingredient(new ItemStack(itemLike.asItem()));
         }
 
-        return null;
+        return ingredient(o);
     }
 
     /**
