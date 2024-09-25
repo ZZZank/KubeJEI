@@ -14,7 +14,7 @@ public class KubeJEI_KJSPlugin extends KubeJSPlugin {
 		if (type != ScriptType.CLIENT || !Platform.isModLoaded("jei")) {
 			return;
 		}
-		typeWrappers.register(IDrawable.class, JEIDrawableWrapper::of);
+		typeWrappers.register(IDrawable.class, JEIDrawableWrapper.get()::of);
     }
 
 	@Override
