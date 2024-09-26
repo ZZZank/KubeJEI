@@ -11,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import zzzank.mods.kube_jei.impl.builder.RecipeCategoryBuilder;
+import zzzank.mods.kube_jei.impl.helpers.WrappedIngredients;
 
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
             return;
         }
         try {
-            this.builder.fillIngredientsHandler.setIngredients(recipe, ingredients);
+            this.builder.fillIngredientsHandler.setIngredients(recipe, new WrappedIngredients(ingredients));
         } catch (Throwable e) {
             ConsoleJS.CLIENT.error("Error setting recipe for recipe category: " + this.getUid(), e);
         }

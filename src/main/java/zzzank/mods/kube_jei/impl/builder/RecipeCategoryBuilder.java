@@ -17,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import zzzank.mods.kube_jei.impl.CustomRecipeCategory;
+import zzzank.mods.kube_jei.impl.helpers.WrappedIngredients;
 import zzzank.mods.kube_jei.impl.recipe_type.RecipeType;
 
 import java.util.List;
@@ -149,6 +150,6 @@ public class RecipeCategoryBuilder<T> {
          * Sets all the recipe's ingredients by filling out an instance of {@link IIngredients}.
          * This is used by JEI for lookups, to figure out what ingredients are inputs and outputs for a recipe.
          */
-        void setIngredients(T recipe, IIngredients ingredients);
+        void setIngredients(T recipe, WrappedIngredients ingredients);
     }
 }
