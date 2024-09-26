@@ -12,6 +12,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.fluids.FluidStack;
 import zzzank.mods.kube_jei.events.JEIEventJS;
 
 /**
@@ -41,11 +42,11 @@ public final class JEIDrawableWrapper {
             //treat string as item
             return ingredient(ItemStackJS.of(s).getItemStack());
         } else if (o instanceof FluidStackJS fluidStackJS) {
-            return ingredient(fluidStackJS.getFluidStack());
+            return ingredient(new FluidStack(fluidStackJS.getFluid(), fluidStackJS.getAmount(), fluidStackJS.getNbt()));
         } else if (o instanceof ItemStackJS itemStackJS) {
             return ingredient(itemStackJS.getItemStack());
         } else if (o instanceof ItemLike itemLike) {
-			return ingredient(new ItemStack(itemLike.asItem()));
+			return ingredient(itemLike.asItem().getDefaultInstance());
         }
 
         return ingredient(o);
@@ -70,8 +71,8 @@ public final class JEIDrawableWrapper {
     /**
      * Create a drawable from part of a standard 256x256 gui texture.
      */
-    public IDrawableStatic standard(ResourceLocation resourceLocation, int u, int v, int width, int height) {
-        return builder(resourceLocation, u, v, width, height).build();
+    public IDrawableStatic standard(ResourceLocation texturePath, int u, int v, int width, int height) {
+        return builder(texturePath, u, v, width, height).build();
     }
 
     /**

@@ -28,7 +28,7 @@ public class RecipeCategoryBuilder<T> {
     private CustomRecipeCategory<T> category;
 
     public CustomRecipeCategory<T> asCategory() {
-        return category == null ? category = new CustomRecipeCategory<>(this) : category;
+        return category == null ? (category = new CustomRecipeCategory<>(this)) : category;
     }
 
     @NotNull
