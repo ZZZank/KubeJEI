@@ -80,7 +80,7 @@ public final class RenderHelper {
     }
 
     /**
-     * https://github.com/VazkiiMods/Patchouli/blob/1057a024a036c7bb194b70014312c836d1e4e0b2/src/main/java/vazkii/patchouli/client/book/page/PageEntity.java#L88
+     * <a href="https://github.com/VazkiiMods/Patchouli/blob/1057a024a036c7bb194b70014312c836d1e4e0b2/src/main/java/vazkii/patchouli/client/book/page/PageEntity.java#L88">Patchouli impl</a>
      */
     public void entity(
         PoseStack matrixStack,

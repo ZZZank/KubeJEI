@@ -10,7 +10,6 @@ import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
 import mezz.jei.api.helpers.IGuiHelper;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.fluids.FluidStack;
 import zzzank.mods.kube_jei.events.JEIEventJS;
@@ -25,31 +24,6 @@ public final class JEIDrawableWrapper {
 
     public boolean available() {
         return JEIEventJS.JEI_HELPERS != null;
-    }
-
-    public IDrawable of(Object o) {
-        if (o == null) {
-            return null;
-        } else if (o instanceof IDrawable drawable) {
-			return drawable;
-        }
-
-        if (!available()) {
-            throw new IllegalStateException("IDrawable Type Wrapper unavailable before JEI helper is available.");
-        }
-
-        if (o instanceof String s) {
-            //treat string as item
-            return ingredient(ItemStackJS.of(s).getItemStack());
-        } else if (o instanceof FluidStackJS fluidStackJS) {
-            return ingredient(new FluidStack(fluidStackJS.getFluid(), fluidStackJS.getAmount(), fluidStackJS.getNbt()));
-        } else if (o instanceof ItemStackJS itemStackJS) {
-            return ingredient(itemStackJS.getItemStack());
-        } else if (o instanceof ItemLike itemLike) {
-			return ingredient(itemLike.asItem().getDefaultInstance());
-        }
-
-        return ingredient(o);
     }
 
     /**
@@ -109,7 +83,14 @@ public final class JEIDrawableWrapper {
     /**
      * Returns a 16x16 drawable for the given ingredient, matching the one JEI draws in the ingredient list.
      */
-    public <V> IDrawable ingredient(V ingredient) {
+    public IDrawable ingredient(Object ingredient) {
+        if (ingredient instanceof ItemStackJS itemStackJS) {
+            ingredient = itemStackJS.getItemStack();
+        } else if (ingredient instanceof FluidStackJS fluidStackJS) {
+            ingredient = new FluidStack(fluidStackJS.getFluid(), fluidStackJS.getAmount(), fluidStackJS.getNbt());
+        } else if (ingredient instanceof ItemLike itemLike) {
+            ingredient = itemLike.asItem().getDefaultInstance();
+        }
         return guiHelper().createDrawableIngredient(ingredient);
     }
 
