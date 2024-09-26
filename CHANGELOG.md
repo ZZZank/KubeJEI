@@ -1,4 +1,17 @@
 
+# KubeJEI 1.2.0 -> 1.3.0
+
+render helper
+
+- render helper
+    - with this, you can access text rendering without worrying about stupid Rhino getting confused about parameter types
+    - it also provides an entity rendering preset, where you can easily render an entity on your JEI page
+- FluidStackJS will be wrapped into Forge FluidStack instead of Arch FluidStack to fix JEI not recognizing this ingredient
+- auto-wrapping for IDrawable is removed due to ambiguities caused by it
+
+---
+
+
 # KubeJEI 1.1.0 -> 1.2.0
 
 recipe manager plugin
