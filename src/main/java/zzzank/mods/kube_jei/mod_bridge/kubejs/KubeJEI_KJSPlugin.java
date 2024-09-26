@@ -6,6 +6,7 @@ import dev.latvian.kubejs.script.ScriptType;
 import dev.latvian.mods.rhino.util.wrap.TypeWrappers;
 import me.shedaniel.architectury.platform.Platform;
 import mezz.jei.api.gui.drawable.IDrawable;
+import zzzank.mods.kube_jei.impl.helpers.JEIDrawableWrapper;
 import zzzank.mods.kube_jei.impl.recipe_type.KubeJEIRecipeTypes;
 
 public class KubeJEI_KJSPlugin extends KubeJSPlugin {
@@ -14,7 +15,7 @@ public class KubeJEI_KJSPlugin extends KubeJSPlugin {
 		if (type != ScriptType.CLIENT || !Platform.isModLoaded("jei")) {
 			return;
 		}
-		typeWrappers.register(IDrawable.class, JEIDrawableWrapper.get()::of);
+        typeWrappers.register(IDrawable.class, JEIDrawableWrapper.INSTANCE::of);
     }
 
 	@Override

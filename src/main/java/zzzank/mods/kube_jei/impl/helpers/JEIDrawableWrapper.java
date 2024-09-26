@@ -1,8 +1,7 @@
-package zzzank.mods.kube_jei.mod_bridge.kubejs;
+package zzzank.mods.kube_jei.impl.helpers;
 
 import dev.latvian.kubejs.fluid.FluidStackJS;
 import dev.latvian.kubejs.item.ItemStackJS;
-import lombok.val;
 import mezz.jei.api.gui.ITickTimer;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
@@ -22,10 +21,6 @@ public final class JEIDrawableWrapper {
     public static final JEIDrawableWrapper INSTANCE = new JEIDrawableWrapper();
 
     private JEIDrawableWrapper() {}
-
-    public static JEIDrawableWrapper get() {
-        return INSTANCE;
-    }
 
     public boolean available() {
         return JEIEventJS.JEI_HELPERS != null;
