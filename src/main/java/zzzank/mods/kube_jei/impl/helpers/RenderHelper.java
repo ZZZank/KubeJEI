@@ -11,10 +11,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.ItemStack;
-import zzzank.mods.kube_jei.util.Lazy;
 
 /**
  * drawing helper for preventing ambiguous types and providing better param names
@@ -91,7 +87,8 @@ public final class RenderHelper {
         Entity entity,
         Vector3f scales,
         Vector3d offsets,
-        Vector3f rotationDegrees
+        Vector3f rotationDegrees,
+        float partialTicks
     ) {
         if (entity.isAddedToWorld() && entity.level != mc().level) {
             throw new IllegalArgumentException("entity should either be a virtual entity so that its level(world) can be safely modified, or at the same level(world) as client-side player does");
@@ -121,7 +118,7 @@ public final class RenderHelper {
         /*
         void render(Entity e, double x, double y, double z, float rotationYaw, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int packedLight) {}
          */
-        entityRenderDispatcher.render(entity, 0, 0, 0, 0, 1, matrixStack, bufferSource, 0xF000F0);
+        entityRenderDispatcher.render(entity, 0, 0, 0, 0, partialTicks, matrixStack, bufferSource, 0xF000F0);
         entityRenderDispatcher.setRenderShadow(true);
 
         bufferSource.endBatch();
@@ -137,31 +134,33 @@ public final class RenderHelper {
         Entity entity,
         float scale,
         Vector3d offsets,
-        float rotation
+        float rotation,
+        float partialTicks
     ) {
         entity(
             matrixStack,
             entity,
             new Vector3f(scale, scale, scale),
             offsets,
-            new Vector3f(0, rotation, 0)
+            new Vector3f(0, rotation, 0),
+            partialTicks
         );
     }
 
-    /**
-     * todo: suggest players to reuse entity for better performance
-     * @return newly created item entity
-     */
-    public ItemEntity entityItem(
+    public void entitySimple(
         PoseStack matrixStack,
-        ItemStack stack,
-        Vector3f scales,
+        Entity entity,
+        float scale,
         Vector3d offsets,
-        Vector3f rotationDegrees
+        float rotation
     ) {
-        val itemEntity = EntityType.ITEM.create(mc().level);
-        itemEntity.setItem(stack);
-        entity(matrixStack, itemEntity, scales, offsets, rotationDegrees);
-        return itemEntity;
+        entitySimple(
+            matrixStack,
+            entity,
+            scale,
+            offsets,
+            rotation,
+            1
+        );
     }
 }
