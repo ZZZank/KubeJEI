@@ -2,6 +2,7 @@ package zzzank.mods.kube_jei.impl.helpers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3d;
 import com.mojang.math.Vector3f;
 import lombok.val;
 import net.minecraft.client.Minecraft;
@@ -85,7 +86,13 @@ public final class RenderHelper {
     /**
      * https://github.com/VazkiiMods/Patchouli/blob/1057a024a036c7bb194b70014312c836d1e4e0b2/src/main/java/vazkii/patchouli/client/book/page/PageEntity.java#L88
      */
-    public void entity(PoseStack matrixStack, Entity entity, float scale, double offset, float rotation) {
+    public void entity(
+        PoseStack matrixStack,
+        Entity entity,
+        Vector3f scales,
+        Vector3d offsets,
+        Vector3f rotationDegrees
+    ) {
         if (entity.isAddedToWorld() && entity.level != mc().level) {
             throw new IllegalArgumentException("entity should either be a virtual entity so that its level(world) can be safely modified, or at the same level(world) as client-side player does");
         }
@@ -96,16 +103,24 @@ public final class RenderHelper {
 
         matrixStack.pushPose();
 
-        // This part mostly comes from looking at how patchouli does it
-        matrixStack.translate(58, 60, 50);
-        matrixStack.scale(scale, scale, scale);
-        matrixStack.translate(0, offset, 0);
-        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
+        //move
+        matrixStack.translate(offsets.x, offsets.y, offsets.z);
+        //scale
+        matrixStack.scale(scales.x(), scales.y(), scales.z());
+        //rotation
+        val rotation = Vector3f.ZP.rotationDegrees(180);
+        rotation.mul(Vector3f.XP.rotationDegrees(rotationDegrees.x()));
+        rotation.mul(Vector3f.YP.rotationDegrees(rotationDegrees.y()));
+        rotation.mul(Vector3f.ZP.rotationDegrees(rotationDegrees.z()));
+        matrixStack.mulPose(rotation);
 
+        //render
         val entityRenderDispatcher = entityRenderer();
         val bufferSource = mc().renderBuffers().bufferSource();
         entityRenderDispatcher.setRenderShadow(false);
+        /*
+        void render(Entity e, double x, double y, double z, float rotationYaw, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int packedLight) {}
+         */
         entityRenderDispatcher.render(entity, 0, 0, 0, 0, 1, matrixStack, bufferSource, 0xF000F0);
         entityRenderDispatcher.setRenderShadow(true);
 
@@ -117,14 +132,36 @@ public final class RenderHelper {
         }
     }
 
+    public void entitySimple(
+        PoseStack matrixStack,
+        Entity entity,
+        float scale,
+        Vector3d offsets,
+        float rotation
+    ) {
+        entity(
+            matrixStack,
+            entity,
+            new Vector3f(scale, scale, scale),
+            offsets,
+            new Vector3f(0, rotation, 0)
+        );
+    }
+
     /**
      * todo: suggest players to reuse entity for better performance
      * @return newly created item entity
      */
-    public ItemEntity entityItem(PoseStack matrixStack, ItemStack stack, float scale, double offset, float rotation) {
+    public ItemEntity entityItem(
+        PoseStack matrixStack,
+        ItemStack stack,
+        Vector3f scales,
+        Vector3d offsets,
+        Vector3f rotationDegrees
+    ) {
         val itemEntity = EntityType.ITEM.create(mc().level);
         itemEntity.setItem(stack);
-        entity(matrixStack, itemEntity, scale, offset, rotation);
+        entity(matrixStack, itemEntity, scales, offsets, rotationDegrees);
         return itemEntity;
     }
 }
