@@ -2,6 +2,7 @@ package zzzank.mods.kube_jei.impl.helpers;
 
 import dev.latvian.kubejs.fluid.FluidStackJS;
 import dev.latvian.kubejs.item.ItemStackJS;
+import dev.latvian.mods.rhino.annotations.typing.JSInfo;
 import mezz.jei.api.gui.ITickTimer;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
@@ -22,15 +23,15 @@ public final class JEIDrawableWrapper {
 
     private JEIDrawableWrapper() {}
 
+    @JSInfo("""
+        @return true if this class is ready to go, otherwise false, where most exposed methods will fail due to NullPointerException""")
     public boolean available() {
         return JEIEventJS.JEI_HELPERS != null;
     }
 
-    /**
-     * Create a {@link IDrawableBuilder} which gives more control over drawable creation.
-     *
-     * @return a new {@link IDrawableBuilder} with the given resource location
-     */
+    @JSInfo("""
+        Create a {@link IDrawableBuilder} which gives more control over drawable creation
+        @return a new {@link IDrawableBuilder} with the given resource location""")
     public IDrawableBuilder builder(ResourceLocation resourceLocation, int u, int v, int width, int height) {
         return guiHelper().drawableBuilder(resourceLocation, u, v, width, height);
     }
@@ -42,21 +43,19 @@ public final class JEIDrawableWrapper {
         return JEIEventJS.JEI_HELPERS.getGuiHelper();
     }
 
-    /**
-     * Create a drawable from part of a standard 256x256 gui texture.
-     */
+    @JSInfo("""
+        Create a drawable from part of a standard 256x256 gui texture.""")
     public IDrawableStatic standard(ResourceLocation texturePath, int u, int v, int width, int height) {
         return guiHelper().createDrawable(texturePath, u, v, width, height);
     }
 
-    /**
-     * Creates an animated texture for a gui, revealing the texture over time.
-     *
-     * @param drawable       the underlying texture to draw
-     * @param ticksPerCycle  the number of ticks for the animation to run before starting over
-     * @param startDirection the direction that the animation starts drawing the texture
-     * @param inverted       when inverted is true, the texture will start fully drawn and be hidden over time
-     */
+    @JSInfo("""
+        Creates an animated texture for a gui, revealing the texture over time.
+        
+        @param drawable       the underlying texture to draw
+        @param ticksPerCycle  the number of ticks for the animation to run before starting over
+        @param startDirection the direction that the animation starts drawing the texture
+        @param inverted       when inverted is true, the texture will start fully drawn and be hidden over time""")
     public IDrawableAnimated animated(
         IDrawableStatic drawable,
         int ticksPerCycle,
@@ -66,23 +65,20 @@ public final class JEIDrawableWrapper {
         return guiHelper().createAnimatedDrawable(drawable, ticksPerCycle, startDirection, inverted);
     }
 
-    /**
-     * Returns a slot drawable for drawing extra slots on guis
-     */
+    @JSInfo("""
+        Returns a slot drawable for drawing extra slots on guis""")
     public IDrawableStatic slot() {
         return guiHelper().getSlotDrawable();
     }
 
-    /**
-     * Returns a blank drawable for using as a blank recipe background.
-     */
+    @JSInfo("""
+        Returns a blank drawable for using as a blank recipe background.""")
     public IDrawableStatic blank(int width, int height) {
         return guiHelper().createBlankDrawable(width, height);
     }
 
-    /**
-     * Returns a 16x16 drawable for the given ingredient, matching the one JEI draws in the ingredient list.
-     */
+    @JSInfo("""
+        Returns a 16x16 drawable for the given ingredient, matching the one JEI draws in the ingredient list.""")
     public IDrawable ingredient(Object ingredient) {
         if (ingredient instanceof ItemStackJS itemStackJS) {
             ingredient = itemStackJS.getItemStack();
@@ -94,21 +90,19 @@ public final class JEIDrawableWrapper {
         return guiHelper().createDrawableIngredient(ingredient);
     }
 
-    /**
-     * Create a crafting grid helper.
-     * Helps set crafting-grid-style GuiItemStackGroup.
-     */
+    @JSInfo("""
+        Create a crafting grid helper.
+        Helps set crafting-grid-style GuiItemStackGroup.""")
     public ICraftingGridHelper gridHelper(int baseSlotIndex) {
         return guiHelper().createCraftingGridHelper(baseSlotIndex);
     }
 
-    /**
-     * Create a timer to help with rendering things that normally depend on ticks.
-     *
-     * @param ticksPerCycle the number of ticks for timer to run before starting over at 0
-     * @param maxValue      the number to count up to before starting over at 0
-     * @param countDown     if true, the tick timer will count backwards from maxValue
-     */
+    @JSInfo("""
+        Create a timer to help with rendering things that normally depend on ticks.
+        
+        @param ticksPerCycle the number of ticks for timer to run before starting over at 0
+        @param maxValue      the number to count up to before starting over at 0
+        @param countDown     if true, the tick timer will count backwards from maxValue""")
     public ITickTimer tickTimer(int ticksPerCycle, int maxValue, boolean countDown) {
         return guiHelper().createTickTimer(ticksPerCycle, maxValue, countDown);
     }
