@@ -15,8 +15,8 @@ public class RegisterGUIHandlersEventJS extends JEIEventJS {
     }
 
     @JSInfo("""
-        Add a handler to give JEI extra information about how to layout the item list next to a specific type of {@link AbstractContainerScreen}.
-        Multiple handlers can be registered for one {@link AbstractContainerScreen}.
+        Add a handler to give JEI extra information about how to layout the item list next to a specific type of {@link $AbstractContainerScreen}.
+        Multiple handlers can be registered for one {@link $AbstractContainerScreen}.
         
         @see #addGenericGuiContainerHandler(Class, IGuiContainerHandler) for handlers that use Java Generics""")
     public <T extends AbstractContainerScreen<?>> void addGuiContainerHandler(
@@ -27,7 +27,7 @@ public class RegisterGUIHandlersEventJS extends JEIEventJS {
     }
 
     @JSInfo("""
-        Same as {@link #addGuiContainerHandler(Class, IGuiContainerHandler)} but for handlers that use Java Generics to
+        Same as {@link $#addGuiContainerHandler(Class, IGuiContainerHandler)} but for handlers that use Java Generics to
         support multiple types of containers. This type of handler runs into type issues with the regular method.""")
     public <T extends AbstractContainerScreen<?>> void addGenericGuiContainerHandler(
         Class<? extends T> guiClass,
@@ -37,8 +37,8 @@ public class RegisterGUIHandlersEventJS extends JEIEventJS {
     }
 
     @JSInfo("""
-        By default, JEI can only draw next to {@link AbstractContainerScreen}.
-        Add a handler to let JEI draw next to a specific class (or subclass) of {@link Screen}.""")
+        By default, JEI can only draw next to {@link $AbstractContainerScreen}.
+        Add a handler to let JEI draw next to a specific class (or subclass) of {@link $Screen}.""")
     public <T extends Screen> void addGuiScreenHandler(Class<T> guiClass, IScreenHandler<T> handler) {
         data.addGuiScreenHandler(guiClass, handler);
     }

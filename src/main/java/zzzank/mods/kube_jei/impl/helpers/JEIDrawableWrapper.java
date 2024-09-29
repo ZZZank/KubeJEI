@@ -30,8 +30,8 @@ public final class JEIDrawableWrapper {
     }
 
     @JSInfo("""
-        Create a {@link IDrawableBuilder} which gives more control over drawable creation
-        @return a new {@link IDrawableBuilder} with the given resource location""")
+        Create a {@link $IDrawableBuilder} which gives more control over drawable creation
+        @return a new {@link $IDrawableBuilder} with the given resource location""")
     public IDrawableBuilder builder(ResourceLocation resourceLocation, int u, int v, int width, int height) {
         return guiHelper().drawableBuilder(resourceLocation, u, v, width, height);
     }

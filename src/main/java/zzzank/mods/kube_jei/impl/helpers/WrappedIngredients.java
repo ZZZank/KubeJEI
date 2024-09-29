@@ -60,7 +60,7 @@ public class WrappedIngredients implements IIngredients {
     @JSInfo("""
         Sets a single recipe input. For recipes with only one input slot.
         
-        @param ingredientType The type of ingredient: {@link VanillaTypes#ITEM}, {@link VanillaTypes#FLUID}, etc
+        @param ingredientType The type of ingredient: {@link $VanillaTypes#ITEM}, {@link $VanillaTypes#FLUID}, etc
         @param input          The list of ingredients representing each input slot.""")
     @Override
     public <T> void setInput(@NotNull IIngredientType<T> ingredientType, @NotNull T input) {
@@ -101,7 +101,7 @@ public class WrappedIngredients implements IIngredients {
     @JSInfo("""
         Sets multiple recipe outputs. Each list element represents one slot.
         
-        @param ingredientType The type of ingredient: {@link VanillaTypes#ITEM}, {@link VanillaTypes#FLUID}, etc
+        @param ingredientType The type of ingredient: {@link $VanillaTypes#ITEM}, {@link $VanillaTypes#FLUID}, etc
         @param outputs        The list of ingredients representing each output slot.""")
     @Override
     public <T> void setOutputs(@NotNull IIngredientType<T> ingredientType, @NotNull List<T> outputs) {
@@ -112,7 +112,7 @@ public class WrappedIngredients implements IIngredients {
         Sets the recipe's outputs. Each output list represents one slot.
         Accepts multiple ingredients per slot.
         
-        @param ingredientType The type of ingredient: {@link VanillaTypes#ITEM}, {@link VanillaTypes#FLUID}, etc
+        @param ingredientType The type of ingredient: {@link $VanillaTypes#ITEM}, {@link $VanillaTypes#FLUID}, etc
         @param outputs        The outer list represents the slot, the inner list is a rotating list of ingredients in that slot.""")
     @Override
     public <T> void setOutputLists(@NotNull IIngredientType<T> ingredientType, @NotNull List<List<T>> outputs) {

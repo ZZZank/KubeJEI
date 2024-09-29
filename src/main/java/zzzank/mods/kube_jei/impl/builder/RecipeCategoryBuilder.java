@@ -76,11 +76,11 @@ public class RecipeCategoryBuilder<T> {
     @FunctionalInterface
     public interface RecipeSetHandler<T> {
         @JSInfo("""
-            Set the {@link IRecipeLayout} properties from the recipe.
+            Set the {@link $IRecipeLayout} properties from the recipe.
             
             @param layout      the layout that needs its properties set.
             @param recipe      the recipe, for extra information.
-            @param ingredients the ingredients, already set earlier by {@link IRecipeCategory#setIngredients}""")
+            @param ingredients the ingredients, already set earlier by {@link $IRecipeCategory#setIngredients}""")
         void setRecipe(IRecipeLayout layout, T recipe, WrappedIngredients ingredients);
     }
 
@@ -89,7 +89,7 @@ public class RecipeCategoryBuilder<T> {
         @JSInfo("""
             Draw extras or additional info about the recipe.
             Use the mouse position for things like button highlights.
-            Tooltips are handled by {@link IRecipeCategory#getTooltipStrings(Object, double, double)}
+            Tooltips are handled by {@link $IRecipeCategory#getTooltipStrings(Object, double, double)}
             
             @param mouseX the X position of the mouse, relative to the recipe.
             @param mouseY the Y position of the mouse, relative to the recipe.
@@ -104,7 +104,7 @@ public class RecipeCategoryBuilder<T> {
             Get the tooltip for whatever under the mouse.
             Ingredient tooltips are already handled by JEI, this is for anything else.
             
-            To add to ingredient tooltips, see {@link IGuiIngredientGroup#addTooltipCallback(ITooltipCallback)}
+            To add to ingredient tooltips, see {@link $IGuiIngredientGroup#addTooltipCallback(ITooltipCallback)}
             
             @param mouseX the X position of the mouse, relative to the recipe.
             @param mouseY the Y position of the mouse, relative to the recipe.
@@ -136,7 +136,7 @@ public class RecipeCategoryBuilder<T> {
 
     public interface FillIngredientsHandler<T> {
         @JSInfo("""
-            Sets all the recipe's ingredients by filling out an instance of {@link IIngredients}.
+            Sets all the recipe's ingredients by filling out an instance of {@link $IIngredients}.
             This is used by JEI for lookups, to figure out what ingredients are inputs and outputs for a recipe.""")
         void setIngredients(T recipe, WrappedIngredients ingredients);
     }
