@@ -1,5 +1,6 @@
 package zzzank.mods.kube_jei.events;
 
+import dev.latvian.mods.rhino.annotations.typing.JSInfo;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import zzzank.mods.kube_jei.impl.recipe_type.RecipeType;
@@ -17,6 +18,8 @@ public class RegisterRecipesEventJS extends JEIEventJS {
         this.data = data;
     }
 
+    @JSInfo("""
+        Add the recipes provided by your plugin.""")
     public <T> void register(RecipeType<T> recipeType, List<T> recipes) {
         data.addRecipes(recipes, recipeType.uid());
     }

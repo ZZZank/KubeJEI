@@ -18,8 +18,7 @@ public class RegisterGUIHandlersEventJS extends JEIEventJS {
         Add a handler to give JEI extra information about how to layout the item list next to a specific type of {@link AbstractContainerScreen}.
         Multiple handlers can be registered for one {@link AbstractContainerScreen}.
         
-        @see #addGenericGuiContainerHandler(Class, IGuiContainerHandler) for handlers that use Java Generics
-        """)
+        @see #addGenericGuiContainerHandler(Class, IGuiContainerHandler) for handlers that use Java Generics""")
     public <T extends AbstractContainerScreen<?>> void addGuiContainerHandler(
         Class<? extends T> guiClass,
         IGuiContainerHandler<T> guiHandler
@@ -29,8 +28,7 @@ public class RegisterGUIHandlersEventJS extends JEIEventJS {
 
     @JSInfo("""
         Same as {@link #addGuiContainerHandler(Class, IGuiContainerHandler)} but for handlers that use Java Generics to
-        support multiple types of containers. This type of handler runs into type issues with the regular method.
-        """)
+        support multiple types of containers. This type of handler runs into type issues with the regular method.""")
     public <T extends AbstractContainerScreen<?>> void addGenericGuiContainerHandler(
         Class<? extends T> guiClass,
         IGuiContainerHandler<?> guiHandler
@@ -40,16 +38,14 @@ public class RegisterGUIHandlersEventJS extends JEIEventJS {
 
     @JSInfo("""
         By default, JEI can only draw next to {@link AbstractContainerScreen}.
-        Add a handler to let JEI draw next to a specific class (or subclass) of {@link Screen}.
-        """)
+        Add a handler to let JEI draw next to a specific class (or subclass) of {@link Screen}.""")
     public <T extends Screen> void addGuiScreenHandler(Class<T> guiClass, IScreenHandler<T> handler) {
         data.addGuiScreenHandler(guiClass, handler);
     }
 
     @JSInfo("""
         Add a handler to give JEI extra information about how to layout the ingredient list.
-        Used for guis that display next to GUIs and would normally intersect with JEI.
-        """)
+        Used for guis that display next to GUIs and would normally intersect with JEI.""")
     public void addGlobalGuiHandler(IGlobalGuiHandler globalGuiHandler) {
         data.addGlobalGuiHandler(globalGuiHandler);
     }
@@ -62,8 +58,7 @@ public class RegisterGUIHandlersEventJS extends JEIEventJS {
         @param yPos               top y position of the clickable area, relative to the top edge of the gui.
         @param width              the width of the clickable area.
         @param height             the height of the clickable area.
-        @param recipeCategoryUids the recipe categories that JEI should display.
-        """)
+        @param recipeCategoryUids the recipe categories that JEI should display.""")
     public <T extends AbstractContainerScreen<?>> void addRecipeClickArea(
         Class<? extends T> guiContainerClass,
         int xPos,
@@ -78,8 +73,7 @@ public class RegisterGUIHandlersEventJS extends JEIEventJS {
     @JSInfo("""
         Lets mods accept ghost ingredients from JEI.
         These ingredients are dragged from the ingredient list on to your gui, and are useful
-        for setting recipes or anything else that does not need the real ingredient to exist.
-        """)
+        for setting recipes or anything else that does not need the real ingredient to exist.""")
     public <T extends Screen> void addGhostIngredientHandler(Class<T> guiClass, IGhostIngredientHandler<T> handler) {
         data.addGhostIngredientHandler(guiClass, handler);
     }
