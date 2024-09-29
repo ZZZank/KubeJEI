@@ -62,10 +62,18 @@ mandatory = true
 versionRange = "[1605.3.19,)"
 ordering = "AFTER"
 side = "BOTH"
+
 [[dependencies."${mod_id}"]]
 modId = "jei"
 mandatory = true
 versionRange = "[7.7,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "rhizo"
+mandatory = true
+versionRange = "[3.0,)"
 ordering = "AFTER"
 side = "BOTH"
 
