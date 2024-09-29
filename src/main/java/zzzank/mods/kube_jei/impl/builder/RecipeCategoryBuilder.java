@@ -52,7 +52,7 @@ public class RecipeCategoryBuilder<T> {
     public RecipeCategoryBuilder(@NotNull RecipeType<T> recipeType, @NotNull IJeiHelpers jeiHelpers) {
         this.type = recipeType;
         this.jeiHelpers = jeiHelpers;
-        this.title = Text.of("KubeJEI Custom Category: " + recipeType.type().getSimpleName());
+        this.title = Text.of("KubeJEI Custom Category");
         this.background = this.jeiHelpers.getGuiHelper().createDrawableIngredient(new ItemStack(Items.CREEPER_HEAD));
         this.icon = this.jeiHelpers.getGuiHelper().createDrawableIngredient(new ItemStack(Items.TNT));
     }
@@ -107,7 +107,7 @@ public class RecipeCategoryBuilder<T> {
     @FunctionalInterface
     public interface TooltipHandler<T> {
         /**
-         * Get the tooltip for whatever's under the mouse.
+         * Get the tooltip for whatever under the mouse.
          * Ingredient tooltips are already handled by JEI, this is for anything else.
          * <p>
          * To add to ingredient tooltips, see {@link IGuiIngredientGroup#addTooltipCallback(ITooltipCallback)}
