@@ -35,6 +35,18 @@ public final class RenderHelper {
         return mc().getEntityRenderDispatcher();
     }
 
+    public Vector3f vec3f(float x, float y, float z) {
+        return new Vector3f(x, y, z);
+    }
+
+    public Vector3d vec3d(float x, float y, float z) {
+        return new Vector3d(x, y, z);
+    }
+
+    public Matrix4f matrix4f(float[] values) {
+        return new Matrix4f(values);
+    }
+
     public int text(PoseStack matrixStack, Component text, float x, float y, int color) {
         return font().draw(matrixStack, text, x, y, color);
     }
