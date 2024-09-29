@@ -1,4 +1,11 @@
 
+# KubeJS 1.4.0 -> 1.4.1
+
+misc fix
+
+- fix a wrong type wrapper causing JEI to crash
+- adds `$` before class name in JSDoc to work better with ProbeJS 4
+
 # KubeJEI 1.3.0 -> 1.4.0
 
 many doc & ingredient helper
