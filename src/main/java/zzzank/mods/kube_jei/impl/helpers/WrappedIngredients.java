@@ -7,6 +7,7 @@ import mezz.jei.api.ingredients.IIngredients;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -17,58 +18,62 @@ import java.util.List;
 public class WrappedIngredients implements IIngredients {
     public final IIngredients raw;
 
-    public IIngredientType<ItemStack> getItemType() {
+    public <T> IIngredientType<T> wrapIngredientType(Class<T> type) {
+        return () -> type;
+    }
+
+    public IIngredientType<ItemStack> itemIngredientType() {
         return VanillaTypes.ITEM;
     }
 
-    public IIngredientType<FluidStack> getFluidType() {
+    public IIngredientType<FluidStack> fluidIngredientType() {
         return VanillaTypes.FLUID;
     }
 
     //---proxy---
 
     @Override
-    public void setInputIngredients(List<Ingredient> inputs) {
+    public void setInputIngredients(@NotNull List<Ingredient> inputs) {
         raw.setInputIngredients(inputs);
     }
 
     @Override
-    public <T> void setInput(IIngredientType<T> ingredientType, T input) {
+    public <T> void setInput(@NotNull IIngredientType<T> ingredientType, @NotNull T input) {
         raw.setInput(ingredientType, input);
     }
 
     @Override
-    public <T> void setInputs(IIngredientType<T> ingredientType, List<T> input) {
+    public <T> void setInputs(@NotNull IIngredientType<T> ingredientType, @NotNull List<T> input) {
         raw.setInputs(ingredientType, input);
     }
 
     @Override
-    public <T> void setInputLists(IIngredientType<T> ingredientType, List<List<T>> inputs) {
+    public <T> void setInputLists(@NotNull IIngredientType<T> ingredientType, @NotNull List<List<T>> inputs) {
         raw.setInputLists(ingredientType, inputs);
     }
 
     @Override
-    public <T> void setOutput(IIngredientType<T> ingredientType, T output) {
+    public <T> void setOutput(@NotNull IIngredientType<T> ingredientType, @NotNull T output) {
         raw.setOutput(ingredientType, output);
     }
 
     @Override
-    public <T> void setOutputs(IIngredientType<T> ingredientType, List<T> outputs) {
+    public <T> void setOutputs(@NotNull IIngredientType<T> ingredientType, @NotNull List<T> outputs) {
         raw.setOutputs(ingredientType, outputs);
     }
 
     @Override
-    public <T> void setOutputLists(IIngredientType<T> ingredientType, List<List<T>> outputs) {
+    public <T> void setOutputLists(@NotNull IIngredientType<T> ingredientType, @NotNull List<List<T>> outputs) {
         raw.setOutputLists(ingredientType, outputs);
     }
 
     @Override
-    public <T> List<List<T>> getInputs(IIngredientType<T> ingredientType) {
+    public <T> @NotNull List<List<T>> getInputs(@NotNull IIngredientType<T> ingredientType) {
         return raw.getInputs(ingredientType);
     }
 
     @Override
-    public <T> List<List<T>> getOutputs(IIngredientType<T> ingredientType) {
+    public <T> @NotNull List<List<T>> getOutputs(@NotNull IIngredientType<T> ingredientType) {
         return raw.getOutputs(ingredientType);
     }
 }
