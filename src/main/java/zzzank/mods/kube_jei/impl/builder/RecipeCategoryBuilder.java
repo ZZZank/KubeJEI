@@ -7,12 +7,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
-import mezz.jei.api.gui.ingredient.ITooltipCallback;
-import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -86,7 +81,7 @@ public class RecipeCategoryBuilder<T> {
             @param layout      the layout that needs its properties set.
             @param recipe      the recipe, for extra information.
             @param ingredients the ingredients, already set earlier by {@link IRecipeCategory#setIngredients}""")
-        void setRecipe(IRecipeLayout layout, T recipe, IIngredients ingredients);
+        void setRecipe(IRecipeLayout layout, T recipe, WrappedIngredients ingredients);
     }
 
     @FunctionalInterface

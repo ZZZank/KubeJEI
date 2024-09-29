@@ -71,7 +71,7 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
             return;
         }
         try {
-            this.builder.recipeSetHandler.setRecipe(layout, recipe, ingredients);
+            this.builder.recipeSetHandler.setRecipe(layout, recipe, new WrappedIngredients(ingredients));
         } catch (Throwable e) {
             ConsoleJS.CLIENT.error("Error setting recipe for recipe category: " + this.getUid(), e);
         }
