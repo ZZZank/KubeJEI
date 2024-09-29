@@ -43,21 +43,11 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
 		return builder.title.component();
 	}
 
-	/**
-     * Returns the drawable background for a single recipe in this category.
-     */
     @Override
     public @NotNull IDrawable getBackground() {
         return this.builder.background;
     }
 
-    /**
-     * Icon for the category tab.
-     * You can use {@link IGuiHelper#createDrawableIngredient(Object)}
-     * to create a drawable from an ingredient.
-     *
-     * @return icon to draw on the category tab, max size is 16x16 pixels.
-     */
     @Override
     public @NotNull IDrawable getIcon() {
         return this.builder.icon;
@@ -75,13 +65,6 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
         }
 	}
 
-    /**
-     * Set the {@link IRecipeLayout} properties from the recipe.
-     *
-     * @param layout      the layout that needs its properties set.
-     * @param recipe      the recipe, for extra information.
-     * @param ingredients the ingredients, already set earlier by {@link IRecipeCategory#setIngredients}
-     */
     @Override
     public void setRecipe(@NotNull IRecipeLayout layout, @NotNull T recipe, @NotNull IIngredients ingredients) {
         if (this.builder.recipeSetHandler == null) {
@@ -118,17 +101,6 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
         return IRecipeCategory.super.getTooltipStrings(recipe, mouseX, mouseY);
     }
 
-	/**
-     * Called when a player clicks the recipe.
-     * Useful for implementing buttons, hyperlinks, and other interactions to your recipe.
-     *
-     * @param recipe the currently hovered recipe
-     * @param mouseX the X position of the mouse, relative to the recipe.
-     * @param mouseY the Y position of the mouse, relative to the recipe.
-     * @param input  the current input
-     * @return true if the input was handled, false otherwise
-     * @since 8.3.0
-     */
     @Override
     public boolean handleClick(@NotNull T recipe, double mouseX, double mouseY, int input) {
         try {
@@ -141,11 +113,6 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
         return IRecipeCategory.super.handleClick(recipe, mouseX, mouseY, input);
     }
 
-    /**
-     * @param recipe the recipe to check
-     * @return true if the given recipe can be handled by this category.
-     * @since 7.2.0
-     */
     @Override
     public boolean isHandled(@NotNull T recipe) {
         try {
