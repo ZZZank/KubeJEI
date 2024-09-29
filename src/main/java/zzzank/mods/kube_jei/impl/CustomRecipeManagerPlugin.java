@@ -81,19 +81,4 @@ public class CustomRecipeManagerPlugin implements IRecipeManagerPlugin {
             return Collections.emptyList();
         }
     }
-
-    @FunctionalInterface
-    public interface UidMatcher {
-        @NotNull List<ResourceLocation> getRecipeCategoryUids(IFocus.Mode mode, Object value);
-    }
-
-    @FunctionalInterface
-    public interface RecipeMatcher {
-        <T> List<T> getRecipes(IRecipeCategory<T> category, IFocus.Mode mode, Object value);
-    }
-
-    @FunctionalInterface
-    public interface NoFocusRecipeMatcher {
-        <T> List<T> getRecipes(IRecipeCategory<T> category);
-    }
 }
