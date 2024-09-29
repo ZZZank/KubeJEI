@@ -1,4 +1,25 @@
 
+# KubeJEI 1.3.0 -> 1.4.0
+
+many doc & ingredient helper
+
+- MANY doc, including docs for:
+    - almost ALL JEI events
+    - builder for CustomRecipeManagerPlugin
+    - builder for CustomRecipeCategory
+    - JEIDrawableWrapper
+    - JEI `IIngredients` and our ingredients helpers
+- Note that KubeJEI now requires [Rhizo](https://www.curseforge.com/minecraft/mc-mods/rhizo) to work, because stupid
+Rhino 1,16 is dead for a long time, and is missing typing annotations for our doc usage 
+- default custom category title is now a bit shorter
+- `IIngredients` expansion
+    - the `IIngredients` passed to `RecipeSetHandler` and `FillIngredientsHandler` are now expanded to provide fluid
+ingredient wrapping, and ingredient type helpers
+- `IIngredientType<Something>` now can be wrapped form `Class<Something>`, aka `typeof Something`
+- some helpers for Math related classes for you to construct them easier
+
+---
+
 # KubeJEI 1.2.0 -> 1.3.0
 
 render helper
@@ -10,7 +31,6 @@ render helper
 - auto-wrapping for IDrawable is removed due to ambiguities caused by it
 
 ---
-
 
 # KubeJEI 1.1.0 -> 1.2.0
 
