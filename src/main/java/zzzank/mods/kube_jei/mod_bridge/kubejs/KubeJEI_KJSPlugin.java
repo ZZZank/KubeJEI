@@ -29,8 +29,10 @@ public class KubeJEI_KJSPlugin extends KubeJSPlugin {
 		}
 		typeWrappers.register(
 			IIngredientType.class,
-			IIngredientType.class::isInstance,
-			o -> () -> (Class<?>) o
+			o -> o instanceof IIngredientType<?> || o instanceof Class<?>,
+			o -> o instanceof IIngredientType<?> ingredientType ? ingredientType
+				: o instanceof Class<?> c ? () -> c
+					: null
 		);
 	}
 }
