@@ -7,9 +7,8 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import org.jetbrains.annotations.NotNull;
 import zzzank.mods.kube_jei.impl.recipe_type.RecipeType;
 
-@Getter
 public class RecipeCategoryWrapperBuilder<T> extends RecipeCategoryBuilder<T> {
-    private final IRecipeCategory<T> sourceCategory;
+    public final IRecipeCategory<T> sourceCategory;
 
     public RecipeCategoryWrapperBuilder(
         @NotNull RecipeType<T> recipeType,
@@ -18,16 +17,16 @@ public class RecipeCategoryWrapperBuilder<T> extends RecipeCategoryBuilder<T> {
     ) {
         super(recipeType, jeiHelpers);
         this.sourceCategory = existingCategory;
-        this.setDrawHandler(existingCategory::draw)
-            .setRecipeHandlePredicate(existingCategory::isHandled)
-            .setRecipeSetHandler(existingCategory::setRecipe)
-            .setTooltipHandler(existingCategory::getTooltipStrings)
-            .setInputHandler(existingCategory::handleClick)
-            .setTitle(Text.of(existingCategory.getTitleAsTextComponent()))
-            .setBackground(existingCategory.getBackground())
-            .setIcon(existingCategory.getIcon())
-            .handleLookup(existingCategory::setRecipe)
-            .fillIngredients(existingCategory::setIngredients);
+        setDrawHandler(existingCategory::draw);
+        setRecipeHandlePredicate(existingCategory::isHandled);
+        setRecipeSetHandler(existingCategory::setRecipe);
+        setTooltipHandler(existingCategory::getTooltipStrings);
+        setInputHandler(existingCategory::handleClick);
+        setTitle(Text.of(existingCategory.getTitleAsTextComponent()));
+        setBackground(existingCategory.getBackground());
+        setIcon(existingCategory.getIcon());
+        handleLookup(existingCategory::setRecipe);
+        fillIngredients(existingCategory::setIngredients);
     }
 }
 
