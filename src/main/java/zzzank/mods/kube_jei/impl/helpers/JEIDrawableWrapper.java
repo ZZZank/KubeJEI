@@ -46,7 +46,7 @@ public final class JEIDrawableWrapper {
      * Create a drawable from part of a standard 256x256 gui texture.
      */
     public IDrawableStatic standard(ResourceLocation texturePath, int u, int v, int width, int height) {
-        return builder(texturePath, u, v, width, height).build();
+        return guiHelper().createDrawable(texturePath, u, v, width, height);
     }
 
     /**
