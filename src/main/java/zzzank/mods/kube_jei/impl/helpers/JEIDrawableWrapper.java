@@ -94,7 +94,7 @@ public final class JEIDrawableWrapper {
     @JSInfo("""
         Creates a 18x18 drawable that will draw two drawables together,
         where the secondary drawable is at half the size and drawn at the bottom-right corner""")
-    public DualDrawable dualDrawable(IDrawable primary, IDrawable secondary) {
+    public DualDrawable dual(IDrawable primary, IDrawable secondary) {
         return new DualDrawable(primary, secondary);
     }
 

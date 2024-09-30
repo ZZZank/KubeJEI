@@ -1,8 +1,11 @@
 package zzzank.mods.kube_jei.events;
 
+import dev.latvian.kubejs.item.ItemStackJS;
 import dev.latvian.mods.rhino.annotations.typing.JSInfo;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.Objects;
 
 public class RegisterRecipeCatalystsEventJS extends JEIEventJS {
     public final IRecipeCatalystRegistration registration;
@@ -18,5 +21,13 @@ public class RegisterRecipeCatalystsEventJS extends JEIEventJS {
         @param recipeCategoryUids the recipe categories handled by the ingredient""")
     public void addRecipeCatalyst(Object catalystIngredient, ResourceLocation... recipeCategoryUids) {
         registration.addRecipeCatalyst(catalystIngredient, recipeCategoryUids);
+    }
+
+    @JSInfo("""
+        a specialized version of {@link addRecipeCatalyst} to make the most frequent catalyst action easier""")
+    public void addItemCatalyst(ItemStackJS[] stacks, ResourceLocation... categoryIds) {
+        for (ItemStackJS stack : Objects.requireNonNull(stacks)) {
+            addRecipeCatalyst(stack.getItemStack(), categoryIds);
+        }
     }
 }
