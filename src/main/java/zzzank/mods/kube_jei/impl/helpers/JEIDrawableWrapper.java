@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.fluids.FluidStack;
 import zzzank.mods.kube_jei.events.JEIEventJS;
+import zzzank.mods.kube_jei.util.DualDrawable;
 
 /**
  * @author ZZZank
@@ -88,6 +89,13 @@ public final class JEIDrawableWrapper {
             ingredient = itemLike.asItem().getDefaultInstance();
         }
         return guiHelper().createDrawableIngredient(ingredient);
+    }
+
+    @JSInfo("""
+        Creates a 18x18 drawable that will draw two drawables together,
+        where the secondary drawable is at half the size and drawn at the bottom-right corner""")
+    public DualDrawable dualDrawable(IDrawable primary, IDrawable secondary) {
+        return new DualDrawable(primary, secondary);
     }
 
     @JSInfo("""
