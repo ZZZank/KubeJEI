@@ -1,4 +1,4 @@
-package zzzank.mods.kube_jei.events;
+package zzzank.mods.kube_jei.events.register;
 
 import dev.latvian.mods.rhino.annotations.typing.JSInfo;
 import mezz.jei.api.gui.handlers.*;
@@ -6,6 +6,7 @@ import mezz.jei.api.registration.IGuiHandlerRegistration;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.resources.ResourceLocation;
+import zzzank.mods.kube_jei.events.JEIEventJS;
 
 public class RegisterGUIHandlersEventJS extends JEIEventJS {
     public final IGuiHandlerRegistration data;

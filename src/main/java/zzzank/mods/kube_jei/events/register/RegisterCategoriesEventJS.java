@@ -1,9 +1,10 @@
-package zzzank.mods.kube_jei.events;
+package zzzank.mods.kube_jei.events.register;
 
 import lombok.val;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import net.minecraft.resources.ResourceLocation;
+import zzzank.mods.kube_jei.events.JEIEventJS;
 import zzzank.mods.kube_jei.impl.recipe_type.RecipeType;
 import zzzank.mods.kube_jei.impl.recipe_type.KubeJEIRecipeTypes;
 import zzzank.mods.kube_jei.impl.builder.RecipeCategoryBuilder;

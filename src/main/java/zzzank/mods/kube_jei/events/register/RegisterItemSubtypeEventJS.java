@@ -1,4 +1,4 @@
-package zzzank.mods.kube_jei.events;
+package zzzank.mods.kube_jei.events.register;
 
 import dev.latvian.mods.rhino.annotations.typing.JSInfo;
 import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
@@ -6,6 +6,7 @@ import mezz.jei.api.registration.ISubtypeRegistration;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import zzzank.mods.kube_jei.events.JEIEventJS;
 
 public class RegisterItemSubtypeEventJS extends JEIEventJS {
     public final ISubtypeRegistration registration;

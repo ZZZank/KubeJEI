@@ -1,9 +1,10 @@
-package zzzank.mods.kube_jei.events;
+package zzzank.mods.kube_jei.events.register;
 
 import dev.latvian.kubejs.item.ItemStackJS;
 import dev.latvian.mods.rhino.annotations.typing.JSInfo;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import net.minecraft.resources.ResourceLocation;
+import zzzank.mods.kube_jei.events.JEIEventJS;
 
 import java.util.Objects;
 

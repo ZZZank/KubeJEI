@@ -1,10 +1,11 @@
-package zzzank.mods.kube_jei.events;
+package zzzank.mods.kube_jei.events.register;
 
 import dev.latvian.mods.rhino.annotations.typing.JSInfo;
 import mezz.jei.api.recipe.category.extensions.IExtendableRecipeCategory;
 import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
 import net.minecraft.world.item.crafting.CraftingRecipe;
+import zzzank.mods.kube_jei.events.JEIEventJS;
 
 public class RegisterVanillaCategoryExtensionsEventJS extends JEIEventJS {
     public final IVanillaCategoryExtensionRegistration registration;

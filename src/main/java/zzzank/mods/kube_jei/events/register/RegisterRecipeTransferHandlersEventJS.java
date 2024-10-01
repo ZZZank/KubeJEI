@@ -1,4 +1,4 @@
-package zzzank.mods.kube_jei.events;
+package zzzank.mods.kube_jei.events.register;
 
 import dev.latvian.kubejs.event.EventJS;
 import dev.latvian.mods.rhino.annotations.typing.JSInfo;

@@ -17,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import zzzank.mods.kube_jei.KubeJEI;
 import zzzank.mods.kube_jei.events.*;
+import zzzank.mods.kube_jei.events.register.*;
 
 import static zzzank.mods.kube_jei.KubeJEIEvents.*;
 

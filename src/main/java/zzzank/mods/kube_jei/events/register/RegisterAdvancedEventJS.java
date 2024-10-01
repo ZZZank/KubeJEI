@@ -1,8 +1,9 @@
-package zzzank.mods.kube_jei.events;
+package zzzank.mods.kube_jei.events.register;
 
 import lombok.val;
 import mezz.jei.api.recipe.advanced.IRecipeManagerPlugin;
 import mezz.jei.api.registration.IAdvancedRegistration;
+import zzzank.mods.kube_jei.events.JEIEventJS;
 import zzzank.mods.kube_jei.impl.CustomRecipeManagerPlugin;
 import zzzank.mods.kube_jei.impl.builder.CustomRecipeManagerPluginBuilder;
 
