@@ -19,7 +19,7 @@ public class RegisterGUIHandlersEventJS extends JEIEventJS {
         Add a handler to give JEI extra information about how to layout the item list next to a specific type of {@link $AbstractContainerScreen}.
         Multiple handlers can be registered for one {@link $AbstractContainerScreen}.
         
-        @see #addGenericGuiContainerHandler(Class, IGuiContainerHandler) for handlers that use Java Generics""")
+        @see addGenericGuiContainerHandler for handlers that use Java Generics""")
     public <T extends AbstractContainerScreen<?>> void addGuiContainerHandler(
         Class<? extends T> guiClass,
         IGuiContainerHandler<T> guiHandler
@@ -28,7 +28,7 @@ public class RegisterGUIHandlersEventJS extends JEIEventJS {
     }
 
     @JSInfo("""
-        Same as {@link $#addGuiContainerHandler(Class, IGuiContainerHandler)} but for handlers that use Java Generics to
+        Same as {@link addGuiContainerHandler} but for handlers that use Java Generics to
         support multiple types of containers. This type of handler runs into type issues with the regular method.""")
     public <T extends AbstractContainerScreen<?>> void addGenericGuiContainerHandler(
         Class<? extends T> guiClass,

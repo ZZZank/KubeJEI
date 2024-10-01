@@ -60,7 +60,7 @@ public class WrappedIngredients implements IIngredients {
     @JSInfo("""
         Sets a single recipe input. For recipes with only one input slot.
         
-        @param ingredientType The type of ingredient: {@link $VanillaTypes#ITEM}, {@link $VanillaTypes#FLUID}, etc
+        @param ingredientType The type of ingredient: {@link itemIngredientType}, {@link fluidIngredientType}, etc
         @param input          The list of ingredients representing each input slot.""")
     @Override
     public <T> void setInput(@NotNull IIngredientType<T> ingredientType, @NotNull T input) {
@@ -70,7 +70,7 @@ public class WrappedIngredients implements IIngredients {
     @JSInfo("""
         Sets the recipe's inputs. Each list element represents one slot.
         
-        @param ingredientType The type of ingredient: `itemIngredientType()`, `fluidIngredientType()`, etc
+        @param ingredientType The type of ingredient: {@link itemIngredientType}, {@link fluidIngredientType}, etc
         @param input          The list of ingredients representing each input slot.""")
     @Override
     public <T> void setInputs(@NotNull IIngredientType<T> ingredientType, @NotNull List<T> input) {
@@ -81,7 +81,7 @@ public class WrappedIngredients implements IIngredients {
         Sets the recipe's inputs. Each input list represents one slot.
         Accepts multiple ingredients per slot.
         
-        @param ingredientType The type of ingredient: `itemIngredientType()`, `fluidIngredientType()`, etc
+        @param ingredientType The type of ingredient: {@link itemIngredientType}, {@link fluidIngredientType}, etc
         @param inputs         The outer list represents the slot, the inner list is a rotating list of ingredients in that slot.""")
     @Override
     public <T> void setInputLists(@NotNull IIngredientType<T> ingredientType, @NotNull List<List<T>> inputs) {
@@ -91,7 +91,7 @@ public class WrappedIngredients implements IIngredients {
     @JSInfo("""
         Sets a single recipe output.
         
-        @param ingredientType The type of ingredient: `itemIngredientType()`, `fluidIngredientType()`, etc
+        @param ingredientType The type of ingredient: {@link itemIngredientType}, {@link fluidIngredientType}, etc
         @param output         The single ingredient representing the recipe output.""")
     @Override
     public <T> void setOutput(@NotNull IIngredientType<T> ingredientType, @NotNull T output) {
