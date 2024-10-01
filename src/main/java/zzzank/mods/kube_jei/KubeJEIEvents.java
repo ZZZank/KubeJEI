@@ -16,4 +16,6 @@ public interface KubeJEIEvents {
     String REGISTER_RECIPES = _REGISTER_PREFIX + "recipes";
     String REGISTER_RECIPE_TRANSFER_HANDLERS = _REGISTER_PREFIX + "recipe_transfer_handlers";
     String REGISTER_VANILLA_CATEGORY_EXTENSIONS = _REGISTER_PREFIX + "vanilla_category_extensions";
+
+    String DENY_CATEGORIES = _PREFIX + "deny_categories";
 }
