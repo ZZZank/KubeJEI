@@ -1,5 +1,6 @@
 package zzzank.mods.kube_jei.mixins;
 
+import com.google.common.collect.ImmutableList;
 import dev.latvian.kubejs.script.ScriptType;
 import lombok.val;
 import mezz.jei.api.helpers.IJeiHelpers;
@@ -11,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import zzzank.mods.kube_jei.KubeJEI;
 import zzzank.mods.kube_jei.KubeJEIEvents;
 import zzzank.mods.kube_jei.events.DenyCategoryEventJS;
 
@@ -27,11 +29,16 @@ public abstract class MixinRecipeCategoryRegistration {
     @Unique
     private List<Predicate<IRecipeCategory<?>>> kJei$denyPredicates;
 
-    @Inject(method = "<init>", at = @At("RETURN"))
+    @Inject(method = "<init>", at = @At("TAIL"))
     public void kJei$init(IJeiHelpers jeiHelpers, CallbackInfo ci) {
         val denyCategoryEvent = new DenyCategoryEventJS();
         denyCategoryEvent.post(ScriptType.CLIENT, KubeJEIEvents.DENY_CATEGORIES);
-        kJei$denyPredicates = denyCategoryEvent.denys;
+        KubeJEI.LOGGER.info(
+            "KubeJEI collected {} directly denied categories, {} filters in total",
+            denyCategoryEvent.deniedIds.size(),
+            denyCategoryEvent.denyPredicates.size()
+        );
+        kJei$denyPredicates = ImmutableList.copyOf(denyCategoryEvent.denyPredicates);
     }
 
     @Unique
