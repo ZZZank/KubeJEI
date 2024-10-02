@@ -4,6 +4,7 @@ public interface KubeJEIEvents {
 
 	String _PREFIX = "kube_jei.";
 	String _REGISTER_PREFIX = _PREFIX + "register_";
+    String _DENY_PREFIX = _PREFIX + "deny.";
 
     String ON_RUNTIME_AVAILABLE = _PREFIX + "on_runtime_available";
     String REGISTER_ADVANCED = _REGISTER_PREFIX + "advanced";
@@ -17,5 +18,6 @@ public interface KubeJEIEvents {
     String REGISTER_RECIPE_TRANSFER_HANDLERS = _REGISTER_PREFIX + "recipe_transfer_handlers";
     String REGISTER_VANILLA_CATEGORY_EXTENSIONS = _REGISTER_PREFIX + "vanilla_category_extensions";
 
-    String DENY_CATEGORIES = _PREFIX + "deny_categories";
+    String DENY_CATEGORIES = _DENY_PREFIX + "categories";
+    String DENY_RECIPES = _DENY_PREFIX + "recipes";
 }
