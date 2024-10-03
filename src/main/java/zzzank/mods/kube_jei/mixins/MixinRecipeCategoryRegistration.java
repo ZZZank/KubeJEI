@@ -51,7 +51,16 @@ public abstract class MixinRecipeCategoryRegistration {
         return false;
     }
 
-    @ModifyVariable(method = "addRecipeCategories", at = @At("HEAD"), index = 1, argsOnly = true)
+    @ModifyVariable(
+        method = "addRecipeCategories",
+        at = @At(
+            value = "INVOKE",
+            target = "Lmezz/jei/util/ErrorUtil;checkNotEmpty([Ljava/lang/Object;Ljava/lang/String;)V",
+            shift = At.Shift.AFTER
+        ),
+        index = 1,
+        argsOnly = true
+    )
     public IRecipeCategory<?>[] kJei$denyCategories(IRecipeCategory<?>[] value) {
         val filtered = new ArrayList<IRecipeCategory<?>>();
         for (val category : value) {
