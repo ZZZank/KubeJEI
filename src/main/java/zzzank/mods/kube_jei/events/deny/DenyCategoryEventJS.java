@@ -12,9 +12,9 @@ import java.util.function.Predicate;
  * @author ZZZank
  */
 @JSInfo("""
-    a more thorough and complete version of 'jei.remove.categories'.
+    a more thorough and complete version of `jei.remove.categories` event from KubeJS.
     
-    Instead of removing categories after JEI runtime is initialized, banned categories will be denied at the earliest
+    Instead of removing categories after JEI runtime is initialized, categories will be denied at the earliest point possible
     registration, so no computation and redundant access for the category will happen.""")
 public class DenyCategoryEventJS extends EventJS {
     public final Set<ResourceLocation> deniedIds = new HashSet<>();
@@ -25,7 +25,7 @@ public class DenyCategoryEventJS extends EventJS {
     }
 
     @JSInfo("""
-        deny a category whose id is one of provided ids
+        deny a category by its id
         
         you can get a list of categories via `runtime.recipeManager.getRecipeCategories()`, where `runtime` is IJeiRuntime""")
     public void deny(ResourceLocation... ids) {

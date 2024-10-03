@@ -3,7 +3,7 @@
   "minVersion": "0.8",
   "package": "zzzank.mods.kube_jei.mixins",
   "compatibilityLevel": "JAVA_8",
-  "refmap": "expanded_interface.refmap.json",
+  "refmap": "kube_jei.refmap.json",
   "mixins": [
     "MixinRecipeCategoryRegistration",
     "MixinRecipeRegistration"

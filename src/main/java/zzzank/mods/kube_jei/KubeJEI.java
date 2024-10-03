@@ -5,12 +5,10 @@ import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static zzzank.mods.kube_jei.KubeJEI.MOD_ID;
-
 /**
  * @author ZZZank
  */
-@Mod(MOD_ID)
+@Mod(KubeJEI.MOD_ID)
 public class KubeJEI {
     public static final String MOD_ID = "kube_jei";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);

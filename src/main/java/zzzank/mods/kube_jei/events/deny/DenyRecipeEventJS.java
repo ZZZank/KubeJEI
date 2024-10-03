@@ -14,10 +14,9 @@ import java.util.Objects;
  * @author ZZZank
  */
 @JSInfo("""
-    Deny registration of recipes.
+    A more complete and thorough version of `jei.remove.recipes` event from KubeJS.
     
-    This event works differently from `jei.remove.recipes` event from KubeJS, who remove recipes by hiding.
-    By denying recipes at the earliest point possible, almost all related computation for denied recipes can be avoided""")
+    By denying recipes at the earliest point possible (, instead of simply hiding after initialized), almost all related computation for denied recipes can be avoided""")
 public class DenyRecipeEventJS extends EventJS {
 
     private final SetMultimap<ResourceLocation, ResourceLocation> deniedRecipeIds;
