@@ -57,6 +57,12 @@ public class DenyRecipeEventJS extends EventJS {
     }
 
     @JSInfo("""
+        deny all recipes in such category""")
+    public void denyAllInCategory(@NotNull ResourceLocation categoryId) {
+        denyCustom(Objects.requireNonNull(categoryId), SimpleRecipeDenyPredicate.ALWAYS_DENY);
+    }
+
+    @JSInfo("""
         deny recipes in a category with custom filter. The `recipe` passed to your filter will be an instance whose type
         is restricted by the recipe category, or more accurately, restricted to be an instance of: `IRecipeCategory#getRecipeClass()`""")
     public void denyCustom(ResourceLocation categoryId, SimpleRecipeDenyPredicate filter) {

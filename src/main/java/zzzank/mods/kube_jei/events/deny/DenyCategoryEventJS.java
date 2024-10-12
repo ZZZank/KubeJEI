@@ -3,6 +3,8 @@ package zzzank.mods.kube_jei.events.deny;
 import dev.latvian.kubejs.event.EventJS;
 import dev.latvian.mods.rhino.annotations.typing.JSInfo;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
+import zzzank.mods.kube_jei.KubeJEIEvents;
 
 import java.util.*;
 
@@ -26,9 +28,12 @@ public class DenyCategoryEventJS extends EventJS {
     @JSInfo("""
         deny category by its id
         
-        by default, all JEI recipe for this category will also be denied.
+        keep in mind that recipes for this category will still ba passed to JEI, you might need to deny these recipes as
+        well in `""" + KubeJEIEvents.DENY_RECIPES + """
+        ` event.
+
         you can get a list of categories via `runtime.recipeManager.getRecipeCategories()`, where `runtime` is IJeiRuntime""")
-    public void deny(ResourceLocation... ids) {
+    public void deny(@NotNull ResourceLocation... ids) {
         deniedIds.addAll(Arrays.asList(ids));
     }
 
