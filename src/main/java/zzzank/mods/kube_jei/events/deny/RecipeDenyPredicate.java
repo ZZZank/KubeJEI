@@ -7,6 +7,9 @@ import net.minecraft.resources.ResourceLocation;
  * @author ZZZank
  */
 public interface RecipeDenyPredicate {
+    RecipeDenyPredicate ALWAYS_DENY = (categoryId, recipe) -> true;
+    RecipeDenyPredicate ALWAYS_ALLOW = (categoryId, recipe) -> false;
+
     @JSInfo("""
         @param categoryId the id of recipe category that the recipe is targeting at
         @param recipe recipe instance. It's usually (but not guaranteed to be) an instance of {@link net.minecraft.world.item.crafting.Recipe}.

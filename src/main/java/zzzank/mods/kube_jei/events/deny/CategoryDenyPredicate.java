@@ -7,6 +7,8 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
  * @author ZZZank
  */
 public interface CategoryDenyPredicate {
+    CategoryDenyPredicate ALWAYS_DENY = (recipeCategory) -> true;
+    CategoryDenyPredicate ALWAYS_ALLOW = (recipeCategory) -> false;
 
     @JSInfo("""
         @param recipeCategory recipe category passed to JEI, invalid categories(null category or category with null id
