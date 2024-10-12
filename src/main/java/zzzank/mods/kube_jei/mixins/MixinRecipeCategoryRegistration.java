@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import zzzank.mods.kube_jei.KubeJEI;
 import zzzank.mods.kube_jei.KubeJEIEvents;
+import zzzank.mods.kube_jei.events.deny.CategoryDenyPredicate;
 import zzzank.mods.kube_jei.events.deny.DenyCategoryEventJS;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import java.util.function.Predicate;
 public abstract class MixinRecipeCategoryRegistration {
 
     @Unique
-    private List<Predicate<IRecipeCategory<?>>> kJei$denyPredicates;
+    private List<CategoryDenyPredicate> kJei$denyPredicates;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void kJei$init(IJeiHelpers jeiHelpers, CallbackInfo ci) {
@@ -44,7 +45,7 @@ public abstract class MixinRecipeCategoryRegistration {
     @Unique
     private boolean kJei$shouldDeny(IRecipeCategory<?> category) {
         for (val predicate : kJei$denyPredicates) {
-            if (predicate.test(category)) {
+            if (predicate.shouldDeny(category)) {
                 return true;
             }
         }
@@ -64,7 +65,8 @@ public abstract class MixinRecipeCategoryRegistration {
     public IRecipeCategory<?>[] kJei$denyCategories(IRecipeCategory<?>[] value) {
         val filtered = new ArrayList<IRecipeCategory<?>>();
         for (val category : value) {
-            if (!kJei$shouldDeny(category)) {
+            if (category.getUid() == null || category.getRecipeClass() == null //fall through to use error reporting from JEI itself
+                || !kJei$shouldDeny(category)) {
                 filtered.add(category);
             }
         }

@@ -7,7 +7,9 @@ import lombok.val;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -19,41 +21,52 @@ import java.util.Objects;
     By denying recipes at the earliest point possible (, instead of simply hiding after initialized), almost all related computation for denied recipes can be avoided""")
 public class DenyRecipeEventJS extends EventJS {
 
-    private final SetMultimap<ResourceLocation, ResourceLocation> deniedRecipeIds;
-    public final Multimap<ResourceLocation, DenyPredicate> denyPredicates;
+    private final SetMultimap<ResourceLocation, ResourceLocation> directDenied;
+    private final ListMultimap<ResourceLocation, SimpleRecipeDenyPredicate> categoryDenied;
+    public final List<RecipeDenyPredicate> denyPredicates;
 
     public DenyRecipeEventJS() {
-        this.deniedRecipeIds = HashMultimap.create();
-        this.denyPredicates = ArrayListMultimap.create();
+        this.directDenied = HashMultimap.create();
+        this.categoryDenied = ArrayListMultimap.create();
+        this.denyPredicates = new ArrayList<>();
+
+        //direct denied
+        denyPredicates.add((categoryId, jeiRecipe) -> {
+            val recipeIds = directDenied.get(categoryId);
+            return recipeIds != null && jeiRecipe instanceof Recipe<?> recipe && recipeIds.contains(recipe.getId());
+        });
+        //defined category denied
+        denyPredicates.add((categoryId, jeiRecipe) -> {
+            val predicates = categoryDenied.get(categoryId);
+            if (predicates == null) {
+                return false;
+            }
+            for (val predicate : predicates) {
+                if (predicate.shouldDeny(jeiRecipe)) {
+                    return true;
+                }
+            }
+            return false;
+        });
     }
 
     @JSInfo("""
         deny recipe by its recipe id and the category the recipe belongs to""")
     public void denyById(ResourceLocation categoryId, ResourceLocation... recipeIds) {
-        deniedRecipeIds.putAll(Objects.requireNonNull(categoryId), Arrays.asList(recipeIds));
+        directDenied.putAll(Objects.requireNonNull(categoryId), Arrays.asList(recipeIds));
     }
 
     @JSInfo("""
         deny recipes in a category with custom filter. The `recipe` passed to your filter will be an instance whose type
         is restricted by the recipe category, or more accurately, restricted to be an instance of: `IRecipeCategory#getRecipeClass()`""")
-    public void denyCustom(ResourceLocation categoryId, DenyPredicate filter) {
-        denyPredicates.put(Objects.requireNonNull(categoryId), Objects.requireNonNull(filter));
+    public void denyCustom(ResourceLocation categoryId, SimpleRecipeDenyPredicate filter) {
+        categoryDenied.put(Objects.requireNonNull(categoryId), Objects.requireNonNull(filter));
     }
 
-    public interface DenyPredicate {
-        @JSInfo("""
-            @param recipe recipe instance. It's usually (but not guaranteed to be) an instance of {@link net.minecraft.world.item.crafting.Recipe}.
-            It's actual type is restricted by its recipe category, or more accurately, restricted to be an instance of: `IRecipeCategory#getRecipeClass()`
-            @return true if you want to deny the `recipe`""")
-        boolean shouldDeny(Object recipe);
-    }
-
-    @Override
-    protected void afterPosted(boolean result) {
-        for (val entry : deniedRecipeIds.asMap().entrySet()) {
-            val categoryId = entry.getKey();
-            val ids = ImmutableSet.copyOf(entry.getValue());
-            denyPredicates.put(categoryId, (r) -> r instanceof Recipe<?> recipe && ids.contains(recipe.getId()));
-        }
+    @JSInfo("""
+        deny recipes with custom filter. The `recipe` passed to your filter will be an instance whose type
+        is restricted by the recipe category, or more accurately, restricted to be an instance of: `IRecipeCategory#getRecipeClass()`""")
+    public void denyCustom(RecipeDenyPredicate filter) {
+        denyPredicates.add(Objects.requireNonNull(filter));
     }
 }
