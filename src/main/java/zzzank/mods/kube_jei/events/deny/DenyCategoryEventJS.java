@@ -41,7 +41,7 @@ public class DenyCategoryEventJS extends EventJS {
         deny a category by your custom predicate.
 
         The predicate should return `true` if you want to deny such category""")
-    public void denyIf(CategoryDenyPredicate predicate) {
+    public void denyIf(@NotNull CategoryDenyPredicate predicate) {
         denyPredicates.add(Objects.requireNonNull(predicate));
     }
 }

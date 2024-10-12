@@ -13,6 +13,7 @@ public class Lazy<T> implements Supplier<T> {
     private final Supplier<T> supplier;
     private T cached = null;
     private boolean provided = false;
+
     private Lazy(Supplier<T> supplier) {
         this.supplier = supplier;
     }
@@ -23,24 +24,28 @@ public class Lazy<T> implements Supplier<T> {
 
     @Override
     public T get() {
-        return provided ? cached : forceRefresh();
+        return provided ? cached : refresh();
     }
 
     /**
      * @return newly created value
      */
-    public T forceRefresh() {
+    public T refresh() {
         provided = true;
         return cached = supplier.get();
+    }
+
+    public void forget() {
+        cached = null;
+        provided = false;
     }
 
     /**
      * @return last value
      */
-    public T forget() {
+    public T pop() {
         val old = cached;
-        cached = null;
-        provided = false;
+        forget();
         return old;
     }
 }

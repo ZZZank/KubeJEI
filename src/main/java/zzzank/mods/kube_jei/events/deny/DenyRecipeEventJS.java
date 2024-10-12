@@ -6,6 +6,7 @@ import dev.latvian.mods.rhino.annotations.typing.JSInfo;
 import lombok.val;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +53,7 @@ public class DenyRecipeEventJS extends EventJS {
 
     @JSInfo("""
         deny recipe by its recipe id and the category the recipe belongs to""")
-    public void denyById(ResourceLocation categoryId, ResourceLocation... recipeIds) {
+    public void denyById(@NotNull ResourceLocation categoryId, @NotNull ResourceLocation... recipeIds) {
         directDenied.putAll(Objects.requireNonNull(categoryId), Arrays.asList(recipeIds));
     }
 
@@ -65,14 +66,14 @@ public class DenyRecipeEventJS extends EventJS {
     @JSInfo("""
         deny recipes in a category with custom filter. The `recipe` passed to your filter will be an instance whose type
         is restricted by the recipe category, or more accurately, restricted to be an instance of: `IRecipeCategory#getRecipeClass()`""")
-    public void denyCustom(ResourceLocation categoryId, SimpleRecipeDenyPredicate filter) {
+    public void denyCustom(@NotNull ResourceLocation categoryId, @NotNull SimpleRecipeDenyPredicate filter) {
         categoryDenied.put(Objects.requireNonNull(categoryId), Objects.requireNonNull(filter));
     }
 
     @JSInfo("""
         deny recipes with custom filter. The `recipe` passed to your filter will be an instance whose type
         is restricted by the recipe category, or more accurately, restricted to be an instance of: `IRecipeCategory#getRecipeClass()`""")
-    public void denyCustom(RecipeDenyPredicate filter) {
+    public void denyCustom(@NotNull RecipeDenyPredicate filter) {
         denyPredicates.add(Objects.requireNonNull(filter));
     }
 }
