@@ -1,6 +1,8 @@
 package zzzank.mods.kube_jei.impl.helpers;
 
 import dev.latvian.kubejs.fluid.FluidStackJS;
+import dev.latvian.kubejs.item.ItemStackJS;
+import dev.latvian.kubejs.item.ingredient.IngredientJS;
 import dev.latvian.mods.rhino.annotations.typing.JSInfo;
 import lombok.AllArgsConstructor;
 import mezz.jei.api.constants.VanillaTypes;
@@ -10,8 +12,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
+import zzzank.mods.kube_jei.util.KJeiUtils;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author ZZZank
@@ -40,6 +45,43 @@ public class WrappedIngredients implements IIngredients {
         Use `fluidStackFromJS()` to wrap KJS one into Forge one""")
     public IIngredientType<FluidStack> fluidIngredientType() {
         return VanillaTypes.FLUID;
+    }
+
+    public void setItemInputs(IngredientJS... ingredients) {
+        setInputLists(
+            itemIngredientType(),
+            Arrays.stream(ingredients)
+                .map(IngredientJS::getStacks)
+                .map(s -> KJeiUtils.mapToList(s, ItemStackJS::getItemStack))
+                .collect(Collectors.toList())
+        );
+    }
+
+    public void setItemOutputs(IngredientJS... outputs) {
+        setOutputLists(itemIngredientType(),
+            KJeiUtils.mapToList(
+                outputs,
+                js -> KJeiUtils.mapToList(js.getStacks(), ItemStackJS::getItemStack)
+            )
+        );
+    }
+
+    public void setFluidInputs(FluidStackJS... fluids) {
+        setInputs(fluidIngredientType(), KJeiUtils.mapToList(fluids, this::fluidStackFromJS));
+    }
+
+    public void setFluidIngredientInputs(FluidStackJS[]... ingredients) {
+        setInputLists(
+            fluidIngredientType(),
+            KJeiUtils.mapToList(
+                ingredients,
+                arr -> KJeiUtils.mapToList(arr, this::fluidStackFromJS)
+            )
+        );
+    }
+
+    public void setFluidOutputs(FluidStackJS... outputs) {
+        setOutputs(fluidIngredientType(), KJeiUtils.mapToList(outputs, this::fluidStackFromJS));
     }
 
     @JSInfo("""
