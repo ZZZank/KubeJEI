@@ -1,3 +1,17 @@
+# KubeJS 1.4.1 -> 1.5.0
+
+category/recipe denying & dual drawable
+
+- early denying for recipes/categories
+    - you can now deny recipes/categories at the earliest point possible, even before they are accepted by JEI
+    - by denying early instead of hiding them after loaded(KubeJS approach), almost all related computation for it can
+be skipped, so it can actually improve JEI loading performance
+    - use `kube_jei.deny.xxxxx` to listen to denying related events, use ProbeJS Legacy for more info
+- dual drawables
+    - Create style, please try it yourself
+- some more shortcut for `RegisterRecipeCatalystsEvent` and `WrappedIngredients`
+
+---
 
 # KubeJS 1.4.0 -> 1.4.1
 
