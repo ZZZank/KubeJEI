@@ -8,19 +8,18 @@ import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
 import mezz.jei.api.runtime.IIngredientManager;
-import mezz.jei.collect.ListMultiMap;
 import mezz.jei.load.registration.RecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import zzzank.mods.kube_jei.KubeJEIEvents;
 import zzzank.mods.kube_jei.events.deny.DenyRecipeEventJS;
 import zzzank.mods.kube_jei.events.deny.RecipeDenyPredicate;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -46,25 +45,39 @@ public abstract class MixinRecipeRegistration {
     }
 
     /**
-     * @param instance original map
-     * @param key category id
-     * @param value recipe
-     * @return true if this collection changed as a result of the call
+     * make recipes always a mutable list, so that our modification can be easier
      */
-    @Redirect(
+    @ModifyVariable(method = "addRecipes", at = @At("HEAD"), argsOnly = true, ordinal = 0)
+    public Collection<?> kJei$preSetType(Collection<?> recipes) {
+        return recipes == null ? null : new ArrayList<>(recipes);
+    }
+
+    @Inject(
         method = "addRecipes",
         at = @At(
-            value = "INVOKE",
-            target = "Lmezz/jei/collect/ListMultiMap;put(Ljava/lang/Object;Ljava/lang/Object;)Z"
+            value = "INVOKE_ASSIGN",
+            target = "Lcom/google/common/collect/ImmutableMap;get(Ljava/lang/Object;)Ljava/lang/Object;",
+            ordinal = 0
         )
     )
-    public boolean kJei$filterRecipes(ListMultiMap<ResourceLocation, Object> instance, Object key, Object value) {
-        val categoryId = (ResourceLocation) key;
+    public void kJei$filterRecipes(Collection<Object> recipes, ResourceLocation recipeCategoryUid, CallbackInfo ci) {
+        val filtered = new ArrayList<>();
+        for (val recipe : recipes) {
+            if (!kJei$shouldDeny(recipe, recipeCategoryUid)) {
+                filtered.add(recipe);
+            }
+        }
+        recipes.clear();
+        recipes.addAll(filtered);
+    }
+
+    @Unique
+    private boolean kJei$shouldDeny(Object recipe, ResourceLocation categoryId) {
         for (val denyPredicate : kJei$denyPredicates) {
-            if (denyPredicate.shouldDeny(categoryId, value)) {
+            if (denyPredicate.shouldDeny(categoryId, recipe)) {
                 return false;
             }
         }
-        return instance.put(categoryId, value);
+        return true;
     }
 }
