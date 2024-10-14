@@ -58,7 +58,8 @@ public abstract class MixinRecipeRegistration {
             value = "INVOKE_ASSIGN",
             target = "Lcom/google/common/collect/ImmutableMap;get(Ljava/lang/Object;)Ljava/lang/Object;",
             ordinal = 0
-        )
+        ),
+        cancellable = true
     )
     public void kJei$filterRecipes(Collection<Object> recipes, ResourceLocation recipeCategoryUid, CallbackInfo ci) {
         val filtered = new ArrayList<>();
@@ -66,6 +67,9 @@ public abstract class MixinRecipeRegistration {
             if (!kJei$shouldDeny(recipe, recipeCategoryUid)) {
                 filtered.add(recipe);
             }
+        }
+        if (recipes.isEmpty() || filtered.isEmpty()) {
+            ci.cancel();
         }
         recipes.clear();
         recipes.addAll(filtered);
