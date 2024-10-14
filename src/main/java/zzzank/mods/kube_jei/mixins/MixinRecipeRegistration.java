@@ -55,7 +55,7 @@ public abstract class MixinRecipeRegistration {
     @Inject(
         method = "addRecipes",
         at = @At(
-            value = "INVOKE_ASSIGN",
+            value = "INVOKE",
             target = "Lcom/google/common/collect/ImmutableMap;get(Ljava/lang/Object;)Ljava/lang/Object;",
             ordinal = 0
         ),
@@ -64,7 +64,7 @@ public abstract class MixinRecipeRegistration {
     public void kJei$filterRecipes(Collection<Object> recipes, ResourceLocation recipeCategoryUid, CallbackInfo ci) {
         val filtered = new ArrayList<>();
         for (val recipe : recipes) {
-            if (!kJei$shouldDeny(recipe, recipeCategoryUid)) {
+            if (kJei$filterRecipe(recipe, recipeCategoryUid)) {
                 filtered.add(recipe);
             }
         }
@@ -76,7 +76,7 @@ public abstract class MixinRecipeRegistration {
     }
 
     @Unique
-    private boolean kJei$shouldDeny(Object recipe, ResourceLocation categoryId) {
+    private boolean kJei$filterRecipe(Object recipe, ResourceLocation categoryId) {
         for (val denyPredicate : kJei$denyPredicates) {
             if (denyPredicate.shouldDeny(categoryId, recipe)) {
                 return false;
