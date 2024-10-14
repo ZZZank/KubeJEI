@@ -7,6 +7,7 @@ import net.minecraftforge.fml.ModList;
  */
 public interface ModState {
 
+    boolean JEI = loaded("jei");
     boolean PROBE_JS = loaded("probejs");
 
     static boolean loaded(String modid) {

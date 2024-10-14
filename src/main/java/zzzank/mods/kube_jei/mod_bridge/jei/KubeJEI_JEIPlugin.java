@@ -81,11 +81,7 @@ public class KubeJEI_JEIPlugin implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         JEIEventJS.JEI_HELPERS = registration.getJeiHelpers();
-        RegisterRecipesEventJS event = new RegisterRecipesEventJS(registration);
-		event.post(ScriptType.CLIENT, REGISTER_RECIPES);
-        for (var builder : event.customRecipeListBuilders) {
-            registration.addRecipes(builder.recipes, builder.type.uid());
-        }
+        new RegisterRecipesEventJS(registration).post(ScriptType.CLIENT, REGISTER_RECIPES);
     }
 
     /**

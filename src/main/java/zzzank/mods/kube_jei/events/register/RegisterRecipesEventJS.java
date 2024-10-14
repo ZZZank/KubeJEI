@@ -30,4 +30,11 @@ public class RegisterRecipesEventJS extends JEIEventJS {
         customRecipeListBuilders.add(recipeListBuilder);
         return recipeListBuilder;
     }
+
+    @Override
+    protected void afterPosted(boolean result) {
+        for (var builder : this.customRecipeListBuilders) {
+            data.addRecipes(builder.recipes, builder.type.uid());
+        }
+    }
 }
