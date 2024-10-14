@@ -5,6 +5,7 @@ import dev.latvian.mods.rhino.annotations.typing.JSInfo;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import zzzank.mods.kube_jei.KubeJEIEvents;
+import zzzank.mods.kube_jei.impl.CustomRecipeCategory;
 
 import java.util.*;
 
@@ -19,10 +20,14 @@ import java.util.*;
 public class DenyCategoryEventJS extends EventJS {
 
     public final Set<ResourceLocation> deniedIds = new HashSet<>();
+    public final Set<ResourceLocation> deniedNonCustom = new HashSet<>();
     public final List<CategoryDenyPredicate> denyPredicates = new ArrayList<>();
 
     public DenyCategoryEventJS() {
         denyPredicates.add(category -> deniedIds.contains(category.getUid()));
+        denyPredicates.add(category ->
+            !(category instanceof CustomRecipeCategory<?>) && deniedNonCustom.contains(category.getUid())
+        );
     }
 
     @JSInfo("""
@@ -43,5 +48,13 @@ public class DenyCategoryEventJS extends EventJS {
         The predicate should return `true` if you want to deny such category""")
     public void denyIf(@NotNull CategoryDenyPredicate predicate) {
         denyPredicates.add(Objects.requireNonNull(predicate));
+    }
+
+    @JSInfo("""
+        deny a category with such id, BUT allowing custom recipe category with such id to register itself
+        
+        usually useful for replacing recipe category with custom implementation""")
+    public void denyNonCustom(@NotNull ResourceLocation id) {
+        deniedNonCustom.add(Objects.requireNonNull(id));
     }
 }
