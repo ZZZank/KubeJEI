@@ -1,3 +1,16 @@
+# KubeJS 1.5.0 -> 1.5.1
+
+better recipe denying & non-custom category denying
+
+- make recipe filtering happens before some JEI filters to prevent JEI throwing exceptions even when this recipe
+can be filter out by our filters
+- add `DenyCategoryEventJS#denyNonCustom()`, allowing you to deny category while still allowing custom category with same
+id to register itself, with this, you can replace recipe category with your own implementation easier
+- remove ProbeJS Legacy version requirement, we don't need 4.0+ specific features yet
+- (feature from 1.4.0) better code doc
+
+---
+
 # KubeJS 1.4.1 -> 1.5.0
 
 category/recipe denying & dual drawable

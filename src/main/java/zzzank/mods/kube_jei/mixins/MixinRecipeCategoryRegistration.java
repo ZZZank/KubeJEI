@@ -19,7 +19,6 @@ import zzzank.mods.kube_jei.events.deny.DenyCategoryEventJS;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * @author ZZZank
