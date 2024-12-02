@@ -10,11 +10,14 @@ import mezz.jei.api.gui.drawable.IDrawableBuilder;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.config.Constants;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.fluids.FluidStack;
 import zzzank.mods.kube_jei.events.JEIEventJS;
 import zzzank.mods.kube_jei.util.DualDrawable;
+
+import java.util.function.IntSupplier;
 
 /**
  * @author ZZZank
@@ -113,5 +116,28 @@ public final class JEIDrawableWrapper {
         @param countDown     if true, the tick timer will count backwards from maxValue""")
     public ITickTimer tickTimer(int ticksPerCycle, int maxValue, boolean countDown) {
         return guiHelper().createTickTimer(ticksPerCycle, maxValue, countDown);
+    }
+
+    @JSInfo("""
+        Create a timer to help with rendering things that normally depend on ticks.
+        
+        @param currentTick an integer supplier that return the "current" tick value
+        @param maxTick     the number to count up to before starting over at 0""")
+    public ITickTimer tickTimer(IntSupplier currentTick, int maxTick) {
+        return new CustomTickTimer(currentTick, maxTick);
+    }
+
+    @JSInfo("""
+        creates a drawable builder that, when built, can be used for rendering a vanilla style arrow.
+        
+        the size of such drawable is: width=24, height=17""")
+    public IDrawableBuilder arrowBuilder() {
+        return guiHelper().drawableBuilder(Constants.RECIPE_GUI_VANILLA, 82, 128, 24, 17);
+    }
+
+    @JSInfo("""
+        create a drawable that renders a static, vanilla style arrow""")
+    public IDrawableStatic arrow() {
+        return arrowBuilder().build();
     }
 }
