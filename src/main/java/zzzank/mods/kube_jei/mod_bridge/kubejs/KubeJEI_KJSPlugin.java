@@ -10,6 +10,15 @@ import zzzank.mods.kube_jei.mod_bridge.ModState;
 
 public class KubeJEI_KJSPlugin extends KubeJSPlugin {
 
+	public static IIngredientType<?> ingredientTypeOf(Object o) {
+        if (o instanceof IIngredientType<?> ingredientType) {
+            return ingredientType;
+        } else if (o instanceof Class<?> c) {
+            return () -> c;
+        }
+        return null;
+    }
+
 	@Override
 	public void addBindings(BindingsEvent event) {
 		if (!shouldEnable(event.type)) {
@@ -30,9 +39,7 @@ public class KubeJEI_KJSPlugin extends KubeJSPlugin {
 		typeWrappers.register(
 			IIngredientType.class,
 			o -> o instanceof IIngredientType<?> || o instanceof Class<?>,
-			o -> o instanceof IIngredientType<?> ingredientType ? ingredientType
-				: o instanceof Class<?> c ? () -> c
-					: null
+			KubeJEI_KJSPlugin::ingredientTypeOf
 		);
 	}
 }
