@@ -3,6 +3,7 @@ package zzzank.mods.kube_jei.impl.helpers;
 import dev.latvian.kubejs.fluid.FluidStackJS;
 import dev.latvian.kubejs.item.ItemStackJS;
 import dev.latvian.mods.rhino.annotations.typing.JSInfo;
+import lombok.val;
 import mezz.jei.api.gui.ITickTimer;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
@@ -17,6 +18,7 @@ import net.minecraftforge.fluids.FluidStack;
 import zzzank.mods.kube_jei.events.JEIEventJS;
 import zzzank.mods.kube_jei.util.DualDrawable;
 
+import java.util.function.IntFunction;
 import java.util.function.IntSupplier;
 
 /**
@@ -140,12 +142,28 @@ public final class JEIDrawableWrapper {
         
         the size of such drawable is: width=24, height=17""")
     public IDrawableBuilder arrowBuilder() {
-        return guiHelper().drawableBuilder(Constants.RECIPE_GUI_VANILLA, 82, 128, 24, 17);
+        return builder(Constants.RECIPE_GUI_VANILLA, 82, 128, 24, 17);
     }
 
     @JSInfo("""
         create a drawable that renders a static, vanilla style arrow""")
     public IDrawableStatic arrow() {
         return arrowBuilder().build();
+    }
+
+    public IntFunction<IDrawableAnimated> cacheAnimated(
+        IDrawableBuilder builder,
+        int maxTick,
+        IDrawableAnimated.StartDirection startDirection,
+        boolean inverted
+    ) {
+        val cache = new IDrawableAnimated[maxTick];
+        return tick -> {
+            if (tick < 0 || tick >= maxTick) {
+                throw new IllegalArgumentException(String.format("tick %s out of range [0, %s)", tick, maxTick));
+            }
+            val cached = cache[tick];
+            return cached != null ? cached : (cache[tick] = builder.buildAnimated(tick, startDirection, inverted));
+        };
     }
 }
