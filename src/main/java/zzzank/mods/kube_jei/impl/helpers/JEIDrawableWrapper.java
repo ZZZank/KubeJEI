@@ -81,6 +81,14 @@ public final class JEIDrawableWrapper {
         return guiHelper().createBlankDrawable(width, height);
     }
 
+    public IDrawable ingredientItem(ItemStackJS item) {
+        return guiHelper().createDrawableIngredient(item.getItemStack());
+    }
+
+    public IDrawable ingredientFluid(FluidStackJS fluid) {
+        return guiHelper().createDrawableIngredient(new FluidStack(fluid.getFluid(), fluid.getAmount(), fluid.getNbt()));
+    }
+
     @JSInfo("""
         Returns a 16x16 drawable for the given ingredient, matching the one JEI draws in the ingredient list.""")
     public IDrawable ingredient(Object ingredient) {
