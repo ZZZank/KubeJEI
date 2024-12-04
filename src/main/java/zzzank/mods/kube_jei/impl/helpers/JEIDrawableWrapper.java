@@ -159,9 +159,6 @@ public final class JEIDrawableWrapper {
     ) {
         val cache = new IDrawableAnimated[maxTick];
         return tick -> {
-            if (tick < 0 || tick >= maxTick) {
-                throw new IllegalArgumentException(String.format("tick %s out of range [0, %s)", tick, maxTick));
-            }
             val cached = cache[tick];
             return cached != null ? cached : (cache[tick] = builder.buildAnimated(tick, startDirection, inverted));
         };
