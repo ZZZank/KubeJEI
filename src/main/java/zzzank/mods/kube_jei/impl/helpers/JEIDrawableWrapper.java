@@ -92,7 +92,11 @@ public final class JEIDrawableWrapper {
     }
 
     @JSInfo("""
-        Returns a 16x16 drawable for the given ingredient, matching the one JEI draws in the ingredient list.""")
+        Returns a 16x16 drawable for the given ingredient, matching the one JEI draws in the ingredient list.
+        
+        if you're creating item ingredient drawables, use {@link ingredientItem} for better experience
+        
+        if you're creating fluid ingredient drawables, use {@link ingredientFluid} for better experience""")
     public IDrawable ingredient(Object ingredient) {
         if (ingredient instanceof ItemStackJS itemStackJS) {
             ingredient = itemStackJS.getItemStack();
@@ -146,7 +150,9 @@ public final class JEIDrawableWrapper {
     }
 
     @JSInfo("""
-        create a drawable that renders a static, vanilla style arrow""")
+        create a drawable that renders a static, vanilla style arrow
+        
+        the size of such drawable is: width=24, height=17""")
     public IDrawableStatic arrow() {
         return arrowBuilder().build();
     }
