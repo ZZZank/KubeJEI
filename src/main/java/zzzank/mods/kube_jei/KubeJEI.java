@@ -25,4 +25,9 @@ public class KubeJEI {
     public static ResourceLocation rl(String path) {
         return new ResourceLocation(MOD_ID, path);
     }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T duck(Object o) {
+        return (T) o;
+    }
 }

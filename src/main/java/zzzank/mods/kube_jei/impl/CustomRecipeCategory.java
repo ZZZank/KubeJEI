@@ -2,9 +2,9 @@ package zzzank.mods.kube_jei.impl;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.latvian.kubejs.util.ConsoleJS;
+import lombok.val;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import zzzank.mods.kube_jei.impl.builder.RecipeCategoryBuilder;
 import zzzank.mods.kube_jei.impl.helpers.WrappedIngredients;
+import zzzank.mods.kube_jei.impl.helpers.layout.WrappedLayout;
 
 import java.util.List;
 
@@ -71,7 +72,9 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
             return;
         }
         try {
-            this.builder.recipeSetHandler.setRecipe(layout, recipe, new WrappedIngredients(ingredients));
+            val wrappedLayout = new WrappedLayout(layout);
+            this.builder.recipeSetHandler.setRecipe(wrappedLayout, recipe, new WrappedIngredients(ingredients));
+            wrappedLayout.post();
         } catch (Throwable e) {
             ConsoleJS.CLIENT.error("Error setting recipe for recipe category: " + this.getUid(), e);
         }

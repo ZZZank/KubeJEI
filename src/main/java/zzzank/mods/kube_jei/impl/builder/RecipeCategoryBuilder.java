@@ -14,6 +14,7 @@ import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import zzzank.mods.kube_jei.impl.CustomRecipeCategory;
 import zzzank.mods.kube_jei.impl.helpers.WrappedIngredients;
+import zzzank.mods.kube_jei.impl.helpers.layout.WrappedLayout;
 import zzzank.mods.kube_jei.impl.recipe_type.RecipeType;
 
 import java.util.List;
@@ -81,7 +82,7 @@ public class RecipeCategoryBuilder<T> {
             @param layout      the layout that needs its properties set.
             @param recipe      the recipe, for extra information.
             @param ingredients the ingredients, already set earlier by {@link $IRecipeCategory#setIngredients}""")
-        void setRecipe(IRecipeLayout layout, T recipe, WrappedIngredients ingredients);
+        void setRecipe(WrappedLayout layout, T recipe, WrappedIngredients ingredients);
     }
 
     @FunctionalInterface

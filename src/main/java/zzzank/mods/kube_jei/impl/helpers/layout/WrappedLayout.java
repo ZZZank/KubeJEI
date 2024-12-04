@@ -1,6 +1,8 @@
-package zzzank.mods.kube_jei.impl.helpers;
+package zzzank.mods.kube_jei.impl.helpers.layout;
 
+import dev.latvian.mods.rhino.util.HideFromJS;
 import lombok.AllArgsConstructor;
+import lombok.val;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.ingredient.IGuiFluidStackGroup;
 import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
@@ -9,8 +11,12 @@ import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.recipe.IFocus;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.IdentityHashMap;
+import java.util.Map;
 
 /**
  * @author ZZZank
@@ -18,12 +24,18 @@ import org.jetbrains.annotations.Nullable;
 @AllArgsConstructor
 public class WrappedLayout implements IRecipeLayout {
     public final IRecipeLayout raw;
-    private int itemIndex = 0;
+    private final Map<IGuiIngredientGroup, GroupBuilder> groups = new IdentityHashMap<>();
 
-    public void addItem(ItemStack stack, boolean isInput, int xPosition, int yPosition) {
-        getItemStacks().init(itemIndex, isInput, xPosition, yPosition);
-        getItemStacks().set(itemIndex, stack);
-        itemIndex++;
+    public <T> GroupBuilder<T, IGuiIngredientGroup<T>> getGroupBuilder(@NotNull IIngredientType<T> ingredientType) {
+        return groups.computeIfAbsent(getIngredientsGroup(ingredientType), GroupBuilder::new);
+    }
+
+    public GroupBuilder<ItemStack, IGuiItemStackGroup> getItemGroupBuilder() {
+        return groups.computeIfAbsent(getItemStacks(), GroupBuilder::new);
+    }
+
+    public GroupBuilder<FluidStack, IGuiFluidStackGroup> getFluidGroupBuilder() {
+        return groups.computeIfAbsent(getFluidStacks(), GroupBuilder::new);
     }
 
     @Override
@@ -68,5 +80,12 @@ public class WrappedLayout implements IRecipeLayout {
     @Override
     public void setShapeless() {
         raw.setShapeless();
+    }
+
+    @HideFromJS
+    public void post() {
+        for (val builder : this.groups.values()) {
+            builder.post();
+        }
     }
 }
