@@ -25,7 +25,6 @@ public class RecipeCategoryWrapperBuilder<T> extends RecipeCategoryBuilder<T> {
         setTitle(Text.of(existingCategory.getTitleAsTextComponent()));
         setBackground(existingCategory.getBackground());
         setIcon(existingCategory.getIcon());
-        handleLookup(existingCategory::setRecipe);
         fillIngredients(existingCategory::setIngredients);
     }
 }

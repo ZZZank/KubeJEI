@@ -2,7 +2,6 @@ package zzzank.mods.kube_jei.impl.helpers.layout;
 
 import dev.latvian.mods.rhino.annotations.typing.JSInfo;
 import dev.latvian.mods.rhino.util.HideFromJS;
-import lombok.RequiredArgsConstructor;
 import lombok.val;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
@@ -18,12 +17,17 @@ import java.util.List;
 /**
  * @author ZZZank
  */
-@RequiredArgsConstructor
 public class GroupBuilder<T, G extends IGuiIngredientGroup<T>> {
 
     private final G group;
-    final AccessGuiIngredientGroup<T> access = KubeJEI.duck(group);
-    private final List<SlotBuilder<T>> slots = new ArrayList<>();
+    final AccessGuiIngredientGroup<T> access;
+    private final List<SlotBuilder<T>> slots;
+
+    public GroupBuilder(G group) {
+        this.group = group;
+        access = KubeJEI.duck(this.group);
+        slots = new ArrayList<>();
+    }
 
     public SlotBuilder<T> addSlot(int x, int y) {
         val builder = new SlotBuilder<>(this, slots.size(), x, y);
