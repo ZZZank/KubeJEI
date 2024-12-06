@@ -5,7 +5,6 @@ import dev.latvian.kubejs.text.Text;
 import dev.latvian.mods.rhino.annotations.typing.JSInfo;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IJeiHelpers;
 import net.minecraft.network.chat.Component;
@@ -32,26 +31,49 @@ public class RecipeCategoryBuilder<T> {
     @NotNull
     public final RecipeType<T> type;
     @NotNull
-    public final IJeiHelpers jeiHelpers;
-    @NotNull
     public Text title;
     @NotNull
     public IDrawable background;
     @NotNull
     public IDrawable icon;
+    @JSInfo("""
+        Set the {@link $IRecipeLayout} properties from the recipe.
+        
+        see its class declaration for parameter document""")
     public RecipeSetHandler<T> recipeSetHandler;
+    @JSInfo("""
+        Draw extras or additional info about the recipe.
+        Use the mouse position for things like button highlights.
+        Tooltips are handled by {@link $IRecipeCategory#getTooltipStrings(Object, double, double)}
+        
+        see its class declaration for parameter document""")
     public DrawHandler<T> drawHandler;
+    @JSInfo("""
+        Get the tooltip for whatever under the mouse.
+        Ingredient tooltips are already handled by JEI, this is for anything else.
+    
+        To add to ingredient tooltips, see {@link $IGuiIngredientGroup#addTooltipCallback(ITooltipCallback)}
+        
+        see its class declaration for parameter document""")
     public TooltipHandler<T> tooltipHandler;
+    @JSInfo("""
+        Called when a player clicks the recipe.
+        Useful for implementing buttons, hyperlinks, and other interactions to your recipe.
+        
+        see its class declaration for parameter document""")
     public InputHandler<T> inputHandler;
+    @JSInfo("return true if the given recipe can be handled by this category.")
     public IsRecipeHandledByCategory<T> recipeHandlePredicate;
+    @JSInfo("""
+        Sets all the recipe's ingredients by filling out an instance of {@link $IIngredients}.
+        This is used by JEI for lookups, to figure out what ingredients are inputs and outputs for a recipe.""")
     public FillIngredientsHandler<T> fillIngredientsHandler;
 
     public RecipeCategoryBuilder(@NotNull RecipeType<T> recipeType, @NotNull IJeiHelpers jeiHelpers) {
         this.type = recipeType;
-        this.jeiHelpers = jeiHelpers;
         this.title = Text.of("KubeJEI Custom Category");
-        this.background = this.jeiHelpers.getGuiHelper().createDrawableIngredient(new ItemStack(Items.CREEPER_HEAD));
-        this.icon = this.jeiHelpers.getGuiHelper().createDrawableIngredient(new ItemStack(Items.TNT));
+        this.background = jeiHelpers.getGuiHelper().createDrawableIngredient(new ItemStack(Items.CREEPER_HEAD));
+        this.icon = jeiHelpers.getGuiHelper().createDrawableIngredient(new ItemStack(Items.TNT));
     }
 
     public RecipeCategoryBuilder<T> isRecipeHandled(IsRecipeHandledByCategory<T> isRecipeHandledByCategory) {
@@ -77,8 +99,6 @@ public class RecipeCategoryBuilder<T> {
     @FunctionalInterface
     public interface RecipeSetHandler<T> {
         @JSInfo("""
-            Set the {@link $IRecipeLayout} properties from the recipe.
-            
             @param layout      the layout that needs its properties set.
             @param recipe      the recipe, for extra information.
             @param ingredients the ingredients, already set earlier by {@link $IRecipeCategory#setIngredients}""")
@@ -88,10 +108,6 @@ public class RecipeCategoryBuilder<T> {
     @FunctionalInterface
     public interface DrawHandler<T> {
         @JSInfo("""
-            Draw extras or additional info about the recipe.
-            Use the mouse position for things like button highlights.
-            Tooltips are handled by {@link $IRecipeCategory#getTooltipStrings(Object, double, double)}
-            
             @param mouseX the X position of the mouse, relative to the recipe.
             @param mouseY the Y position of the mouse, relative to the recipe.
             @see event.drawables for a simple class for drawing things.
@@ -102,11 +118,6 @@ public class RecipeCategoryBuilder<T> {
     @FunctionalInterface
     public interface TooltipHandler<T> {
         @JSInfo("""
-            Get the tooltip for whatever under the mouse.
-            Ingredient tooltips are already handled by JEI, this is for anything else.
-            
-            To add to ingredient tooltips, see {@link $IGuiIngredientGroup#addTooltipCallback(ITooltipCallback)}
-            
             @param mouseX the X position of the mouse, relative to the recipe.
             @param mouseY the Y position of the mouse, relative to the recipe.
             @return tooltip strings. If there is no tooltip at this position, return an empty list.""")
@@ -117,9 +128,6 @@ public class RecipeCategoryBuilder<T> {
     @FunctionalInterface
     public interface InputHandler<T> {
         @JSInfo("""
-            Called when a player clicks the recipe.
-            Useful for implementing buttons, hyperlinks, and other interactions to your recipe.
-            
             @param recipe the currently hovered recipe
             @param mouseX the X position of the mouse, relative to the recipe.
             @param mouseY the Y position of the mouse, relative to the recipe.
@@ -130,15 +138,10 @@ public class RecipeCategoryBuilder<T> {
 
     @FunctionalInterface
     public interface IsRecipeHandledByCategory<T> {
-        @JSInfo("""
-            @return true if the given recipe can be handled by this category.""")
         boolean isHandled(T recipe);
     }
 
     public interface FillIngredientsHandler<T> {
-        @JSInfo("""
-            Sets all the recipe's ingredients by filling out an instance of {@link $IIngredients}.
-            This is used by JEI for lookups, to figure out what ingredients are inputs and outputs for a recipe.""")
         void setIngredients(T recipe, WrappedIngredients ingredients);
     }
 }

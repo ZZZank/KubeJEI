@@ -29,7 +29,14 @@ public class RegisterRecipeTransferHandlersEventJS extends EventJS {
         @param recipeSlotCount    the number of slots for recipe inputs
         @param inventorySlotStart the first slot of the available inventory (usually player inventory)
         @param inventorySlotCount the number of slots of the available inventory""")
-    public <C extends AbstractContainerMenu> void addRecipeTransferHandler(Class<C> containerClass, ResourceLocation recipeCategoryUid, int recipeSlotStart, int recipeSlotCount, int inventorySlotStart, int inventorySlotCount) {
+    public <C extends AbstractContainerMenu> void addRecipeTransferHandler(
+        Class<C> containerClass,
+        ResourceLocation recipeCategoryUid,
+        int recipeSlotStart,
+        int recipeSlotCount,
+        int inventorySlotStart,
+        int inventorySlotCount
+    ) {
         registration.addRecipeTransferHandler(containerClass, recipeCategoryUid, recipeSlotStart,recipeSlotCount,inventorySlotStart,inventorySlotCount);
     }
 
@@ -44,7 +51,10 @@ public class RegisterRecipeTransferHandlersEventJS extends EventJS {
     @JSInfo("""
         Complete control over recipe transfer.
         Use this when the container has a non-standard inventory or crafting area.""")
-    public void addRecipeTransferHandler(IRecipeTransferHandler<?> recipeTransferHandler, ResourceLocation recipeCategoryUid) {
+    public void addRecipeTransferHandler(
+        IRecipeTransferHandler<?> recipeTransferHandler,
+        ResourceLocation recipeCategoryUid
+    ) {
         registration.addRecipeTransferHandler(recipeTransferHandler, recipeCategoryUid);
     }
 
