@@ -4,15 +4,21 @@ import dev.latvian.mods.rhino.annotations.typing.JSInfo;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import lombok.val;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.IGuiFluidStackGroup;
 import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
+import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.gui.ingredient.ITooltipCallback;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IFocus;
+import mezz.jei.plugins.vanilla.ingredients.fluid.FluidStackRenderer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import zzzank.mods.kube_jei.KubeJEI;
 import zzzank.mods.kube_jei.mixins.AccessGuiIngredientGroup;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,14 +26,18 @@ import java.util.List;
  */
 public class GroupBuilder<T, G extends IGuiIngredientGroup<T>> {
 
-    private final G group;
+    final G group;
     final AccessGuiIngredientGroup<T> access;
-    private final List<SlotBuilder<T>> slots;
+    final List<SlotBuilder<T>> slots;
 
     public GroupBuilder(G group) {
         this.group = group;
         access = KubeJEI.duck(this.group);
         slots = new ArrayList<>();
+    }
+
+    public List<SlotBuilder<T>> getSlots() {
+        return Collections.unmodifiableList(slots);
     }
 
     public SlotBuilder<T> addSlot(int x, int y) {
@@ -102,10 +112,71 @@ public class GroupBuilder<T, G extends IGuiIngredientGroup<T>> {
     @HideFromJS
     public void post() {
         for (val slot : this.slots) {
+            postSingle(slot);
+        }
+    }
+
+    protected void postSingle(SlotBuilder<T> slot) {
+        this.group.init(
+            slot.index,
+            slot.isInput,
+            slot.ingredientRenderer,
+            slot.x,
+            slot.y,
+            slot.width,
+            slot.height,
+            slot.xPadding,
+            slot.yPadding
+        );
+        if (!slot.ingredients.isEmpty()) {
+            this.group.set(slot.index, slot.ingredients);
+        }
+    }
+
+    public static class Item extends GroupBuilder<ItemStack, IGuiItemStackGroup> {
+
+        public Item(IGuiIngredientGroup<ItemStack> group) {
+            super((IGuiItemStackGroup) group);
+        }
+
+        @Override
+        public SlotBuilder.Item addSlot(int x, int y) {
+            val builder = new SlotBuilder.Item(this, slots.size(), x, y);
+            slots.add(builder);
+            return builder;
+        }
+    }
+
+    public static class Fluid extends GroupBuilder<FluidStack, IGuiFluidStackGroup> {
+
+        public Fluid(IGuiIngredientGroup<FluidStack> group) {
+            super((IGuiFluidStackGroup) group);
+        }
+
+        @Override
+        public SlotBuilder.Fluid addSlot(int x, int y) {
+            val builder = new SlotBuilder.Fluid(this, slots.size(), x, y);
+            slots.add(builder);
+            return builder;
+        }
+
+        @Override
+        protected void postSingle(SlotBuilder<FluidStack> slot) {
+            val casted = (SlotBuilder.Fluid) slot;
+            if (casted.capacityMb < 0) {
+                super.postSingle(slot);
+                return;
+            }
+            val renderer = new FluidStackRenderer(casted.capacityMb,
+                casted.showCapacity,
+                casted.width,
+                casted.height,
+                casted.overlay
+            );
             this.group.init(
                 slot.index,
                 slot.isInput,
-                slot.ingredientRenderer,
+                renderer,
                 slot.x,
                 slot.y,
                 slot.width,

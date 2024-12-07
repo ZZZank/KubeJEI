@@ -30,12 +30,12 @@ public class WrappedLayout implements IRecipeLayout {
         return groups.computeIfAbsent(getIngredientsGroup(ingredientType), GroupBuilder::new);
     }
 
-    public GroupBuilder<ItemStack, IGuiItemStackGroup> getItemGroupBuilder() {
-        return groups.computeIfAbsent(getItemStacks(), GroupBuilder::new);
+    public GroupBuilder.Item getItemGroupBuilder() {
+        return (GroupBuilder.Item) groups.computeIfAbsent(getItemStacks(), GroupBuilder.Item::new);
     }
 
-    public GroupBuilder<FluidStack, IGuiFluidStackGroup> getFluidGroupBuilder() {
-        return groups.computeIfAbsent(getFluidStacks(), GroupBuilder::new);
+    public GroupBuilder.Fluid getFluidGroupBuilder() {
+        return (GroupBuilder.Fluid) groups.computeIfAbsent(getFluidStacks(), GroupBuilder.Fluid::new);
     }
 
     @Override

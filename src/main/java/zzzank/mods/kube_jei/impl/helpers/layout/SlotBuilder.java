@@ -3,11 +3,15 @@ package zzzank.mods.kube_jei.impl.helpers.layout;
 import dev.latvian.mods.rhino.annotations.typing.JSInfo;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.ingredients.IIngredientRenderer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author ZZZank
@@ -45,8 +49,41 @@ public class SlotBuilder<T> {
         this.ingredients = new ArrayList<>();
     }
 
-    public SlotBuilder<T> addIngredient(T ingredient) {
-        ingredients.add(Objects.requireNonNull(ingredient));
+    @SafeVarargs
+    public final SlotBuilder<T> addIngredient(T... ingredients) {
+        this.ingredients.addAll(Arrays.asList(ingredients));
         return this;
+    }
+
+    public static class Item extends SlotBuilder<ItemStack> {
+
+        public Item(GroupBuilder<ItemStack, ?> group, int index, int x, int y) {
+            super(group, index, x, y);
+        }
+
+        public Item addIngredients(Ingredient ingredient) {
+            return (Item) addIngredient(ingredient.getItems());
+        }
+    }
+
+    @Setter
+    @Accessors(chain = true)
+    public static class Fluid extends SlotBuilder<FluidStack> {
+        @JSInfo("""
+            maximum amount of fluid that this `tank` can hold in milli-buckets
+            
+            default to -1, in this case it wont be applied to actual slot""")
+        public int capacityMb = -1;
+        @JSInfo("show the capacity in the tooltip")
+        public boolean showCapacity;
+        @JSInfo("""
+            optional overlay to display over the tank.
+
+            Typically the overlay is fluid level lines, but it could also be a mask to shape the tank.""")
+        public IDrawable overlay;
+
+        public Fluid(GroupBuilder<FluidStack, ?> group, int index, int x, int y) {
+            super(group, index, x, y);
+        }
     }
 }
