@@ -1,4 +1,4 @@
-package zzzank.mods.kube_jei.mod_bridge.jei;
+package zzzank.mods.kube_jei.mod_bridge;
 
 import dev.latvian.kubejs.script.ScriptType;
 import mezz.jei.api.IModPlugin;
@@ -22,7 +22,7 @@ import zzzank.mods.kube_jei.events.register.*;
 import static zzzank.mods.kube_jei.KubeJEIEvents.*;
 
 @JeiPlugin
-public class KubeJEI_JEIPlugin implements IModPlugin {
+public class JEIPlugin implements IModPlugin {
     /**
      * The unique ID for this mod plugin.
      * The namespace should be your mod's modId.

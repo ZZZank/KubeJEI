@@ -1,1 +1,1 @@
-zzzank.mods.kube_jei.mod_bridge.kubejs.KubeJEI_KJSPlugin
+zzzank.mods.kube_jei.mod_bridge.KubeJSPlugin

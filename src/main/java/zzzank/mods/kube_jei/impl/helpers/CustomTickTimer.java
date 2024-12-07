@@ -11,7 +11,7 @@ public class CustomTickTimer implements ITickTimer {
     private final IntSupplier currentTick;
     private final int maxTick;
 
-    CustomTickTimer(IntSupplier currentTick, int maxTick) {
+    public CustomTickTimer(IntSupplier currentTick, int maxTick) {
         this.currentTick = currentTick;
         this.maxTick = maxTick;
     }

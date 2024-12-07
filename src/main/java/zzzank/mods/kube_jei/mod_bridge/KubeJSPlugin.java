@@ -1,15 +1,13 @@
-package zzzank.mods.kube_jei.mod_bridge.kubejs;
+package zzzank.mods.kube_jei.mod_bridge;
 
-import dev.latvian.kubejs.KubeJSPlugin;
 import dev.latvian.kubejs.script.BindingsEvent;
 import dev.latvian.kubejs.script.ScriptType;
 import dev.latvian.mods.rhino.NativeJavaClass;
 import dev.latvian.mods.rhino.util.wrap.TypeWrappers;
 import mezz.jei.api.ingredients.IIngredientType;
 import zzzank.mods.kube_jei.impl.recipe_type.KubeJEIRecipeTypes;
-import zzzank.mods.kube_jei.mod_bridge.ModState;
 
-public class KubeJEI_KJSPlugin extends KubeJSPlugin {
+public class KubeJSPlugin extends dev.latvian.kubejs.KubeJSPlugin {
 
 	public static IIngredientType<?> ingredientTypeOf(Object o) {
         if (o instanceof IIngredientType<?> ingredientType) {
@@ -42,7 +40,7 @@ public class KubeJEI_KJSPlugin extends KubeJSPlugin {
 		typeWrappers.register(
 			IIngredientType.class,
 			o -> o instanceof IIngredientType<?> || o instanceof Class<?>,
-			KubeJEI_KJSPlugin::ingredientTypeOf
+			KubeJSPlugin::ingredientTypeOf
 		);
 	}
 }

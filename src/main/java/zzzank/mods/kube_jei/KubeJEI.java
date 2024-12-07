@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import zzzank.mods.kube_jei.mod_bridge.ModState;
-import zzzank.mods.kube_jei.mod_bridge.probejs.KubeJEI_PJSPlugin;
+import zzzank.mods.kube_jei.mod_bridge.ProbeJSPlugin;
 import zzzank.probejs.plugin.ProbeJSPlugins;
 
 /**
@@ -18,7 +18,7 @@ public class KubeJEI {
 
     public KubeJEI() {
         if (ModState.PROBE_JS) {
-            ProbeJSPlugins.register(new KubeJEI_PJSPlugin());
+            ProbeJSPlugins.register(new ProbeJSPlugin());
         }
     }
 

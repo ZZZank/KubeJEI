@@ -1,15 +1,14 @@
-package zzzank.mods.kube_jei.mod_bridge.probejs;
+package zzzank.mods.kube_jei.mod_bridge;
 
 import dev.latvian.kubejs.script.ScriptType;
 import mezz.jei.api.ingredients.IIngredientType;
 import zzzank.probejs.lang.typescript.ScriptDump;
 import zzzank.probejs.lang.typescript.code.type.Types;
-import zzzank.probejs.plugin.ProbeJSPlugin;
 
 /**
  * @author ZZZank
  */
-public class KubeJEI_PJSPlugin implements ProbeJSPlugin {
+public class ProbeJSPlugin implements zzzank.probejs.plugin.ProbeJSPlugin {
 
     @Override
     public void assignType(ScriptDump scriptDump) {
