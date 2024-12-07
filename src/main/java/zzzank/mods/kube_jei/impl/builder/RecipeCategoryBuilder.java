@@ -98,42 +98,52 @@ public class RecipeCategoryBuilder<T> {
 
     @FunctionalInterface
     public interface RecipeSetHandler<T> {
-        @JSInfo("""
-            @param layout      the layout that needs its properties set.
-            @param recipe      the recipe, for extra information.
-            @param ingredients the ingredients, already set earlier by {@link $IRecipeCategory#setIngredients}""")
-        void setRecipe(WrappedLayout layout, T recipe, WrappedIngredients ingredients);
+        void setRecipe(
+            @JSInfo("the layout that needs its properties set")
+            WrappedLayout layout,
+            @JSInfo("the recipe, for extra information")
+            T recipe,
+            @JSInfo("the ingredients, already set earlier by {@link $IRecipeCategory#setIngredients}")
+            WrappedIngredients ingredients);
     }
 
     @FunctionalInterface
     public interface DrawHandler<T> {
         @JSInfo("""
-            @param mouseX the X position of the mouse, relative to the recipe.
-            @param mouseY the Y position of the mouse, relative to the recipe.
             @see event.drawables for a simple class for drawing things.
             @see event.jeiHelpers for useful functions.""")
-        void draw(T recipe, PoseStack matrixStack, double mouseX, double mouseY);
+        void draw(T recipe, PoseStack matrixStack,
+            @JSInfo("the X position of the mouse, relative to the recipe")
+            double mouseX,
+            @JSInfo("the Y position of the mouse, relative to the recipe")
+            double mouseY);
     }
 
     @FunctionalInterface
     public interface TooltipHandler<T> {
         @JSInfo("""
-            @param mouseX the X position of the mouse, relative to the recipe.
-            @param mouseY the Y position of the mouse, relative to the recipe.
             @return tooltip strings. If there is no tooltip at this position, return an empty list.""")
         @NotNull
-        List<Component> getTooltipStrings(T recipe, double mouseX, double mouseY);
+        List<Component> getTooltipStrings(T recipe,
+            @JSInfo("mouseX the X position of the mouse, relative to the recipe")
+            double mouseX,
+            @JSInfo("mouseY the Y position of the mouse, relative to the recipe")
+            double mouseY);
     }
 
     @FunctionalInterface
     public interface InputHandler<T> {
         @JSInfo("""
-            @param recipe the currently hovered recipe
-            @param mouseX the X position of the mouse, relative to the recipe.
-            @param mouseY the Y position of the mouse, relative to the recipe.
-            @param input  the current input
             @return true if the input was handled, false otherwise""")
-        boolean handleInput(T recipe, double mouseX, double mouseY, int input);
+        boolean handleInput(
+            @JSInfo("the currently hovered recipe")
+            T recipe,
+            @JSInfo("the X position of the mouse, relative to the recipe")
+            double mouseX,
+            @JSInfo("the Y position of the mouse, relative to the recipe")
+            double mouseY,
+            @JSInfo("the current input")
+            int input);
     }
 
     @FunctionalInterface

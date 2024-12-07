@@ -56,16 +56,15 @@ public final class JEIDrawableWrapper {
     }
 
     @JSInfo("""
-        Creates an animated texture for a gui, revealing the texture over time.
-        
-        @param drawable       the underlying texture to draw
-        @param ticksPerCycle  the number of ticks for the animation to run before starting over
-        @param startDirection the direction that the animation starts drawing the texture
-        @param inverted       when inverted is true, the texture will start fully drawn and be hidden over time""")
+        Creates an animated texture for a gui, revealing the texture over time.""")
     public IDrawableAnimated animated(
+        @JSInfo("the underlying texture to draw")
         IDrawableStatic drawable,
+        @JSInfo("the number of ticks for the animation to run before starting over")
         int ticksPerCycle,
+        @JSInfo("the direction that the animation starts drawing the texture")
         IDrawableAnimated.StartDirection startDirection,
+        @JSInfo("when inverted is true, the texture will start fully drawn and be hidden over time")
         boolean inverted
     ) {
         return guiHelper().createAnimatedDrawable(drawable, ticksPerCycle, startDirection, inverted);
@@ -123,21 +122,24 @@ public final class JEIDrawableWrapper {
     }
 
     @JSInfo("""
-        Create a timer to help with rendering things that normally depend on ticks.
-        
-        @param ticksPerCycle the number of ticks for timer to run before starting over at 0
-        @param maxValue      the number to count up to before starting over at 0
-        @param countDown     if true, the tick timer will count backwards from maxValue""")
-    public ITickTimer tickTimer(int ticksPerCycle, int maxValue, boolean countDown) {
+        Create a timer to help with rendering things that normally depend on ticks.""")
+    public ITickTimer tickTimer(
+        @JSInfo("the number of ticks for timer to run before starting over at 0")
+        int ticksPerCycle,
+        @JSInfo("the number to count up to before starting over at 0")
+        int maxValue,
+        @JSInfo("if true, the tick timer will count backwards from maxValue")
+        boolean countDown) {
         return guiHelper().createTickTimer(ticksPerCycle, maxValue, countDown);
     }
 
     @JSInfo("""
-        Create a timer to help with rendering things that normally depend on ticks.
-        
-        @param currentTick an integer supplier that return the "current" tick value
-        @param maxTick     the number to count up to before starting over at 0""")
-    public ITickTimer tickTimer(IntSupplier currentTick, int maxTick) {
+        Create a timer to help with rendering things that normally depend on ticks.""")
+    public ITickTimer tickTimer(
+        @JSInfo("an integer supplier that return the 'current' tick value")
+        IntSupplier currentTick,
+        @JSInfo("the number to count up to before starting over at 0")
+        int maxTick) {
         return new CustomTickTimer(currentTick, maxTick);
     }
 

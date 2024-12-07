@@ -100,64 +100,70 @@ public class WrappedIngredients implements IIngredients {
     }
 
     @JSInfo("""
-        Sets a single recipe input. For recipes with only one input slot.
-        
-        @param ingredientType The type of ingredient: {@link itemIngredientType}, {@link fluidIngredientType}, etc
-        @param input          The list of ingredients representing each input slot.""")
+        Sets a single recipe input. For recipes with only one input slot.""")
     @Override
-    public <T> void setInput(@NotNull IIngredientType<T> ingredientType, @NotNull T input) {
+    public <T> void setInput(
+        @JSInfo("The type of ingredient: {@link itemIngredientType}, {@link fluidIngredientType}, etc")
+        @NotNull IIngredientType<T> ingredientType,
+        @JSInfo("The list of ingredients representing each input slot")
+        @NotNull T input) {
         raw.setInput(ingredientType, input);
     }
 
     @JSInfo("""
-        Sets the recipe's inputs. Each list element represents one slot.
-        
-        @param ingredientType The type of ingredient: {@link itemIngredientType}, {@link fluidIngredientType}, etc
-        @param input          The list of ingredients representing each input slot.""")
+        Sets the recipe's inputs. Each list element represents one slot.""")
     @Override
-    public <T> void setInputs(@NotNull IIngredientType<T> ingredientType, @NotNull List<T> input) {
+    public <T> void setInputs(
+        @JSInfo("The type of ingredient: {@link itemIngredientType}, {@link fluidIngredientType}, etc")
+        @NotNull IIngredientType<T> ingredientType,
+        @JSInfo("The list of ingredients representing each input slot")
+        @NotNull List<T> input) {
         raw.setInputs(ingredientType, input);
     }
 
     @JSInfo("""
         Sets the recipe's inputs. Each input list represents one slot.
-        Accepts multiple ingredients per slot.
-        
-        @param ingredientType The type of ingredient: {@link itemIngredientType}, {@link fluidIngredientType}, etc
-        @param inputs         The outer list represents the slot, the inner list is a rotating list of ingredients in that slot.""")
+        Accepts multiple ingredients per slot.""")
     @Override
-    public <T> void setInputLists(@NotNull IIngredientType<T> ingredientType, @NotNull List<List<T>> inputs) {
+    public <T> void setInputLists(
+        @JSInfo("The type of ingredient: {@link itemIngredientType}, {@link fluidIngredientType}, etc")
+        @NotNull IIngredientType<T> ingredientType,
+        @JSInfo("The outer list represents the slot, the inner list is a rotating list of ingredients in that slot")
+        @NotNull List<List<T>> inputs) {
         raw.setInputLists(ingredientType, inputs);
     }
 
     @JSInfo("""
-        Sets a single recipe output.
-        
-        @param ingredientType The type of ingredient: {@link itemIngredientType}, {@link fluidIngredientType}, etc
-        @param output         The single ingredient representing the recipe output.""")
+        Sets a single recipe output.""")
     @Override
-    public <T> void setOutput(@NotNull IIngredientType<T> ingredientType, @NotNull T output) {
+    public <T> void setOutput(
+        @JSInfo("The type of ingredient: {@link itemIngredientType}, {@link fluidIngredientType}, etc")
+        @NotNull IIngredientType<T> ingredientType,
+        @JSInfo("The single ingredient representing the recipe output")
+        @NotNull T output) {
         raw.setOutput(ingredientType, output);
     }
 
     @JSInfo("""
-        Sets multiple recipe outputs. Each list element represents one slot.
-        
-        @param ingredientType The type of ingredient: {@link $VanillaTypes#ITEM}, {@link $VanillaTypes#FLUID}, etc
-        @param outputs        The list of ingredients representing each output slot.""")
+        Sets multiple recipe outputs. Each list element represents one slot.""")
     @Override
-    public <T> void setOutputs(@NotNull IIngredientType<T> ingredientType, @NotNull List<T> outputs) {
+    public <T> void setOutputs(
+        @JSInfo("The type of ingredient: {@link $VanillaTypes#ITEM}, {@link $VanillaTypes#FLUID}, etc")
+        @NotNull IIngredientType<T> ingredientType,
+        @JSInfo("The list of ingredients representing each output slot")
+        @NotNull List<T> outputs) {
         raw.setOutputs(ingredientType, outputs);
     }
 
     @JSInfo("""
         Sets the recipe's outputs. Each output list represents one slot.
-        Accepts multiple ingredients per slot.
-        
-        @param ingredientType The type of ingredient: {@link $VanillaTypes#ITEM}, {@link $VanillaTypes#FLUID}, etc
-        @param outputs        The outer list represents the slot, the inner list is a rotating list of ingredients in that slot.""")
+        Accepts multiple ingredients per slot.""")
     @Override
-    public <T> void setOutputLists(@NotNull IIngredientType<T> ingredientType, @NotNull List<List<T>> outputs) {
+    public <T> void setOutputLists(
+        @JSInfo("The type of ingredient: {@link $VanillaTypes#ITEM}, {@link $VanillaTypes#FLUID}, etc")
+        @NotNull IIngredientType<T> ingredientType,
+        @JSInfo("The outer list represents the slot, the inner list is a rotating list of ingredients in that slot")
+        @NotNull List<List<T>> outputs) {
         raw.setOutputLists(ingredientType, outputs);
     }
 
