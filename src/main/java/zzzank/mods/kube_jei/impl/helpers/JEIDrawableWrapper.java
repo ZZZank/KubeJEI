@@ -71,7 +71,9 @@ public final class JEIDrawableWrapper {
     }
 
     @JSInfo("""
-        Returns a slot drawable for drawing extra slots on guis""")
+        Returns a slot drawable for drawing extra slots on guis
+        
+        the size of this drawable is: width=18, height=18""")
     public IDrawableStatic slot() {
         return guiHelper().getSlotDrawable();
     }
