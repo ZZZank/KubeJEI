@@ -65,7 +65,7 @@ public class CustomRecipeManagerPlugin implements IRecipeManagerPlugin {
 
     @Override
     public <T> @NotNull List<T> getRecipes(@NotNull IRecipeCategory<T> recipeCategory) {
-        if (builder.uidMatcher == null) {
+        if (builder.noFocusRecipeMatcher == null) {
             return Collections.emptyList();
         }
         try {
