@@ -1,3 +1,11 @@
+# KubeJS 1.8.0 -> 1.8.1
+
+nothing special
+
+- fix noFocusRecipeMatcher in CustomRecipeManagerPlugin sometimes not working
+
+---
+
 # KubeJS 1.7.0 -> 1.8.0
 
 more layout / slot helpers
