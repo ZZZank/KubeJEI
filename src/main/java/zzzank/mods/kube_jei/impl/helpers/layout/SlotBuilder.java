@@ -72,8 +72,8 @@ public class SlotBuilder<T> {
         @JSInfo("""
             maximum amount of fluid that this `tank` can hold in milli-buckets
             
-            default to -1, in this case it wont be applied to actual slot""")
-        public int capacityMb = -1;
+            default to 0. Setting this field to any non-zero value will make KubeJEI replace fluid ingredient renderer with a renderer that can display `amount`.""")
+        public int capacityMb = 0;
         @JSInfo("show the capacity in the tooltip")
         public boolean showCapacity;
         @JSInfo("""

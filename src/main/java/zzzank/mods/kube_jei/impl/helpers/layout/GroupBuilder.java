@@ -161,32 +161,18 @@ public class GroupBuilder<T, G extends IGuiIngredientGroup<T>> {
         }
 
         @Override
-        protected void postSingle(SlotBuilder<FluidStack> slot) {
+        protected final void postSingle(SlotBuilder<FluidStack> slot) {
             val casted = (SlotBuilder.Fluid) slot;
-            if (casted.capacityMb < 0) {
-                super.postSingle(slot);
-                return;
+            if (casted.capacityMb != 0) {
+                slot.ingredientRenderer = new FluidStackRenderer(
+                    casted.capacityMb,
+                    casted.showCapacity,
+                    casted.width,
+                    casted.height,
+                    casted.overlay
+                );
             }
-            val renderer = new FluidStackRenderer(casted.capacityMb,
-                casted.showCapacity,
-                casted.width,
-                casted.height,
-                casted.overlay
-            );
-            this.group.init(
-                slot.index,
-                slot.isInput,
-                renderer,
-                slot.x,
-                slot.y,
-                slot.width,
-                slot.height,
-                slot.xPadding,
-                slot.yPadding
-            );
-            if (!slot.ingredients.isEmpty()) {
-                this.group.set(slot.index, slot.ingredients);
-            }
+            super.postSingle(slot);
         }
     }
 }
