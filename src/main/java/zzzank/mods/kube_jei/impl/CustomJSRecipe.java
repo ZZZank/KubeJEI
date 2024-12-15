@@ -1,5 +1,6 @@
 package zzzank.mods.kube_jei.impl;
 
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import zzzank.mods.kube_jei.impl.recipe_type.RecipeType;
 
@@ -27,7 +28,7 @@ public class CustomJSRecipe {
         }
 
         public CustomJSRecipe custom(Object recipeData) {
-            var recipe = new CustomJSRecipe(recipeData, type);
+            val recipe = new CustomJSRecipe(recipeData, type);
             recipes.add(recipe);
             return recipe;
         }

@@ -67,7 +67,7 @@ public class GroupBuilder<T, G extends IGuiIngredientGroup<T>> {
     }
 
     @JSInfo("""
-        for each slot in this grid: y = yBegin + row * yStep, x = xBegin + column * xStep""")
+        for each slot in this grid: y = yBegin + row * yStep, x = xBegin + column * xStep, where 0 <= row < rows, 0 <= column < columns""")
     public List<SlotBuilder<T>> addSlotGrid(int xBegin, int yBegin, int rows, int columns, int xStep, int yStep) {
         val grid = new ArrayList<SlotBuilder<T>>(rows * columns);
         for (int row = 0; row < rows; row++) {
@@ -82,7 +82,7 @@ public class GroupBuilder<T, G extends IGuiIngredientGroup<T>> {
     }
 
     @JSInfo("""
-        for each slot in this grid: y = yBegin + row * 18, x = xBegin + column * 18""")
+        for each slot in this grid: y = yBegin + row * 18, x = xBegin + column * 18, where 0 <= row < rows, 0 <= column < columns""")
     public List<SlotBuilder<T>> addSlotGrid(int xBegin, int yBegin, int rows, int columns) {
         return addSlotGrid(xBegin, yBegin, rows, columns, 18, 18);
     }
