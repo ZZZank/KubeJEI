@@ -45,7 +45,7 @@ public class SlotBuilder<T> {
         this.index = index;
         this.x = x;
         this.y = y;
-        this.ingredientRenderer = group.access.ingredientRenderer();
+        this.ingredientRenderer = group.access.kJei$ingredientRenderer();
         this.ingredients = new ArrayList<>();
     }
 

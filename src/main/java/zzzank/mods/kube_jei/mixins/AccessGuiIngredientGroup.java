@@ -17,23 +17,23 @@ import java.util.Set;
 @Mixin(value = GuiIngredientGroup.class, remap = false)
 public interface AccessGuiIngredientGroup<T> {
     @Accessor("guiIngredients")
-    Map<Integer, GuiIngredient<T>> guiIngredients();
+    Map<Integer, GuiIngredient<T>> kJei$guiIngredients();
 
     @Accessor("inputSlots")
-    Set<Integer> inputSlots();
+    Set<Integer> kJei$inputSlots();
 
     @Accessor("outputSlots")
-    Set<Integer> outputSlots();
+    Set<Integer> kJei$outputSlots();
 
     @Accessor("ingredientHelper")
-    IIngredientHelper<T> ingredientHelper();
+    IIngredientHelper<T> kJei$ingredientHelper();
 
     @Accessor("ingredientRenderer")
-    IIngredientRenderer<T> ingredientRenderer();
+    IIngredientRenderer<T> kJei$ingredientRenderer();
 
     @Accessor("ingredientType")
-    IIngredientType<T> ingredientType();
+    IIngredientType<T> kJei$ingredientType();
 
     @Accessor("cycleOffset")
-    int cycleOffset();
+    int kJei$cycleOffset();
 }

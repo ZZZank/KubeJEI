@@ -51,8 +51,8 @@ public class GroupBuilder<T, G extends IGuiIngredientGroup<T>> {
         
         note that slots added after this action will NOT be affected, you need to manually set ingredients for them""")
     public void applyIngredients(IIngredients ingredients) {
-        val outputs = ingredients.getOutputs(access.ingredientType()).iterator();
-        val inputs = ingredients.getInputs(access.ingredientType()).iterator();
+        val outputs = ingredients.getOutputs(access.kJei$ingredientType()).iterator();
+        val inputs = ingredients.getInputs(access.kJei$ingredientType()).iterator();
         for (val slot : slots) {
             if (slot.isInput) {
                 if (inputs.hasNext()) {
