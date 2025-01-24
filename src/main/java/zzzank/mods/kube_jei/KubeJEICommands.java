@@ -33,9 +33,9 @@ public class KubeJEICommands {
             (source) -> source.hasPermission(2) || source.getServer().isSingleplayer();
 
         dispatcher.register(Commands.literal("kubejei")
+            .requires(spOrOp)
             .then(Commands.literal("reload")
                 .then(Commands.literal("jei")
-                    .requires(spOrOp)
                     .executes(KubeJEICommands::reloadJEI))
             )
         );
@@ -66,7 +66,10 @@ public class KubeJEICommands {
         try {
             reloadListener.onResourceManagerReload(Minecraft.getInstance().getResourceManager());
         } catch (Exception e) {
-            player.sendMessage(new TextComponent("Exception when trying to reload JEI: " + e.getLocalizedMessage()), Util.NIL_UUID);
+            player.sendMessage(
+                new TextComponent("Exception when trying to reload JEI: " + e.getLocalizedMessage()),
+                Util.NIL_UUID
+            );
             KubeJEI.LOGGER.error("Exception when trying to reload JEI", e);
         }
 
