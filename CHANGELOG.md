@@ -1,21 +1,9 @@
-# KubeJS 1.8.0 -> 1.8.1
+# KubeJS 1.8.1 -> 1.9.0
 
-nothing special
+JEI reload command
 
-- fix noFocusRecipeMatcher in CustomRecipeManagerPlugin sometimes not working
-
----
-
-# KubeJS 1.7.0 -> 1.8.0
-
-more layout / slot helpers
-
-- helper for creating many slots in a grid
-- helper for applying ingredients to slots
-- builder-style registration for RegisterAdvancedEventJS
-- some code documents are moved to make it (slightly) more accessible
-- special helper methods for item and fluid group/slot builder
-- support for fluid slot with custom maximum volume, overlay and some more
-- and some internal changes
+- use `/kubejei reload jei` to reload JEI without the needs of reloading the whole server
+    - noted that you must be in SinglePlayer or OP mode to use this command
 
 ---
+
