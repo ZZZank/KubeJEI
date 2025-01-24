@@ -69,6 +69,8 @@ public class KubeJEICommands {
             player.sendMessage(new TextComponent("Exception when trying to reload JEI: " + e.getLocalizedMessage()), Util.NIL_UUID);
             KubeJEI.LOGGER.error("Exception when trying to reload JEI", e);
         }
+
+        player.sendMessage(new TextComponent("JEI Reloaded"), Util.NIL_UUID);
         return Command.SINGLE_SUCCESS;
     }
 }
