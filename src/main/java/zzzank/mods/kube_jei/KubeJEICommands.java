@@ -7,7 +7,6 @@ import lombok.val;
 import mezz.jei.Internal;
 import mezz.jei.startup.JeiReloadListener;
 import net.minecraft.Util;
-import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
@@ -15,6 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import zzzank.mods.kube_jei.mixins.AccessJeiReloadListener;
 
 import java.util.function.Predicate;
 
@@ -32,10 +32,11 @@ public class KubeJEICommands {
         val spOrOp = (Predicate<CommandSourceStack>)
             (source) -> source.hasPermission(2) || source.getServer().isSingleplayer();
 
-        dispatcher.register(Commands.literal("kubejei")
-            .requires(spOrOp)
+        //merge into KubeJS commands
+        dispatcher.register(Commands.literal("kubejs")
             .then(Commands.literal("reload")
                 .then(Commands.literal("jei")
+                    .requires(spOrOp)
                     .executes(alwaysSuccess(KubeJEICommands::reloadJEI)))
             )
         );
