@@ -1,9 +1,10 @@
-# KubeJS 1.8.1 -> 1.9.0
+# KubeJS 1.9.0 -> 1.9.1
 
-JEI reload command
+fix JEI reload command
 
-- use `/kubejei reload jei` to reload JEI without the needs of reloading the whole server
+- JEI reload command is now merged into KubeJS reload commands: `/kubejs reload jei`
     - noted that you must be in SinglePlayer or OP mode to use this command
+- fixed JEI reload command only reloading some of JEI internals
 
 ---
 
