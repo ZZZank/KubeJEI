@@ -36,12 +36,26 @@ public class KubeJEICommands {
             .requires(spOrOp)
             .then(Commands.literal("reload")
                 .then(Commands.literal("jei")
-                    .executes(KubeJEICommands::reloadJEI))
+                    .executes(alwaysSuccess(KubeJEICommands::reloadJEI)))
             )
         );
     }
 
-    private static int reloadJEI(CommandContext<CommandSourceStack> cx) throws CommandSyntaxException {
+    private static Command<CommandSourceStack> alwaysSuccess(AlwaysSuccessCommand command) {
+        return command;
+    }
+
+    interface AlwaysSuccessCommand extends Command<CommandSourceStack> {
+        void runImpl(CommandContext<CommandSourceStack> context) throws CommandSyntaxException;
+
+        @Override
+        default int run(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+            runImpl(context);
+            return Command.SINGLE_SUCCESS;
+        }
+    }
+
+    private static void reloadJEI(CommandContext<CommandSourceStack> cx) throws CommandSyntaxException {
         val source = cx.getSource();
         val player = source.getPlayerOrException();
 
@@ -54,17 +68,20 @@ public class KubeJEICommands {
                 Util.NIL_UUID
             );
             KubeJEI.LOGGER.error("Exception when trying to get JEI reload listener", e);
-            return Command.SINGLE_SUCCESS;
+            return;
         }
 
         if (reloadListener == null) {
             player.sendMessage(new TextComponent("JEI has not been set up, skipping reload"), Util.NIL_UUID);
-            return Command.SINGLE_SUCCESS;
+            return;
         }
 
         player.sendMessage(new TextComponent("Reloading JEI"), Util.NIL_UUID);
         try {
-            reloadListener.onResourceManagerReload(Minecraft.getInstance().getResourceManager());
+            ((AccessJeiReloadListener) (Object) reloadListener)
+                .kJei$getHandlerRef()
+                .get()
+                .startJEI();
         } catch (Exception e) {
             player.sendMessage(
                 new TextComponent("Exception when trying to reload JEI: " + e.getLocalizedMessage()),
@@ -74,6 +91,5 @@ public class KubeJEICommands {
         }
 
         player.sendMessage(new TextComponent("JEI Reloaded"), Util.NIL_UUID);
-        return Command.SINGLE_SUCCESS;
     }
 }
