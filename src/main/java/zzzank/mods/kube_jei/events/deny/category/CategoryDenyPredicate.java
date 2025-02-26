@@ -1,4 +1,4 @@
-package zzzank.mods.kube_jei.events.deny;
+package zzzank.mods.kube_jei.events.deny.category;
 
 import dev.latvian.mods.rhino.annotations.typing.JSInfo;
 import mezz.jei.api.recipe.category.IRecipeCategory;

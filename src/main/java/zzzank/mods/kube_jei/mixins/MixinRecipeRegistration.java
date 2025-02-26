@@ -15,8 +15,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import zzzank.mods.kube_jei.KubeJEIEvents;
-import zzzank.mods.kube_jei.events.deny.DenyRecipeEventJS;
-import zzzank.mods.kube_jei.events.deny.RecipeDenyPredicate;
+import zzzank.mods.kube_jei.events.deny.recipe.DenyRecipeEventJS;
+import zzzank.mods.kube_jei.events.deny.recipe.RecipeDenyPredicate;
 
 import java.util.ArrayList;
 import java.util.Collection;

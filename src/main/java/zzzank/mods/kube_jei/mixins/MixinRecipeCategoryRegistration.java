@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import zzzank.mods.kube_jei.KubeJEI;
 import zzzank.mods.kube_jei.KubeJEIEvents;
-import zzzank.mods.kube_jei.events.deny.CategoryDenyPredicate;
-import zzzank.mods.kube_jei.events.deny.DenyCategoryEventJS;
+import zzzank.mods.kube_jei.events.deny.category.CategoryDenyPredicate;
+import zzzank.mods.kube_jei.events.deny.category.DenyCategoryEventJS;
 
 import java.util.ArrayList;
 import java.util.List;

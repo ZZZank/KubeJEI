@@ -1,4 +1,4 @@
-package zzzank.mods.kube_jei.events.deny;
+package zzzank.mods.kube_jei.events.deny.category;
 
 import dev.latvian.kubejs.event.EventJS;
 import dev.latvian.mods.rhino.annotations.typing.JSInfo;

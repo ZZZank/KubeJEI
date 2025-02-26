@@ -1,4 +1,4 @@
-package zzzank.mods.kube_jei.events.deny;
+package zzzank.mods.kube_jei.events.deny.recipe;
 
 import com.google.common.collect.*;
 import dev.latvian.kubejs.event.EventJS;
