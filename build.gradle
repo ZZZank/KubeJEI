@@ -1,5 +1,5 @@
 plugins {
-    id "dev.architectury.loom" version "1.7-SNAPSHOT"
+    id "dev.architectury.loom" version "1.17-SNAPSHOT"
     id "maven-publish"
 }
 
@@ -64,13 +64,6 @@ repositories {
         }
     }
     maven {
-        // saps.dev Maven (KubeJS and Rhino)
-        url = "https://maven.saps.dev/minecraft"
-        content {
-            includeGroup "dev.latvian.mods"
-        }
-    }
-    maven {
         // location of the maven that hosts JEI files
         name = "Progwml6 maven"
         url = "https://dvs1.progwml6.com/files/maven/"
@@ -115,7 +108,7 @@ dependencies {
 
     modImplementation("curse.maven:probejs-legacy-956446:5930049")
     modImplementation("curse.maven:rhizo-1003287:5506575")
-    modImplementation("dev.latvian.mods:kubejs-forge:${kubejs_version}")
+    modImplementation("curse.maven:kubejs-238086:3647098")
     modImplementation("mezz.jei:jei-${minecraft_version}:${jei_version}")
 
     compileOnly("com.pkware.jabel:jabel-javac-plugin:1.0.1-1")
