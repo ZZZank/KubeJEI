@@ -1,16 +1,35 @@
+import java.text.SimpleDateFormat
+import java.util.Date
+
 plugins {
-    id "dev.architectury.loom" version "1.17-SNAPSHOT"
-    id "maven-publish"
+    id("dev.architectury.loom") version "1.17-SNAPSHOT"
+    id("maven-publish")
 }
+
+fun prop(key: String): String = project.property(key).toString()
+
+// gradle.properties 中定义的属性
+val archivesBaseName: String = prop("archives_base_name")
+val modVersion: String = prop("mod_version")
+val mavenGroup: String = prop("maven_group")
+val minecraftVersion: String = prop("minecraft_version")
+val forgeVersion: String = prop("forge_version")
+val modId: String = prop("mod_id")
+val modName: String = prop("mod_name")
+val modAuthor: String = prop("mod_author")
+val modDescription: String = prop("mod_description")
+val license: String = prop("license")
+val jeiVersion: String = prop("jei_version")
 
 base {
-    archivesName = project.archives_base_name
+    archivesName.set(archivesBaseName)
 }
 
-version = project.mod_version
-group = project.maven_group
+version = modVersion
+group = mavenGroup
 
 java {
+    // For Jabel usage
     sourceCompatibility = JavaVersion.VERSION_16
 }
 
@@ -25,9 +44,7 @@ loom {
     forge {
         // specify the mixin configs used in this mod
         // this will be added to the jar manifest as well!
-        mixinConfigs = [
-            "kube_jei.mixins.json"
-        ]
+        mixinConfigs("kube_jei.mixins.json")
 
         // missing access transformers?
         // don't worry, you can still use them!
@@ -49,48 +66,44 @@ repositories {
     exclusiveContent {
         forRepository {
             maven {
-                url "https://cursemaven.com"
+                url = uri("https://cursemaven.com")
             }
         }
         filter {
-            includeGroup "curse.maven"
+            includeGroup("curse.maven")
         }
     }
-    maven {
-        // Shedaniel's maven (Architectury API)
-        url = "https://maven.architectury.dev"
+    maven("https://maven.architectury.dev") {
         content {
-            includeGroup "me.shedaniel"
+            includeGroup("me.shedaniel")
         }
     }
-    maven {
-        // location of the maven that hosts JEI files
+    maven("https://dvs1.progwml6.com/files/maven/") {
+        // JEI
         name = "Progwml6 maven"
-        url = "https://dvs1.progwml6.com/files/maven/"
     }
-    maven {
-        // location of a maven mirror for JEI files, as a fallback
+    maven("https://modmaven.dev") {
+        // mirror for JEI, as a fallback
         name = "ModMaven"
-        url = "https://modmaven.dev"
     }
 }
 
 dependencies {
     // to change the versions see the gradle.properties file
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    minecraft("com.mojang:minecraft:$minecraftVersion")
 
     // choose what mappings you want to use here
     // leave this uncommented if you want to use
     // mojang's official mappings, or feel free
     // to add your own mappings here (how about
     // mojmap layered with parchment, for example?)
-    mappings loom.officialMojangMappings()
+    mappings(loom.officialMojangMappings())
 
     // uncomment this if you want to use yarn mappings
-    // mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    // mappings("net.fabricmc:yarn:${project.yarn_mappings}:v2")
 
     // your forge dependency, this is **required** when using Forge Loom in forge mode!
-    forge "net.minecraftforge:forge:${project.forge_version}"
+    forge("net.minecraftforge:forge:$forgeVersion")
 
     // additional dependencies can be specified using loom's regular format
     // specifying a "mod" dependency (like modImplementation or modApi)
@@ -102,50 +115,53 @@ dependencies {
     // compile against the JEI API but do not include it at runtime
     // don't worry about loom "not finding a forge mod" here,
     // JEI's api just doesn't have any class with an @Mod annotation
-    // modCompileOnly "mezz.jei:jei-1.16.5:${jei_version}:api"
+    // modCompileOnly("mezz.jei:jei-1.16.5:${jei_version}:api")
     // at runtime, use the full JEI jar
-    // modRuntimeOnly "mezz.jei:jei-1.16.5:${jei_version}"
+    // modRuntimeOnly("mezz.jei:jei-1.16.5:${jei_version}")
 
     modImplementation("curse.maven:probejs-legacy-956446:5930049")
     modImplementation("curse.maven:rhizo-1003287:5506575")
     modImplementation("curse.maven:kubejs-238086:3647098")
-    modImplementation("mezz.jei:jei-${minecraft_version}:${jei_version}")
+    modImplementation("mezz.jei:jei-$minecraftVersion:$jeiVersion")
 
     compileOnly("com.pkware.jabel:jabel-javac-plugin:1.0.1-1")
     annotationProcessor("com.pkware.jabel:jabel-javac-plugin:1.0.1-1")
 
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+    compileOnly("org.projectlombok:lombok:1.18.34")
+    annotationProcessor("org.projectlombok:lombok:1.18.34")
 }
 
-processResources {
+tasks.processResources {
     // define properties that can be used during resource processing
-    inputs.property "version", project.version
+    inputs.property("version", version)
 
-    // this will replace the property "${version}" in your mods.toml
+    // this will replace the property "\${version}" in your mods.toml
     // with the version you've defined in your gradle.properties
     filesMatching("META-INF/mods.toml") {
         expand(
-            "version": project.version,
-            "mod_license": license,
-            "mod_id": mod_id,
-            "mod_name": mod_name,
-            "mod_authors": mod_author,
-            "mod_description": mod_description
+            mapOf(
+                "version" to version,
+                "mod_license" to license,
+                "mod_id" to modId,
+                "mod_name" to modName,
+                "mod_authors" to modAuthor,
+                "mod_description" to modDescription
+            )
         )
     }
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType<JavaCompile> {
     // ensure that the encoding is set to UTF-8, no matter what the system default is
     // this fixes some edge cases with special characters not displaying correctly
     // see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
     // If Javadoc is generated, this must be specified in that task too.
     options.encoding = "UTF-8"
-    options.compilerArgs << '-parameters'
+    options.compilerArgs.add("-parameters")
 
-    sourceCompatibility = 16
-    options.release = 8
+    // For Jabel usage
+    sourceCompatibility = "16"
+    options.release.set(8)
 }
 
 java {
@@ -155,26 +171,28 @@ java {
     withSourcesJar()
 }
 
-jar {
+tasks.jar {
     // add some additional metadata to the jar manifest
     manifest {
-        attributes([
-                "Specification-Title"     : project.mod_id,
-                "Specification-Vendor"    : project.mod_author,
-                "Specification-Version"   : "1",
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : version,
-                "Implementation-Vendor"   : project.mod_author,
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
+        attributes(
+            mapOf(
+                "Specification-Title" to modId,
+                "Specification-Vendor" to modAuthor,
+                "Specification-Version" to "1",
+                "Implementation-Title" to project.name,
+                "Implementation-Version" to version,
+                "Implementation-Vendor" to modAuthor,
+                "Implementation-Timestamp" to SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(Date())
+            )
+        )
     }
 }
 
 // configure the maven publication
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            from components.java
+        register<MavenPublication>("mavenJava") {
+            from(components["java"])
         }
     }
 
