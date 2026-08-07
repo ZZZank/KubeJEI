@@ -1,11 +1,10 @@
 package zzzank.mods.kube_jei.mixins;
 
 import com.google.common.collect.ImmutableList;
-import dev.latvian.kubejs.script.ScriptType;
 import lombok.val;
-import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.load.registration.RecipeCategoryRegistration;
+import mezz.jei.library.load.registration.RecipeCategoryRegistration;
+import mezz.jei.library.runtime.JeiHelpers;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,11 +12,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import zzzank.mods.kube_jei.KubeJEI;
-import zzzank.mods.kube_jei.KubeJEIEvents;
-import zzzank.mods.kube_jei.events.deny.category.CategoryDenyPredicate;
-import zzzank.mods.kube_jei.events.deny.category.DenyCategoryEventJS;
+import zzzank.mods.kube_jei.events.KubeJEIEvents;
+import zzzank.mods.kube_jei.events.deny.DenyCategoryEventJS;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,12 +25,12 @@ import java.util.List;
 public abstract class MixinRecipeCategoryRegistration {
 
     @Unique
-    private List<CategoryDenyPredicate> kJei$denyPredicates;
+    private List<DenyCategoryEventJS.CategoryDenyPredicate> kJei$denyPredicates;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void kJei$init(IJeiHelpers jeiHelpers, CallbackInfo ci) {
+    public void kJei$init(JeiHelpers jeiHelpers, CallbackInfo ci) {
         val denyCategoryEvent = new DenyCategoryEventJS();
-        denyCategoryEvent.post(ScriptType.CLIENT, KubeJEIEvents.DENY_CATEGORIES);
+        KubeJEIEvents.DENY_CATEGORIES.post(denyCategoryEvent);
         KubeJEI.LOGGER.info(
             "KubeJEI collected {} directly denied categories, {} filters in total",
             denyCategoryEvent.deniedIds.size(),
@@ -41,34 +39,21 @@ public abstract class MixinRecipeCategoryRegistration {
         kJei$denyPredicates = ImmutableList.copyOf(denyCategoryEvent.denyPredicates);
     }
 
-    @Unique
-    private boolean kJei$shouldDeny(IRecipeCategory<?> category) {
-        for (val predicate : kJei$denyPredicates) {
-            if (predicate.shouldDeny(category)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @ModifyVariable(
         method = "addRecipeCategories",
         at = @At(
             value = "INVOKE",
-            target = "Lmezz/jei/util/ErrorUtil;checkNotEmpty([Ljava/lang/Object;Ljava/lang/String;)V",
-            shift = At.Shift.AFTER
+            target = "Lmezz/jei/common/util/ErrorUtil;checkNotEmpty([Ljava/lang/Object;Ljava/lang/String;)V",
+            shift = At.Shift.AFTER,
+            ordinal = 0
         ),
-        index = 1,
+        index = 0,
         argsOnly = true
     )
     public IRecipeCategory<?>[] kJei$denyCategories(IRecipeCategory<?>[] value) {
-        val filtered = new ArrayList<IRecipeCategory<?>>();
-        for (val category : value) {
-            if (category.getUid() == null || category.getRecipeClass() == null //fall through to use error reporting from JEI itself
-                || !kJei$shouldDeny(category)) {
-                filtered.add(category);
-            }
-        }
-        return filtered.toArray(new IRecipeCategory[0]);
+        var denyPredicates = kJei$denyPredicates;
+        return Arrays.stream(value)
+            .filter(category -> denyPredicates.stream().noneMatch(predicate -> predicate.shouldDeny(category)))
+            .toArray(IRecipeCategory[]::new);
     }
 }

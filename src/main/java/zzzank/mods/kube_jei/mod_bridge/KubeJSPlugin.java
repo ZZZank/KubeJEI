@@ -1,13 +1,12 @@
 package zzzank.mods.kube_jei.mod_bridge;
 
-import dev.latvian.kubejs.script.BindingsEvent;
-import dev.latvian.kubejs.script.ScriptType;
+import dev.latvian.mods.kubejs.script.ScriptType;
+import dev.latvian.mods.kubejs.script.BindingRegistry;
+import dev.latvian.mods.kubejs.script.TypeWrapperRegistry;
 import dev.latvian.mods.rhino.NativeJavaClass;
-import dev.latvian.mods.rhino.util.wrap.TypeWrappers;
 import mezz.jei.api.ingredients.IIngredientType;
-import zzzank.mods.kube_jei.impl.recipe_type.KubeJEIRecipeTypes;
 
-public class KubeJSPlugin extends dev.latvian.kubejs.KubeJSPlugin {
+public class KubeJSPlugin implements dev.latvian.mods.kubejs.plugin.KubeJSPlugin {
 
 	public static IIngredientType<?> ingredientTypeOf(Object o) {
         if (o instanceof IIngredientType<?> ingredientType) {
@@ -21,26 +20,24 @@ public class KubeJSPlugin extends dev.latvian.kubejs.KubeJSPlugin {
     }
 
 	@Override
-	public void addBindings(BindingsEvent event) {
-		if (!shouldEnable(event.type)) {
+	public void registerBindings(BindingRegistry registry) {
+		if (shouldEnable(registry.type())) {
+		}
+	}
+
+	@Override
+	public void registerTypeWrappers(TypeWrapperRegistry registry) {
+		if (!shouldEnable(registry.scriptType())) {
 			return;
 		}
-		event.add("KubeJEIRecipeTypes", KubeJEIRecipeTypes.class);
+		registry.register(
+			IIngredientType.class,
+			(o, type) -> o instanceof IIngredientType<?> || o instanceof Class<?>,
+			KubeJSPlugin::ingredientTypeOf
+		);
 	}
 
 	private static boolean shouldEnable(ScriptType type) {
 		return type == ScriptType.CLIENT && ModState.JEI;
-	}
-
-	@Override
-	public void addTypeWrappers(ScriptType type, TypeWrappers typeWrappers) {
-		if (!shouldEnable(type)) {
-			return;
-		}
-		typeWrappers.register(
-			IIngredientType.class,
-			o -> o instanceof IIngredientType<?> || o instanceof Class<?>,
-			KubeJSPlugin::ingredientTypeOf
-		);
 	}
 }

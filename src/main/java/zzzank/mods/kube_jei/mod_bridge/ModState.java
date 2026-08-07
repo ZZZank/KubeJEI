@@ -1,6 +1,6 @@
 package zzzank.mods.kube_jei.mod_bridge;
 
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 
 /**
  * @author ZZZank

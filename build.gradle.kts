@@ -8,82 +8,55 @@ plugins {
 
 fun prop(key: String): String = project.property(key).toString()
 
-// gradle.properties 中定义的属性
-val archivesBaseName: String = prop("archives_base_name")
-val modVersion: String = prop("mod_version")
-val mavenGroup: String = prop("maven_group")
-val minecraftVersion: String = prop("minecraft_version")
-val forgeVersion: String = prop("forge_version")
-val modId: String = prop("mod_id")
-val modName: String = prop("mod_name")
-val modAuthor: String = prop("mod_author")
-val modDescription: String = prop("mod_description")
-val license: String = prop("license")
-val jeiVersion: String = prop("jei_version")
+val modVersion = prop("mod_version")
+val mavenGroup = prop("maven_group")
+val minecraftVersion = prop("minecraft_version")
+val neoForgeVersion = prop("neoForge_version")
+val modId = prop("mod_id")
+val modName = prop("mod_name")
+val modAuthor = prop("mod_author")
+val modDescription = prop("mod_description")
+val license = prop("license")
+val jeiVersion = prop("jei_version")
 
 base {
-    archivesName.set(archivesBaseName)
+    archivesName.set(prop("archives_base_name"))
 }
 
 version = modVersion
 group = mavenGroup
 
 java {
-    // For Jabel usage
-    sourceCompatibility = JavaVersion.VERSION_16
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    withSourcesJar()
 }
 
 loom {
     // use this if you are using the official mojang mappings
     // and want loom to stop warning you about their license
     silentMojangMappingsLicense()
-
-    // since loom 0.10, you are **required** to use the
-    // "forge" block to configure forge-specific features,
-    // such as the mixinConfigs array or datagen
-    forge {
-        // specify the mixin configs used in this mod
-        // this will be added to the jar manifest as well!
-        mixinConfigs("kube_jei.mixins.json")
-
-        // missing access transformers?
-        // don't worry, you can still use them!
-        // note that your AT *MUST* be located at
-        // src/main/resources/META-INF/accesstransformer.cfg
-        // to work as there is currently no config option to change this.
-        // also, any names used in your access transformer will need to be
-        // in SRG mapped ("func_" / "field_" with MCP class names) to work!
-        // (both of these things may be subject to change in the future)
-    }
 }
 
 repositories {
-    // Add repositories to retrieve artifacts from in here.
-    // You should only use this when depending on other mods because
-    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-    // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-    // for more information about repositories.
     exclusiveContent {
         forRepository {
-            maven {
-                url = uri("https://cursemaven.com")
-            }
+            maven("https://cursemaven.com")
         }
         filter {
             includeGroup("curse.maven")
         }
+    }
+    maven("https://maven.neoforged.net/releases/") {
+        name = "NeoForge"
     }
     maven("https://maven.architectury.dev") {
         content {
             includeGroup("me.shedaniel")
         }
     }
-    maven("https://dvs1.progwml6.com/files/maven/") {
-        // JEI
-        name = "Progwml6 maven"
-    }
     maven("https://modmaven.dev") {
-        // mirror for JEI, as a fallback
+        // JEI
         name = "ModMaven"
     }
 }
@@ -98,34 +71,12 @@ dependencies {
     // to add your own mappings here (how about
     // mojmap layered with parchment, for example?)
     mappings(loom.officialMojangMappings())
+    neoForge("net.neoforged:neoforge:$neoForgeVersion")
 
-    // uncomment this if you want to use yarn mappings
-    // mappings("net.fabricmc:yarn:${project.yarn_mappings}:v2")
+    modImplementation("curse.maven:kubejs-238086:8083208")
+    modImplementation("curse.maven:rhino-416294:8218748")
 
-    // your forge dependency, this is **required** when using Forge Loom in forge mode!
-    forge("net.minecraftforge:forge:$forgeVersion")
-
-    // additional dependencies can be specified using loom's regular format
-    // specifying a "mod" dependency (like modImplementation or modApi)
-    // will cause loom to remap the file to your specified mappings
-
-    // in this example, we'll be adding JEI as a dependency
-    // according to their developer example on GitHub
-    // see: https://github.com/mezz/JustEnoughItems/wiki/Getting-Started
-    // compile against the JEI API but do not include it at runtime
-    // don't worry about loom "not finding a forge mod" here,
-    // JEI's api just doesn't have any class with an @Mod annotation
-    // modCompileOnly("mezz.jei:jei-1.16.5:${jei_version}:api")
-    // at runtime, use the full JEI jar
-    // modRuntimeOnly("mezz.jei:jei-1.16.5:${jei_version}")
-
-    modImplementation("curse.maven:probejs-legacy-956446:5930049")
-    modImplementation("curse.maven:rhizo-1003287:5506575")
-    modImplementation("curse.maven:kubejs-238086:3647098")
-    modImplementation("mezz.jei:jei-$minecraftVersion:$jeiVersion")
-
-    compileOnly("com.pkware.jabel:jabel-javac-plugin:1.0.1-1")
-    annotationProcessor("com.pkware.jabel:jabel-javac-plugin:1.0.1-1")
+    modImplementation("mezz.jei:jei-$minecraftVersion-neoforge:$jeiVersion")
 
     compileOnly("org.projectlombok:lombok:1.18.34")
     annotationProcessor("org.projectlombok:lombok:1.18.34")
@@ -137,7 +88,7 @@ tasks.processResources {
 
     // this will replace the property "\${version}" in your mods.toml
     // with the version you've defined in your gradle.properties
-    filesMatching("META-INF/mods.toml") {
+    filesMatching("META-INF/neoforge.mods.toml") {
         expand(
             mapOf(
                 "version" to version,
@@ -158,10 +109,6 @@ tasks.withType<JavaCompile> {
     // If Javadoc is generated, this must be specified in that task too.
     options.encoding = "UTF-8"
     options.compilerArgs.add("-parameters")
-
-    // For Jabel usage
-    sourceCompatibility = "16"
-    options.release.set(8)
 }
 
 java {

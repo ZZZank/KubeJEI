@@ -1,132 +1,124 @@
 package zzzank.mods.kube_jei.mod_bridge;
 
-import dev.latvian.kubejs.script.ScriptType;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.registration.IAdvancedRegistration;
-import mezz.jei.api.registration.IGuiHandlerRegistration;
-import mezz.jei.api.registration.IModIngredientRegistration;
-import mezz.jei.api.registration.IRecipeCatalystRegistration;
-import mezz.jei.api.registration.IRecipeCategoryRegistration;
-import mezz.jei.api.registration.IRecipeRegistration;
-import mezz.jei.api.registration.IRecipeTransferRegistration;
-import mezz.jei.api.registration.ISubtypeRegistration;
-import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
+import mezz.jei.api.helpers.IPlatformFluidHelper;
+import mezz.jei.api.registration.*;
+import mezz.jei.api.runtime.IJeiFeatures;
 import mezz.jei.api.runtime.IJeiRuntime;
+import mezz.jei.api.runtime.config.IJeiConfigManager;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import zzzank.mods.kube_jei.KubeJEI;
-import zzzank.mods.kube_jei.events.*;
+import zzzank.mods.kube_jei.events.misc.ConfigureJeiEventJS;
+import zzzank.mods.kube_jei.events.KubeJEIEvents;
+import zzzank.mods.kube_jei.events.misc.OnConfigManagerAvailableEventJS;
+import zzzank.mods.kube_jei.events.misc.OnRuntimeAvailableEventJS;
+import zzzank.mods.kube_jei.events.misc.OnRuntimeUnavailableEventJS;
 import zzzank.mods.kube_jei.events.register.*;
-
-import static zzzank.mods.kube_jei.KubeJEIEvents.*;
 
 @JeiPlugin
 public class JEIPlugin implements IModPlugin {
-    /**
-     * The unique ID for this mod plugin.
-     * The namespace should be your mod's modId.
-     */
     @Override
     public @NotNull ResourceLocation getPluginUid() {
         return KubeJEI.rl("jei_plugin");
     }
 
-    /**
-     * If your item has subtypes that depend on NBT or capabilities, use this to help JEI identify those subtypes correctly.
-     */
+    @Override
+    public void configureJei(@NotNull IJeiFeatures jeiFeatures) {
+        KubeJEIEvents.CONFIGURE_JEI.post(new ConfigureJeiEventJS(jeiFeatures));
+    }
+
     @Override
     public void registerItemSubtypes(@NotNull ISubtypeRegistration registration) {
-		new RegisterItemSubtypeEventJS(registration).post(ScriptType.CLIENT, REGISTER_ITEM_SUBTYPES);
+        KubeJEIEvents.REGISTER_ITEM_SUBTYPES.post(new RegisterItemSubtypesEventJS(registration));
     }
 
-    /**
-     * If your fluid has subtypes that depend on NBT or capabilities, use this to help JEI identify those subtypes correctly.
-     */
     @Override
-    public void registerFluidSubtypes(@NotNull ISubtypeRegistration registration) {
-		new RegisterFluidSubtypeEventJS(registration).post(ScriptType.CLIENT, REGISTER_FLUID_SUBTYPES);
+    public <T> void registerFluidSubtypes(
+        @NotNull ISubtypeRegistration registration,
+        @NotNull IPlatformFluidHelper<T> platformFluidHelper
+    ) {
+        KubeJEIEvents.REGISTER_FLUID_SUBTYPES.post(new RegisterFluidSubtypesEventJS(registration, platformFluidHelper));
     }
 
-    /**
-     * Register special ingredients, beyond the basic ItemStack and FluidStack.
-     */
     @Override
     public void registerIngredients(@NotNull IModIngredientRegistration registration) {
-		new RegisterIngredientsEventJS(registration).post(ScriptType.CLIENT, REGISTER_INGREDIENTS);
+        KubeJEIEvents.REGISTER_INGREDIENTS.post(new RegisterIngredientsEventJS(registration));
     }
 
-    /**
-     * Register the categories handled by this plugin.
-     * These are registered before recipes, so they can be checked for validity.
-     */
     @Override
-    public void registerCategories(IRecipeCategoryRegistration registration) {
-        JEIEventJS.JEI_HELPERS = registration.getJeiHelpers();
-		new RegisterCategoriesEventJS(registration).post(ScriptType.CLIENT, REGISTER_CATEGORIES);
+    public void registerExtraIngredients(@NotNull IExtraIngredientRegistration registration) {
+        KubeJEIEvents.REGISTER_EXTRA_INGREDIENTS.post(new RegisterExtraIngredientsEventJS(registration));
     }
 
-    /**
-     * Register modded extensions to the vanilla crafting recipe category.
-     * Custom crafting recipes for your mod should use this to tell JEI how they work.
-     */
+    @Override
+    public void registerIngredientAliases(@NotNull IIngredientAliasRegistration registration) {
+        KubeJEIEvents.REGISTER_INGREDIENT_ALIASES.post(new RegisterIngredientAliasesEventJS(registration));
+    }
+
+    @Override
+    public void registerAdvancedSearch(@NotNull IAdvancedSearchRegistration registration) {
+        KubeJEIEvents.REGISTER_ADVANCED_SEARCH.post(new RegisterAdvancedSearchEventJS(registration));
+    }
+
+    @Override
+    public void registerModInfo(@NotNull IModInfoRegistration modAliasRegistration) {
+        KubeJEIEvents.REGISTER_MOD_INFO.post(new RegisterModInfoEventJS(modAliasRegistration));
+    }
+
+    @Override
+    public void registerCategories(@NotNull IRecipeCategoryRegistration registration) {
+        KubeJEIEvents.REGISTER_CATEGORIES.post(new RegisterCategoriesEventJS(registration));
+    }
+
     @Override
     public void registerVanillaCategoryExtensions(@NotNull IVanillaCategoryExtensionRegistration registration) {
-        new RegisterVanillaCategoryExtensionsEventJS(registration).post(ScriptType.CLIENT, REGISTER_VANILLA_CATEGORY_EXTENSIONS);
+        KubeJEIEvents.REGISTER_VANILLA_CATEGORY_EXTENSIONS.post(new RegisterVanillaCategoryExtensionsEventJS(registration));
     }
 
-    /**
-     * Register modded recipes.
-     */
     @Override
-    public void registerRecipes(IRecipeRegistration registration) {
-        JEIEventJS.JEI_HELPERS = registration.getJeiHelpers();
-        new RegisterRecipesEventJS(registration).post(ScriptType.CLIENT, REGISTER_RECIPES);
+    public void registerRecipes(@NotNull IRecipeRegistration registration) {
+        KubeJEIEvents.REGISTER_RECIPES.post(new RegisterRecipesEventJS(registration));
     }
 
-    /**
-     * Register recipe transfer handlers (move ingredients from the inventory into crafting GUIs).
-     */
     @Override
-    public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
-        JEIEventJS.JEI_HELPERS = registration.getJeiHelpers();
-		new RegisterRecipeTransferHandlersEventJS(registration).post(ScriptType.CLIENT, REGISTER_RECIPE_TRANSFER_HANDLERS);
+    public void registerRecipeTransferHandlers(@NotNull IRecipeTransferRegistration registration) {
+        KubeJEIEvents.REGISTER_RECIPE_TRANSFER_HANDLERS.post(new RegisterRecipeTransferHandlersEventJS(registration));
     }
 
-    /**
-     * Register recipe catalysts.
-     * Recipe Catalysts are ingredients that are needed in order to craft other things.
-     * Vanilla examples of Recipe Catalysts are the Crafting Table and Furnace.
-     */
     @Override
     public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration) {
-        new RegisterRecipeCatalystsEventJS(registration).post(ScriptType.CLIENT, REGISTER_RECIPE_CATALYSTS);
+        KubeJEIEvents.REGISTER_RECIPE_CATALYSTS.post(new RegisterRecipeCatalystsEventJS(registration));
     }
 
-    /**
-     * Register various GUI-related things for your mod.
-     * This includes adding clickable areas in your guis to open JEI,
-     * and adding areas on the screen that JEI should avoid drawing.
-     */
     @Override
     public void registerGuiHandlers(@NotNull IGuiHandlerRegistration registration) {
-        new RegisterGUIHandlersEventJS(registration).post(ScriptType.CLIENT, REGISTER_GUI_HANDLERS);
+        KubeJEIEvents.REGISTER_GUI_HANDLERS.post(new RegisterGUIHandlersEventJS(registration));
     }
 
-    /**
-     * Register advanced features for your mod plugin.
-     */
     @Override
-    public void registerAdvanced(IAdvancedRegistration registration) {
-        JEIEventJS.JEI_HELPERS = registration.getJeiHelpers();
-		new RegisterAdvancedEventJS(registration).post(ScriptType.CLIENT, REGISTER_ADVANCED);
+    public void registerAdvanced(@NotNull IAdvancedRegistration registration) {
+        KubeJEIEvents.REGISTER_ADVANCED.post(new RegisterAdvancedEventJS(registration));
     }
 
-    /**
-     * Called when jei's runtime features are available, after all mods have registered.
-     */
+    @Override
+    public void registerRuntime(@NotNull IRuntimeRegistration registration) {
+        KubeJEIEvents.REGISTER_RUNTIME.post(new RegisterRuntimeEventJS(registration));
+    }
+
     @Override
     public void onRuntimeAvailable(@NotNull IJeiRuntime jeiRuntime) {
-		new OnRuntimeAvailableEventJS(jeiRuntime).post(ScriptType.CLIENT, ON_RUNTIME_AVAILABLE);
+        KubeJEIEvents.ON_RUNTIME_AVAILABLE.post(new OnRuntimeAvailableEventJS(jeiRuntime));
+    }
+
+    @Override
+    public void onRuntimeUnavailable() {
+        KubeJEIEvents.ON_RUNTIME_UNAVAILABLE.post(new OnRuntimeUnavailableEventJS());
+    }
+
+    @Override
+    public void onConfigManagerAvailable(@NotNull IJeiConfigManager configManager) {
+        KubeJEIEvents.ON_CONFIG_MANAGER_AVAILABLE.post(new OnConfigManagerAvailableEventJS(configManager));
     }
 }

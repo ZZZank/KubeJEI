@@ -5,8 +5,6 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "kube_jei.refmap.json",
   "mixins": [
-    "AccessGuiIngredientGroup",
-    "AccessJeiReloadListener",
     "MixinRecipeCategoryRegistration",
     "MixinRecipeRegistration"
   ],

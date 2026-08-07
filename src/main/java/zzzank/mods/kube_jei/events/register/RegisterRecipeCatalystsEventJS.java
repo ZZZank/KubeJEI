@@ -1,34 +1,34 @@
 package zzzank.mods.kube_jei.events.register;
 
-import dev.latvian.kubejs.item.ItemStackJS;
-import dev.latvian.mods.rhino.annotations.typing.JSInfo;
+import dev.latvian.mods.kubejs.typings.Info;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import net.minecraft.resources.ResourceLocation;
-import zzzank.mods.kube_jei.events.JEIEventJS;
+import net.minecraft.world.item.ItemStack;
+import zzzank.mods.kube_jei.events.KubeJEIEvent;
 
 import java.util.Objects;
 
-public class RegisterRecipeCatalystsEventJS extends JEIEventJS {
+public class RegisterRecipeCatalystsEventJS implements KubeJEIEvent {
     public final IRecipeCatalystRegistration registration;
 
     public RegisterRecipeCatalystsEventJS(IRecipeCatalystRegistration registration) {
         this.registration = registration;
     }
 
-    @JSInfo("""
-        Add an association between an ingredient and what it can craft. (i.e. Furnace ItemStack -> Smelting and Fuel Recipes)
-        Allows players to see what ingredient they need to craft in order to make recipes from a recipe category.
-        @param catalystIngredient the ingredient that can craft recipes (like a furnace or crafting table)
-        @param recipeCategoryUids the recipe categories handled by the ingredient""")
-    public void addRecipeCatalyst(Object catalystIngredient, ResourceLocation... recipeCategoryUids) {
-        registration.addRecipeCatalyst(catalystIngredient, recipeCategoryUids);
-    }
-
-    @JSInfo("""
+    @Info("""
         a specialized version of {@link addRecipeCatalyst} to make the most frequent catalyst action easier""")
-    public void addItemCatalyst(ItemStackJS[] stacks, ResourceLocation... categoryIds) {
-        for (ItemStackJS stack : Objects.requireNonNull(stacks)) {
-            addRecipeCatalyst(stack.getItemStack(), categoryIds);
+    public void addItemCatalyst(ItemStack[] stacks, ResourceLocation... categoryIds) {
+        var recipeTypes = new RecipeType<?>[categoryIds.length];
+        for (int i = 0; i < categoryIds.length; i++) {
+            var id = categoryIds[i];
+            recipeTypes[i] = registration.getJeiHelpers()
+                .getRecipeType(id)
+                .orElseThrow(() -> new IllegalArgumentException("No recipe type for id: " + id));
+        }
+
+        for (ItemStack stack : Objects.requireNonNull(stacks)) {
+            registration.addRecipeCatalyst(stack, recipeTypes);
         }
     }
 }

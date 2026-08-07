@@ -1,4 +1,4 @@
-package zzzank.mods.kube_jei.impl.helpers;
+package zzzank.mods.kube_jei.impl.helper;
 
 import mezz.jei.api.gui.ITickTimer;
 

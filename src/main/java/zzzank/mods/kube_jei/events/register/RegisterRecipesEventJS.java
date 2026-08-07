@@ -1,40 +1,24 @@
 package zzzank.mods.kube_jei.events.register;
 
-import dev.latvian.mods.rhino.annotations.typing.JSInfo;
+import dev.latvian.mods.kubejs.event.EventResult;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.resources.ResourceLocation;
-import zzzank.mods.kube_jei.events.JEIEventJS;
-import zzzank.mods.kube_jei.impl.recipe_type.RecipeType;
-import zzzank.mods.kube_jei.impl.CustomJSRecipe;
-import zzzank.mods.kube_jei.impl.recipe_type.KubeJEIRecipeTypes;
+import zzzank.mods.kube_jei.events.KubeJEIEvent;
+import mezz.jei.api.recipe.RecipeType;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class RegisterRecipesEventJS extends JEIEventJS {
-    public final IRecipeRegistration data;
-    public final List<CustomJSRecipe.CustomRecipeListBuilder> customRecipeListBuilders = new ArrayList<>();
+public class RegisterRecipesEventJS implements KubeJEIEvent {
+    public final IRecipeRegistration registration;
 
-    public RegisterRecipesEventJS(IRecipeRegistration data) {
-        this.data = data;
+    public RegisterRecipesEventJS(IRecipeRegistration registration) {
+        this.registration = registration;
     }
 
-    @JSInfo("""
-        Add the recipes provided by your plugin.""")
     public <T> void register(RecipeType<T> recipeType, List<T> recipes) {
-        data.addRecipes(recipes, recipeType.uid());
-    }
-
-    public CustomJSRecipe.CustomRecipeListBuilder custom(ResourceLocation recipeType) {
-        var recipeListBuilder = new CustomJSRecipe.CustomRecipeListBuilder(KubeJEIRecipeTypes.getOrCreateCustom(recipeType));
-        customRecipeListBuilders.add(recipeListBuilder);
-        return recipeListBuilder;
+        registration.addRecipes(recipeType, recipes);
     }
 
     @Override
-    protected void afterPosted(boolean result) {
-        for (var builder : this.customRecipeListBuilders) {
-            data.addRecipes(builder.recipes, builder.type.uid());
-        }
+    public void afterPosted(EventResult result) {
     }
 }

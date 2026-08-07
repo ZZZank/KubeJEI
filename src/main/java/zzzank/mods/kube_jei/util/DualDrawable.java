@@ -1,16 +1,16 @@
 package zzzank.mods.kube_jei.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import dev.latvian.mods.rhino.annotations.typing.JSInfo;
+import dev.latvian.mods.kubejs.typings.Info;
 import lombok.AllArgsConstructor;
 import mezz.jei.api.gui.drawable.IDrawable;
+import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author ZZZank
  */
-@JSInfo("""
+@Info("""
     Mainly use for icons that want to display two ingredients""")
 @AllArgsConstructor
 public class DualDrawable implements IDrawable {
@@ -30,20 +30,18 @@ public class DualDrawable implements IDrawable {
     }
 
     @Override
-    public void draw(@NotNull PoseStack matrixStack, int xOffset, int yOffset) {
+    public void draw(@NotNull GuiGraphics guiGraphics, int xOffset, int yOffset) {
+        var matrixStack = guiGraphics.pose();
+
         RenderSystem.enableDepthTest();
         matrixStack.pushPose();
 
-//        matrixStack.pushPose();
         matrixStack.translate(1, 1, 0);
-        primary.draw(matrixStack, xOffset, yOffset);
-//        matrixStack.popPose();
+        primary.draw(guiGraphics, xOffset, yOffset);
 
-//        matrixStack.pushPose();
         matrixStack.translate((SIZE + xOffset) >> 1, (SIZE + yOffset) >> 1, 100); // what
         matrixStack.scale(0.5f, 0.5f, 0.5f);
-        secondary.draw(matrixStack, xOffset, yOffset);
-//        matrixStack.popPose();
+        secondary.draw(guiGraphics, xOffset, yOffset);
 
         matrixStack.popPose();
     }
