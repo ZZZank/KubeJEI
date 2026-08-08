@@ -1,8 +1,7 @@
-package zzzank.mods.kube_jei.util;
+package zzzank.mods.kube_jei.impl.helper;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.latvian.mods.kubejs.typings.Info;
-import lombok.AllArgsConstructor;
 import mezz.jei.api.gui.drawable.IDrawable;
 import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.NotNull;
@@ -12,12 +11,8 @@ import org.jetbrains.annotations.NotNull;
  */
 @Info("""
     Mainly use for icons that want to display two ingredients""")
-@AllArgsConstructor
-public class DualDrawable implements IDrawable {
+public record DualDrawable(IDrawable primary, IDrawable secondary) implements IDrawable {
     public static final int SIZE = 18;
-
-    public final IDrawable primary;
-    public final IDrawable secondary;
 
     @Override
     public int getWidth() {

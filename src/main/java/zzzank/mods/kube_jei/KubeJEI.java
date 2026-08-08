@@ -14,9 +14,6 @@ public class KubeJEI {
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public KubeJEI() {
-//        if (ModState.PROBE_JS) {
-//            ProbeJSPlugins.register(new ProbeJSPlugin());
-//        }
     }
 
     public static ResourceLocation rl(String path) {
