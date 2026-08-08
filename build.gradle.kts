@@ -1,8 +1,10 @@
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.function.BiConsumer
 
 plugins {
     id("dev.architectury.loom") version "1.17-SNAPSHOT"
+    id("com.hypherionmc.modutils.modpublisher") version "2.2.2"
     id("maven-publish")
 }
 
@@ -75,7 +77,10 @@ dependencies {
     // mojang's official mappings, or feel free
     // to add your own mappings here (how about
     // mojmap layered with parchment, for example?)
-    mappings(loom.officialMojangMappings())
+    mappings(loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-1.21.1:2024.11.17@zip")
+    })
     neoForge("net.neoforged:neoforge:$neoForgeVersion")
 
     modImplementation("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.368")
@@ -160,5 +165,42 @@ publishing {
         // Notice: This block does NOT have the same function as the block in the top level.
         // The repositories here will be used for publishing your artifact, not for
         // retrieving dependencies.
+    }
+}
+
+// see: https://github.com/firstdarkdev/modpublisher
+publisher {
+    validatedProp("publish.modrinth", "MODRINTH_TOKEN") { id, key ->
+        modrinthID.set(id)
+        apiKeys { modrinth(key) }
+    }
+
+    validatedProp("publish.curseforge", "CURSE_TOKEN") { id, key ->
+        curseID.set(id)
+        apiKeys { curseforge(key) }
+    }
+
+    validatedProp("publish.github", "GITHUB_TOKEN") { id, key ->
+        githubRepo.set(id)
+        apiKeys { github(key) }
+    }
+
+    // Enable Debug mode. When enabled, no files will actually be uploaded
+    debug.set(false)
+
+    changelog.set(rootProject.file("CHANGELOG.md"))
+    projectVersion.set(modVersion)
+    // Example: 1.2.3 for 1.20.1 forge
+    displayName.set("$modVersion for $minecraftVersion ${prop("loom.platform")}")
+    gameVersions.set(listOf("1.21.1"))
+    loaders.set(listOf("neoforge"))
+    artifact.set(tasks.remapJar)
+}
+
+fun validatedProp(prop: String, env: String, action: BiConsumer<String, String>) {
+    val projectID = if (project.hasProperty(prop)) { prop(prop) } else null
+    val apiKey = System.getenv(env)
+    if (projectID != null && !projectID.startsWith('[') && apiKey != null && apiKey.isNotEmpty()) {
+        action.accept(projectID, apiKey)
     }
 }
