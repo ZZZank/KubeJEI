@@ -47,7 +47,6 @@ public abstract class MixinRecipeCategoryRegistration {
             shift = At.Shift.AFTER,
             ordinal = 0
         ),
-        index = 0,
         argsOnly = true
     )
     public IRecipeCategory<?>[] kJei$denyCategories(IRecipeCategory<?>[] value) {
