@@ -1,4 +1,4 @@
-package zank.mods.kube_jei.mod_bridge;
+package zank.mods.kube_jei.bridge;
 
 import dev.latvian.mods.kubejs.event.EventGroupRegistry;
 import zank.mods.kube_jei.events.KubeJEIEvents;

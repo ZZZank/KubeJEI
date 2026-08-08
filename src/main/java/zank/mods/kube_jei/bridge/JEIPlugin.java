@@ -1,4 +1,4 @@
-package zank.mods.kube_jei.mod_bridge;
+package zank.mods.kube_jei.bridge;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
