@@ -5,38 +5,39 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import net.minecraft.resources.ResourceLocation;
 import zank.mods.kube_jei.events.KubeJEIEvent;
-import zank.mods.kube_jei.impl.CustomJSRecipe;
 import zank.mods.kube_jei.impl.CustomCategoryBuilder;
+import zank.mods.kube_jei.impl.CustomJSRecipe;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class RegisterCategoriesEventJS implements KubeJEIEvent {
     public final IRecipeCategoryRegistration registration;
     private final List<CustomCategoryBuilder<?>> builders = new ArrayList<>();
-    private final Map<ResourceLocation, RecipeType<CustomJSRecipe>> customRecipeTypes = new HashMap<>();
 
     public RegisterCategoriesEventJS(IRecipeCategoryRegistration registration) {
         this.registration = registration;
     }
 
-    public CustomCategoryBuilder<CustomJSRecipe> custom(ResourceLocation id) {
-        var builder = new CustomCategoryBuilder<>(recipeType(id), registration.getJeiHelpers());
+    public <T> CustomCategoryBuilder<T> custom(RecipeType<T> recipeType) {
+        var builder = new CustomCategoryBuilder<>(recipeType, registration.getJeiHelpers());
         builders.add(builder);
         return builder;
     }
 
-    public CustomCategoryBuilder<CustomJSRecipe> custom(ResourceLocation id, Consumer<CustomCategoryBuilder<CustomJSRecipe>> modifier) {
-        var builder = custom(id);
+    public <T> CustomCategoryBuilder<T> custom(RecipeType<T> recipeType, Consumer<CustomCategoryBuilder<T>> modifier) {
+        var builder = custom(recipeType);
         modifier.accept(builder);
         return builder;
     }
 
-    private RecipeType<CustomJSRecipe> recipeType(ResourceLocation id) {
-        return customRecipeTypes.computeIfAbsent(id, uid -> new RecipeType<>(uid, CustomJSRecipe.class));
+    public CustomCategoryBuilder<CustomJSRecipe> custom(ResourceLocation id) {
+        return custom(new RecipeType<>(id, CustomJSRecipe.class));
+    }
+
+    public CustomCategoryBuilder<CustomJSRecipe> custom(ResourceLocation id, Consumer<CustomCategoryBuilder<CustomJSRecipe>> modifier) {
+        return custom(new RecipeType<>(id, CustomJSRecipe.class), modifier);
     }
 
     @Override
