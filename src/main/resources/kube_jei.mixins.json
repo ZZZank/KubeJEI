@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "zzzank.mods.kube_jei.mixins",
+  "package": "zank.mods.kube_jei.mixins",
   "compatibilityLevel": "JAVA_8",
   "refmap": "kube_jei.refmap.json",
   "mixins": [
