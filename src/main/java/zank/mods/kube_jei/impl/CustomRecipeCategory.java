@@ -52,23 +52,19 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
     @Override
     public void setRecipe(@NotNull IRecipeLayoutBuilder layout, @NotNull T recipe, @NotNull IFocusGroup focuses) {
         var handler = builder.recipeSetHandler;
-        if (handler == null) {
-            return;
-        }
-        try {
-            handler.setRecipe(layout, recipe, focuses);
-        } catch (Throwable e) {
-            ConsoleJS.CLIENT.error("Error setting recipe for category: " + getRecipeType().getUid(), e);
+        if (handler != null) {
+            try {
+                handler.setRecipe(layout, recipe, focuses);
+            } catch (Throwable e) {
+                ConsoleJS.CLIENT.error("Error setting recipe for category: " + getRecipeType().getUid(), e);
+            }
         }
     }
 
     @Override
     public void createRecipeExtras(@NotNull IRecipeExtrasBuilder extrasBuilder, @NotNull T recipe, @NotNull IFocusGroup focuses) {
         var handler = builder.inputHandler;
-        if (handler == null) {
-            return;
-        }
-        try {
+        if (handler != null) {
             extrasBuilder.addInputHandler(new IJeiInputHandler() {
                 @Override
                 public @NotNull ScreenRectangle getArea() {
@@ -77,11 +73,14 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
 
                 @Override
                 public boolean handleInput(double mouseX, double mouseY, @NotNull IJeiUserInput input) {
-                    return handler.handleInput(recipe, mouseX, mouseY, input);
+                    try {
+                        return handler.handleInput(recipe, mouseX, mouseY, input);
+                    } catch (Throwable e) {
+                        ConsoleJS.CLIENT.error("Error creating recipe extras for category: " + getRecipeType().getUid(), e);
+                        return IJeiInputHandler.super.handleInput(mouseX, mouseY, input);
+                    }
                 }
             });
-        } catch (Throwable e) {
-            ConsoleJS.CLIENT.error("Error creating recipe extras for category: " + getRecipeType().getUid(), e);
         }
     }
 
@@ -96,41 +95,38 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
             }
         }
         var handler = builder.drawHandler;
-        if (handler == null) {
-            return;
-        }
-        try {
-            handler.draw(recipe, guiGraphics, mouseX, mouseY);
-        } catch (Throwable e) {
-            ConsoleJS.CLIENT.error("Error drawing category: " + getRecipeType().getUid(), e);
+        if (handler != null) {
+            try {
+                handler.draw(recipe, guiGraphics, mouseX, mouseY);
+            } catch (Throwable e) {
+                ConsoleJS.CLIENT.error("Error drawing category: " + getRecipeType().getUid(), e);
+            }
         }
     }
 
     @Override
     public void getTooltip(@NotNull ITooltipBuilder tooltip, @NotNull T recipe, @NotNull IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
         var handler = builder.tooltipHandler;
-        if (handler == null) {
-            return;
-        }
-        try {
-            tooltip.addAll(handler.getTooltipStrings(recipe, mouseX, mouseY));
-        } catch (Throwable e) {
-            ConsoleJS.CLIENT.error("Error getting tooltip for category: " + getRecipeType().getUid(), e);
+        if (handler != null) {
+            try {
+                tooltip.addAll(handler.getTooltipStrings(recipe, mouseX, mouseY));
+            } catch (Throwable e) {
+                ConsoleJS.CLIENT.error("Error getting tooltip for category: " + getRecipeType().getUid(), e);
+            }
         }
     }
 
     @Override
     public boolean isHandled(@NotNull T recipe) {
         var handler = builder.recipeHandlePredicate;
-        if (handler == null) {
-            return true;
+        if (handler != null) {
+            try {
+                return handler.isHandled(recipe);
+            } catch (Throwable e) {
+                ConsoleJS.CLIENT.error("Error checking recipe for category: " + getRecipeType().getUid(), e);
+            }
         }
-        try {
-            return handler.isHandled(recipe);
-        } catch (Throwable e) {
-            ConsoleJS.CLIENT.error("Error checking recipe for category: " + getRecipeType().getUid(), e);
-            return true;
-        }
+        return true;
     }
 
     @Override
