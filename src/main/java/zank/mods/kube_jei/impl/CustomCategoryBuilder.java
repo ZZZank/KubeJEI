@@ -46,7 +46,7 @@ public class CustomCategoryBuilder<T> {
         this.jeiHelpers = jeiHelpers;
         this.title = Component.literal("KubeJEI Custom Category");
         this.background = null;
-        this.icon = jeiHelpers.getGuiHelper().createDrawableItemLike(Items.TNT);
+        this.icon = jeiHelpers.getGuiHelper().createDrawableItemLike(Items.BARRIER);
         this.width = 120;
         this.height = 60;
         this.needsRecipeBorder = true;
@@ -54,32 +54,6 @@ public class CustomCategoryBuilder<T> {
 
     public CustomRecipeCategory<T> asCategory() {
         return category == null ? (category = new CustomRecipeCategory<>(this)) : category;
-    }
-
-    public CustomCategoryBuilder<T> title(String title) {
-        this.title = Component.literal(title);
-        return this;
-    }
-
-    public CustomCategoryBuilder<T> iconItem(ItemStack stack) {
-        this.icon = jeiHelpers.getGuiHelper().createDrawableItemStack(stack);
-        return this;
-    }
-
-    public CustomCategoryBuilder<T> iconItem(ItemLike itemLike) {
-        this.icon = jeiHelpers.getGuiHelper().createDrawableItemLike(itemLike);
-        return this;
-    }
-
-    public CustomCategoryBuilder<T> backgroundTexture(ResourceLocation texture, int u, int v, int w, int h) {
-        this.background = jeiHelpers.getGuiHelper().createDrawable(texture, u, v, w, h);
-        return this;
-    }
-
-    public CustomCategoryBuilder<T> size(int width, int height) {
-        this.width = width;
-        this.height = height;
-        return this;
     }
 
     @FunctionalInterface
