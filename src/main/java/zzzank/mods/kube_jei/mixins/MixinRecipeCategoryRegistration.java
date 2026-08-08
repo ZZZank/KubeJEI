@@ -1,6 +1,5 @@
 package zzzank.mods.kube_jei.mixins;
 
-import com.google.common.collect.ImmutableList;
 import lombok.val;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.library.load.registration.RecipeCategoryRegistration;
@@ -36,7 +35,7 @@ public abstract class MixinRecipeCategoryRegistration {
             denyCategoryEvent.deniedIds.size(),
             denyCategoryEvent.denyPredicates.size()
         );
-        kJei$denyPredicates = ImmutableList.copyOf(denyCategoryEvent.denyPredicates);
+        kJei$denyPredicates = List.copyOf(denyCategoryEvent.denyPredicates);
     }
 
     @ModifyVariable(

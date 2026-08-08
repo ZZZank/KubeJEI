@@ -26,12 +26,6 @@ base {
 version = modVersion
 group = mavenGroup
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-    withSourcesJar()
-}
-
 loom {
     // use this if you are using the official mojang mappings
     // and want loom to stop warning you about their license
@@ -59,6 +53,17 @@ repositories {
         // JEI
         name = "ModMaven"
     }
+    maven("https://maven.latvian.dev/releases") {
+        content {
+            includeGroup("dev.latvian.mods")
+            includeGroup("dev.latvian.apps")
+        }
+    }
+    maven("https://jitpack.io") {
+        content {
+            includeGroup("com.github.rtyley")
+        }
+    }
 }
 
 dependencies {
@@ -73,9 +78,7 @@ dependencies {
     mappings(loom.officialMojangMappings())
     neoForge("net.neoforged:neoforge:$neoForgeVersion")
 
-    modImplementation("curse.maven:kubejs-238086:8083208")
-    modImplementation("curse.maven:rhino-416294:8218748")
-
+    modImplementation("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.368")
     modImplementation("mezz.jei:jei-$minecraftVersion-neoforge:$jeiVersion")
 
     // 8.0.3
@@ -112,6 +115,7 @@ tasks.withType<JavaCompile> {
     // If Javadoc is generated, this must be specified in that task too.
     options.encoding = "UTF-8"
     options.compilerArgs.add("-parameters")
+    options.release = 21
 }
 
 java {
@@ -119,6 +123,10 @@ java {
     // if it is present.
     // If you remove this line, sources will not be generated.
     withSourcesJar()
+}
+
+tasks.withType<net.fabricmc.loom.task.RunGameTask>().configureEach {
+    jvmArgs("-Xmx2g")
 }
 
 tasks.jar {
