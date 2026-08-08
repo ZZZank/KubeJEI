@@ -1,1 +1,2 @@
 zzzank.mods.kube_jei.mod_bridge.KubeJSPlugin
+zzzank.mods.kube_jei.mod_bridge.ProbeJSPlugin probejs
