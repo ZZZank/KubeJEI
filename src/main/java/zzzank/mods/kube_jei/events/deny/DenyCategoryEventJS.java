@@ -32,9 +32,9 @@ public class DenyCategoryEventJS implements KubeJEIEvent {
 
     @Info("""
         deny category by its id
-        
+
         keep in mind that recipes for this category will still ba passed to JEI, you might need to deny these recipes as
-        well in `denyRecipes` event.
+        well in `denyRecipes` event (`event.denyAllInCategory(...)`).
 
         you can get a list of categories via `runtime.recipeManager.getRecipeCategories()`, where `runtime` is IJeiRuntime""")
     public void deny(@NotNull ResourceLocation... ids) {

@@ -3,8 +3,8 @@ package zzzank.mods.kube_jei.events.deny;
 import com.google.common.collect.*;
 import dev.latvian.mods.kubejs.typings.Info;
 import lombok.val;
+import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.NotNull;
 import zzzank.mods.kube_jei.events.KubeJEIEvent;
@@ -33,13 +33,13 @@ public class DenyRecipeEventJS implements KubeJEIEvent {
         this.denyPredicates = new ArrayList<>();
 
         //direct denied
-        denyPredicates.add((categoryId, jeiRecipe) -> {
-            val recipeIds = directDenied.get(categoryId);
+        denyPredicates.add((recipeType, jeiRecipe) -> {
+            val recipeIds = directDenied.get(recipeType.getUid());
             return jeiRecipe instanceof RecipeHolder<?> holder && recipeIds.contains(holder.id());
         });
         //defined category denied
-        denyPredicates.add((categoryId, jeiRecipe) -> {
-            val predicates = categoryDenied.get(categoryId);
+        denyPredicates.add((recipeType, jeiRecipe) -> {
+            val predicates = categoryDenied.get(recipeType.getUid());
             for (val predicate : predicates) {
                 if (predicate.shouldDeny(jeiRecipe)) {
                     return true;
@@ -58,7 +58,7 @@ public class DenyRecipeEventJS implements KubeJEIEvent {
     @Info("""
         deny all recipes in such category""")
     public void denyAllInCategory(@NotNull ResourceLocation categoryId) {
-        denyCustom(Objects.requireNonNull(categoryId), SimpleRecipeDenyPredicate.ALWAYS_DENY);
+        denyCustom(Objects.requireNonNull(categoryId), (r) -> true);
     }
 
     @Info("""
@@ -79,28 +79,13 @@ public class DenyRecipeEventJS implements KubeJEIEvent {
      * @author ZZZank
      */
     public interface RecipeDenyPredicate {
-        RecipeDenyPredicate ALWAYS_DENY = (categoryId, recipe) -> true;
-        RecipeDenyPredicate ALWAYS_ALLOW = (categoryId, recipe) -> false;
-
-        @Info("""
-            @param categoryId the id of recipe category that the recipe is targeting at
-            @param recipe recipe instance. It's usually (but not guaranteed to be) an instance of {@link net.minecraft.world.item.crafting.Recipe}.
-            It's actual type is restricted by its recipe category, or more accurately, restricted to be an instance of: `IRecipeCategory#getRecipeClass()`
-            @return true if you want to deny the `recipe`""")
-        boolean shouldDeny(ResourceLocation categoryId, Object recipe);
+        boolean shouldDeny(RecipeType<?> recipeType, Object recipe);
     }
 
     /**
      * @author ZZZank
      */
-    public static interface SimpleRecipeDenyPredicate {
-        SimpleRecipeDenyPredicate ALWAYS_DENY = (recipe) -> true;
-        SimpleRecipeDenyPredicate ALWAYS_ALLOW = (recipe) -> false;
-
-        @Info("""
-            @param recipe recipe instance. It's usually (but not guaranteed to be) an instance of {@link net.minecraft.world.item.crafting.Recipe}.
-            It's actual type is restricted by its recipe category, or more accurately, restricted to be an instance of: `IRecipeCategory#getRecipeClass()`
-            @return true if you want to deny the `recipe`""")
+    public interface SimpleRecipeDenyPredicate {
         boolean shouldDeny(Object recipe);
     }
 }
