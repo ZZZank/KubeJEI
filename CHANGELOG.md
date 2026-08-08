@@ -1,10 +1,12 @@
-# KubeJS 1.9.0 -> 1.9.1
+# KubeJS 1.9.1 -> 2.0.0
 
-fix JEI reload command
+Completely rewritten for Minecraft 1.21.1
 
-- JEI reload command is now merged into KubeJS reload commands: `/kubejs reload jei`
-    - noted that you must be in SinglePlayer or OP mode to use this command
-- fixed JEI reload command only reloading some of JEI internals
+- Everything in a `JEIPlugin` redirected to KubeJS via events
+- Custom JEI category
+- Events for "denying" categories and recipes. By filtering them early, instead of hiding them after everything is loaded, almost all related computations can be eliminated.
+- Helpers for creating compound `IDrawables`, entity rendering, and custom tick timer
+- `/kube_jei reload` command shortcut for reloading KubeJS & JEI
 
 ---
 
