@@ -5,6 +5,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import zzzank.mods.kube_jei.events.KubeJEIEvent;
+import zzzank.mods.kube_jei.impl.CustomRecipeCategory;
 
 import java.util.*;
 
@@ -25,8 +26,7 @@ public class DenyCategoryEventJS implements KubeJEIEvent {
     public DenyCategoryEventJS() {
         denyPredicates.add(category -> deniedIds.contains(category.getRecipeType().getUid()));
         denyPredicates.add(category ->
-            // TODO: `instanceof CustomCategory` after custom category is implemented
-            !(category instanceof Void) && deniedNonCustom.contains(category.getRecipeType().getUid())
+            !(category instanceof CustomRecipeCategory) && deniedNonCustom.contains(category.getRecipeType().getUid())
         );
     }
 
