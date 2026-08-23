@@ -48,9 +48,9 @@ public abstract class MixinRecipeCategoryRegistration {
         ),
         argsOnly = true
     )
-    public IRecipeCategory<?>[] kJei$denyCategories(IRecipeCategory<?>[] value) {
+    public IRecipeCategory<?>[] kJei$denyCategories(IRecipeCategory<?>[] recipeCategories) {
         var denyPredicates = kJei$denyPredicates;
-        return Arrays.stream(value)
+        return Arrays.stream(recipeCategories)
             .filter(category -> denyPredicates.stream().noneMatch(predicate -> predicate.shouldDeny(category)))
             .toArray(IRecipeCategory[]::new);
     }

@@ -9,9 +9,9 @@ import mezz.jei.api.gui.inputs.IJeiUserInput;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.recipe.IFocusGroup;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +25,7 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
     }
 
     @Override
-    public @NotNull RecipeType<T> getRecipeType() {
+    public @NotNull IRecipeType<T> getRecipeType() {
         return builder.type;
     }
 
@@ -85,7 +85,7 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
     }
 
     @Override
-    public void draw(@NotNull T recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(@NotNull T recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
         var background = builder.background;
         if (background != null) {
             try {

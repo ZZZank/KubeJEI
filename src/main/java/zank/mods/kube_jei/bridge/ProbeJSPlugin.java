@@ -1,9 +1,9 @@
 package zank.mods.kube_jei.bridge;
 
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import mezz.jei.common.Internal;
 import moe.wolfgirl.probejs.snippet.SnippetRegisterer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 /**
  * @author ZZZank
@@ -18,8 +18,8 @@ public class ProbeJSPlugin extends moe.wolfgirl.probejs.plugin.ProbeJSPlugin {
             .choices(Internal.getJeiRuntime()
                 .getJeiHelpers()
                 .getAllRecipeTypes()
-                .map(RecipeType::getUid)
-                .map(ResourceLocation::toString)
+                .map(IRecipeType::getUid)
+                .map(Identifier::toString)
                 .toList())
             .literal("\"");
     }

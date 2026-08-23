@@ -3,7 +3,7 @@ package zank.mods.kube_jei.impl.helper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.latvian.mods.kubejs.typings.Info;
 import mezz.jei.api.gui.drawable.IDrawable;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -25,19 +25,18 @@ public record DualDrawable(IDrawable primary, IDrawable secondary) implements ID
     }
 
     @Override
-    public void draw(@NotNull GuiGraphics guiGraphics, int xOffset, int yOffset) {
+    public void draw(@NotNull GuiGraphicsExtractor guiGraphics, int xOffset, int yOffset) {
         var matrixStack = guiGraphics.pose();
 
-        RenderSystem.enableDepthTest();
-        matrixStack.pushPose();
+        matrixStack.pushMatrix();
 
-        matrixStack.translate(1, 1, 0);
+        matrixStack.translate(1, 1);
         primary.draw(guiGraphics, xOffset, yOffset);
 
-        matrixStack.translate((SIZE + xOffset) >> 1, (SIZE + yOffset) >> 1, 100); // what
-        matrixStack.scale(0.5f, 0.5f, 0.5f);
+        matrixStack.translate((SIZE + xOffset) >> 1, (SIZE + yOffset) >> 1);
+        matrixStack.scale(0.5f, 0.5f);
         secondary.draw(guiGraphics, xOffset, yOffset);
 
-        matrixStack.popPose();
+        matrixStack.popMatrix();
     }
 }

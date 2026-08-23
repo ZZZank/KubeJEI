@@ -2,9 +2,9 @@ package zank.mods.kube_jei.events.register;
 
 import dev.latvian.mods.kubejs.event.EventResult;
 import dev.latvian.mods.kubejs.script.ConsoleJS;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import zank.mods.kube_jei.events.KubeJEIEvent;
 import zank.mods.kube_jei.impl.CustomJSRecipe;
 
@@ -23,10 +23,10 @@ public class RegisterRecipesEventJS implements KubeJEIEvent {
         registration.addRecipes(recipeType, recipes);
     }
 
-    public CustomJSRecipe.CustomRecipeListBuilder custom(ResourceLocation recipeType) {
+    public CustomJSRecipe.CustomRecipeListBuilder custom(Identifier recipeType) {
         var type = registration.getJeiHelpers()
             .getRecipeType(recipeType, CustomJSRecipe.class)
-            .orElseGet(() -> new RecipeType<>(recipeType, CustomJSRecipe.class));
+            .orElseGet(() -> new IRecipeType<>(recipeType, CustomJSRecipe.class));
 
         var builder = new CustomJSRecipe.CustomRecipeListBuilder(type);
         builders.add(builder);

@@ -3,7 +3,7 @@ import java.util.Date
 import java.util.function.BiConsumer
 
 plugins {
-    id("dev.architectury.loom") version "1.17-SNAPSHOT"
+    id("dev.architectury.loom-no-remap") version "1.17-SNAPSHOT"
     id("com.hypherionmc.modutils.modpublisher") version "2.2.2"
     id("maven-publish")
 }
@@ -72,22 +72,13 @@ dependencies {
     // to change the versions see the gradle.properties file
     minecraft("com.mojang:minecraft:$minecraftVersion")
 
-    // choose what mappings you want to use here
-    // leave this uncommented if you want to use
-    // mojang's official mappings, or feel free
-    // to add your own mappings here (how about
-    // mojmap layered with parchment, for example?)
-    mappings(loom.layered() {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-1.21.1:2024.11.17@zip")
-    })
     neoForge("net.neoforged:neoforge:$neoForgeVersion")
 
-    modImplementation("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.368")
-    modImplementation("mezz.jei:jei-$minecraftVersion-neoforge:$jeiVersion")
+    implementation("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.368")
+    implementation("mezz.jei:jei-$minecraftVersion-neoforge:$jeiVersion")
 
     // 8.0.3
-    modImplementation("curse.maven:probejs-585406:8304356")
+    implementation("curse.maven:probejs-585406:8304356")
 
     compileOnly("org.projectlombok:lombok:1.18.34")
     annotationProcessor("org.projectlombok:lombok:1.18.34")
@@ -120,7 +111,7 @@ tasks.withType<JavaCompile> {
     // If Javadoc is generated, this must be specified in that task too.
     options.encoding = "UTF-8"
     options.compilerArgs.add("-parameters")
-    options.release = 21
+    options.release = 25
 }
 
 java {
@@ -192,9 +183,9 @@ publisher {
     projectVersion.set(modVersion)
     // Example: 1.2.3 for 1.20.1 forge
     displayName.set("$modVersion for $minecraftVersion ${prop("loom.platform")}")
-    gameVersions.set(listOf("1.21.1"))
-    loaders.set(listOf("neoforge"))
-    artifact.set(tasks.remapJar)
+    gameVersions.set(listOf(minecraftVersion))
+    loaders.set(listOf(prop("loom.platform")))
+    artifact.set(tasks.jar)
 }
 
 fun validatedProp(prop: String, env: String, action: BiConsumer<String, String>) {

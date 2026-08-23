@@ -1,6 +1,6 @@
 package zank.mods.kube_jei.impl;
 
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -16,10 +16,10 @@ public class CustomJSRecipe {
 
     public static class CustomRecipeListBuilder {
         @NotNull
-        public final RecipeType<CustomJSRecipe> type;
+        public final IRecipeType<CustomJSRecipe> type;
         public final List<CustomJSRecipe> recipes = new ArrayList<>();
 
-        public CustomRecipeListBuilder(@NotNull RecipeType<CustomJSRecipe> type) {
+        public CustomRecipeListBuilder(@NotNull IRecipeType<CustomJSRecipe> type) {
             this.type = type;
         }
 

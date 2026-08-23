@@ -7,7 +7,7 @@ import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IJeiFeatures;
 import mezz.jei.api.runtime.IJeiRuntime;
 import mezz.jei.api.runtime.config.IJeiConfigManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import zank.mods.kube_jei.KubeJEI;
 import zank.mods.kube_jei.events.misc.ConfigureJeiEventJS;
@@ -20,7 +20,7 @@ import zank.mods.kube_jei.events.register.*;
 @JeiPlugin
 public class JEIPlugin implements IModPlugin {
     @Override
-    public @NotNull ResourceLocation getPluginUid() {
+    public @NotNull Identifier getPluginUid() {
         return KubeJEI.rl("jei_plugin");
     }
 

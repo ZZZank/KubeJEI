@@ -2,7 +2,7 @@ package zank.mods.kube_jei.events.deny;
 
 import dev.latvian.mods.kubejs.typings.Info;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import zank.mods.kube_jei.events.KubeJEIEvent;
 import zank.mods.kube_jei.impl.CustomRecipeCategory;
@@ -19,8 +19,8 @@ import java.util.*;
     , so no computation and redundant access for the category will happen.""")
 public class DenyCategoryEventJS implements KubeJEIEvent {
 
-    public final Set<ResourceLocation> deniedIds = new HashSet<>();
-    public final Set<ResourceLocation> deniedNonCustom = new HashSet<>();
+    public final Set<Identifier> deniedIds = new HashSet<>();
+    public final Set<Identifier> deniedNonCustom = new HashSet<>();
     public final List<CategoryDenyPredicate> denyPredicates = new ArrayList<>();
 
     public DenyCategoryEventJS() {
@@ -37,7 +37,7 @@ public class DenyCategoryEventJS implements KubeJEIEvent {
         well in `denyRecipes` event (`event.denyAllInCategory(...)`).
 
         you can get a list of categories via `runtime.recipeManager.getRecipeCategories()`, where `runtime` is IJeiRuntime""")
-    public void deny(@NotNull ResourceLocation... ids) {
+    public void deny(@NotNull Identifier... ids) {
         deniedIds.addAll(Arrays.asList(ids));
     }
 
@@ -53,7 +53,7 @@ public class DenyCategoryEventJS implements KubeJEIEvent {
         deny a category with such id, BUT allowing custom recipe category with such id to register itself
         
         usually useful for replacing recipe category with custom implementation""")
-    public void denyNonCustom(@NotNull ResourceLocation id) {
+    public void denyNonCustom(@NotNull Identifier id) {
         deniedNonCustom.add(Objects.requireNonNull(id));
     }
 

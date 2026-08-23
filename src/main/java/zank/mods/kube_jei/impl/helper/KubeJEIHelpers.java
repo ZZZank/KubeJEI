@@ -2,14 +2,10 @@ package zank.mods.kube_jei.impl.helper;
 
 import mezz.jei.api.gui.ITickTimer;
 import mezz.jei.api.gui.drawable.IDrawable;
-import net.minecraft.client.gui.GuiGraphics;
+import mezz.jei.common.util.TickTimer;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.world.entity.LivingEntity;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
-
-import javax.annotation.Nullable;
-import java.util.function.IntSupplier;
 
 /**
  * @author ZZZank
@@ -21,12 +17,12 @@ public class KubeJEIHelpers {
         return new DualDrawable(primary, secondary);
     }
 
-    public ITickTimer customTickTimer(IntSupplier currentValue, int maxValue) {
-        return new CustomTickTimer(currentValue, maxValue);
+    public ITickTimer tickTimer(int ticksPerCycle, int maxValue, boolean countDown) {
+        return new TickTimer(ticksPerCycle, maxValue, countDown);
     }
 
     public void renderEntityFollowsMouse(
-        GuiGraphics guiGraphics,
+        GuiGraphicsExtractor guiGraphics,
         int x1,
         int y1,
         int x2,
@@ -37,11 +33,11 @@ public class KubeJEIHelpers {
         float mouseY,
         LivingEntity entity
     ) {
-        InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, x1, y1, x2, y2, scale, yOffset, mouseX, mouseY, entity);
+        InventoryScreen.extractEntityInInventoryFollowsMouse(guiGraphics, x1, y1, x2, y2, scale, yOffset, mouseX, mouseY, entity);
     }
 
     public void renderEntityFollowsAngle(
-        GuiGraphics guiGraphics,
+        GuiGraphicsExtractor guiGraphics,
         int x1,
         int y1,
         int x2,
@@ -53,18 +49,5 @@ public class KubeJEIHelpers {
         LivingEntity entity
     ) {
         InventoryScreen.renderEntityInInventoryFollowsAngle(guiGraphics, x1, y1, x2, y2, scale, yOffset, angleXComponent, angleYComponent, entity);
-    }
-
-    public void renderEntity(
-        GuiGraphics guiGraphics,
-        float x,
-        float y,
-        float scale,
-        Vector3f translate,
-        Quaternionf pose,
-        @Nullable Quaternionf cameraOrientation,
-        LivingEntity entity
-    ) {
-        InventoryScreen.renderEntityInInventory(guiGraphics, x, y, scale, translate, pose, cameraOrientation, entity);
     }
 }

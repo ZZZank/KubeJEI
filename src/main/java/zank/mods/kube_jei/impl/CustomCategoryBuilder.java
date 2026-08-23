@@ -5,13 +5,10 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.inputs.IJeiUserInput;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.recipe.IFocusGroup;
-import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.client.gui.GuiGraphics;
+import mezz.jei.api.recipe.types.IRecipeType;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,7 +18,7 @@ public class CustomCategoryBuilder<T> {
 
     public final IJeiHelpers jeiHelpers;
     @NotNull
-    public final RecipeType<T> type;
+    public final IRecipeType<T> type;
 
     @NotNull
     public Component title;
@@ -41,7 +38,7 @@ public class CustomCategoryBuilder<T> {
 
     private CustomRecipeCategory<T> category;
 
-    public CustomCategoryBuilder(@NotNull RecipeType<T> recipeType, @NotNull IJeiHelpers jeiHelpers) {
+    public CustomCategoryBuilder(@NotNull IRecipeType<T> recipeType, @NotNull IJeiHelpers jeiHelpers) {
         this.type = recipeType;
         this.jeiHelpers = jeiHelpers;
         this.title = Component.literal("KubeJEI Custom Category");
@@ -63,7 +60,7 @@ public class CustomCategoryBuilder<T> {
 
     @FunctionalInterface
     public interface DrawHandler<T> {
-        void draw(T recipe, GuiGraphics guiGraphics, double mouseX, double mouseY);
+        void draw(T recipe, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY);
     }
 
     @FunctionalInterface

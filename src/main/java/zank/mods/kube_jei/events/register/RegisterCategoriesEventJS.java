@@ -1,9 +1,9 @@
 package zank.mods.kube_jei.events.register;
 
 import dev.latvian.mods.kubejs.event.EventResult;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import zank.mods.kube_jei.events.KubeJEIEvent;
 import zank.mods.kube_jei.impl.CustomCategoryBuilder;
 import zank.mods.kube_jei.impl.CustomJSRecipe;
@@ -32,12 +32,12 @@ public class RegisterCategoriesEventJS implements KubeJEIEvent {
         return builder;
     }
 
-    public CustomCategoryBuilder<CustomJSRecipe> custom(ResourceLocation id) {
-        return custom(new RecipeType<>(id, CustomJSRecipe.class));
+    public CustomCategoryBuilder<CustomJSRecipe> custom(Identifier id) {
+        return custom(new IRecipeType<>(id, CustomJSRecipe.class));
     }
 
-    public CustomCategoryBuilder<CustomJSRecipe> custom(ResourceLocation id, Consumer<CustomCategoryBuilder<CustomJSRecipe>> modifier) {
-        return custom(new RecipeType<>(id, CustomJSRecipe.class), modifier);
+    public CustomCategoryBuilder<CustomJSRecipe> custom(Identifier id, Consumer<CustomCategoryBuilder<CustomJSRecipe>> modifier) {
+        return custom(new IRecipeType<>(id, CustomJSRecipe.class), modifier);
     }
 
     @Override
