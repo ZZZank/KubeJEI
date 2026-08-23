@@ -20,13 +20,11 @@ jobs:
 
       - name: setup Gradle wrapper
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: 9.2.0
 
       - name: setup Java 21
         uses: actions/setup-java@v4
         with:
-          java-version: 21
+          java-version: 25
           distribution: 'zulu'
 
       - name: make gradle wrapper executable
