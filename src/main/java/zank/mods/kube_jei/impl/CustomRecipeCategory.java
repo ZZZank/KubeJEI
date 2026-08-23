@@ -14,8 +14,9 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.network.chat.Component;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
 
     private final CustomCategoryBuilder<T> builder;
@@ -25,12 +26,12 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
     }
 
     @Override
-    public @NotNull IRecipeType<T> getRecipeType() {
+    public IRecipeType<T> getRecipeType() {
         return builder.type;
     }
 
     @Override
-    public @NotNull Component getTitle() {
+    public Component getTitle() {
         return builder.title;
     }
 
@@ -50,7 +51,7 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
     }
 
     @Override
-    public void setRecipe(@NotNull IRecipeLayoutBuilder layout, @NotNull T recipe, @NotNull IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder layout, T recipe, IFocusGroup focuses) {
         var handler = builder.recipeSetHandler;
         if (handler != null) {
             try {
@@ -62,17 +63,17 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
     }
 
     @Override
-    public void createRecipeExtras(@NotNull IRecipeExtrasBuilder extrasBuilder, @NotNull T recipe, @NotNull IFocusGroup focuses) {
+    public void createRecipeExtras(IRecipeExtrasBuilder extrasBuilder, T recipe, IFocusGroup focuses) {
         var handler = builder.inputHandler;
         if (handler != null) {
             extrasBuilder.addInputHandler(new IJeiInputHandler() {
                 @Override
-                public @NotNull ScreenRectangle getArea() {
+                public ScreenRectangle getArea() {
                     return new ScreenRectangle(0, 0, CustomRecipeCategory.this.getWidth(), CustomRecipeCategory.this.getHeight());
                 }
 
                 @Override
-                public boolean handleInput(double mouseX, double mouseY, @NotNull IJeiUserInput input) {
+                public boolean handleInput(double mouseX, double mouseY, IJeiUserInput input) {
                     try {
                         return handler.handleInput(recipe, mouseX, mouseY, input);
                     } catch (Throwable e) {
@@ -85,7 +86,7 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
     }
 
     @Override
-    public void draw(@NotNull T recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
+    public void draw(T recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
         var background = builder.background;
         if (background != null) {
             try {
@@ -105,7 +106,7 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
     }
 
     @Override
-    public void getTooltip(@NotNull ITooltipBuilder tooltip, @NotNull T recipe, @NotNull IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+    public void getTooltip(ITooltipBuilder tooltip, T recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
         var handler = builder.tooltipHandler;
         if (handler != null) {
             try {
@@ -117,7 +118,7 @@ public class CustomRecipeCategory<T> implements IRecipeCategory<T> {
     }
 
     @Override
-    public boolean isHandled(@NotNull T recipe) {
+    public boolean isHandled(T recipe) {
         var handler = builder.recipeHandlePredicate;
         if (handler != null) {
             try {
