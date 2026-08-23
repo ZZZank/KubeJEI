@@ -19,16 +19,12 @@ public class RegisterRecipeCatalystsEventJS implements KubeJEIEvent {
     @Info("""
         a specialized version of {@link addRecipeCatalyst} to make the most frequent catalyst action easier""")
     public void addItemCatalyst(ItemStack[] stacks, Identifier... categoryIds) {
-        var recipeTypes = new IRecipeType<?>[categoryIds.length];
-        for (int i = 0; i < categoryIds.length; i++) {
-            var id = categoryIds[i];
-            recipeTypes[i] = registration.getJeiHelpers()
+        for (var id : categoryIds) {
+            var recipeType = registration.getJeiHelpers()
                 .getRecipeType(id)
                 .orElseThrow(() -> new IllegalArgumentException("No recipe type for id: " + id));
-        }
 
-        for (ItemStack stack : Objects.requireNonNull(stacks)) {
-            registration.addRecipeCatalyst(stack, recipeTypes);
+            registration.addCraftingStation(recipeType, stacks);
         }
     }
 }

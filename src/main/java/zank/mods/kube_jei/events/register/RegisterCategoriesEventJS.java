@@ -20,24 +20,24 @@ public class RegisterCategoriesEventJS implements KubeJEIEvent {
         this.registration = registration;
     }
 
-    public <T> CustomCategoryBuilder<T> custom(RecipeType<T> recipeType) {
+    public <T> CustomCategoryBuilder<T> custom(IRecipeType<T> recipeType) {
         var builder = new CustomCategoryBuilder<>(recipeType, registration.getJeiHelpers());
         builders.add(builder);
         return builder;
     }
 
-    public <T> CustomCategoryBuilder<T> custom(RecipeType<T> recipeType, Consumer<CustomCategoryBuilder<T>> modifier) {
+    public <T> CustomCategoryBuilder<T> custom(IRecipeType<T> recipeType, Consumer<CustomCategoryBuilder<T>> modifier) {
         var builder = custom(recipeType);
         modifier.accept(builder);
         return builder;
     }
 
     public CustomCategoryBuilder<CustomJSRecipe> custom(Identifier id) {
-        return custom(new IRecipeType<>(id, CustomJSRecipe.class));
+        return custom(IRecipeType.create(id, CustomJSRecipe.class));
     }
 
     public CustomCategoryBuilder<CustomJSRecipe> custom(Identifier id, Consumer<CustomCategoryBuilder<CustomJSRecipe>> modifier) {
-        return custom(new IRecipeType<>(id, CustomJSRecipe.class), modifier);
+        return custom(IRecipeType.create(id, CustomJSRecipe.class), modifier);
     }
 
     @Override

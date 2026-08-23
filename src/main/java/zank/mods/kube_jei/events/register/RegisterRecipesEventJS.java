@@ -19,14 +19,14 @@ public class RegisterRecipesEventJS implements KubeJEIEvent {
         this.registration = registration;
     }
 
-    public <T> void register(RecipeType<T> recipeType, List<T> recipes) {
+    public <T> void register(IRecipeType<T> recipeType, List<T> recipes) {
         registration.addRecipes(recipeType, recipes);
     }
 
     public CustomJSRecipe.CustomRecipeListBuilder custom(Identifier recipeType) {
         var type = registration.getJeiHelpers()
             .getRecipeType(recipeType, CustomJSRecipe.class)
-            .orElseGet(() -> new IRecipeType<>(recipeType, CustomJSRecipe.class));
+            .orElseGet(() -> IRecipeType.create(recipeType, CustomJSRecipe.class));
 
         var builder = new CustomJSRecipe.CustomRecipeListBuilder(type);
         builders.add(builder);
