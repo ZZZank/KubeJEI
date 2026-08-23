@@ -1,6 +1,5 @@
 package zank.mods.kube_jei.mixins;
 
-import lombok.val;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.library.load.registration.RecipeCategoryRegistration;
 import mezz.jei.library.runtime.JeiHelpers;
@@ -28,7 +27,7 @@ public abstract class MixinRecipeCategoryRegistration {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void kJei$init(JeiHelpers jeiHelpers, CallbackInfo ci) {
-        val denyCategoryEvent = new DenyCategoryEventJS();
+        var denyCategoryEvent = new DenyCategoryEventJS();
         KubeJEIEvents.DENY_CATEGORIES.post(denyCategoryEvent);
         KubeJEI.LOGGER.info(
             "KubeJEI collected {} directly denied categories, {} filters in total",

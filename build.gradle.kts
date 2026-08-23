@@ -79,9 +79,6 @@ dependencies {
 
     // 8.0.3
     implementation("curse.maven:probejs-585406:8304356")
-
-    compileOnly("org.projectlombok:lombok:1.18.34")
-    annotationProcessor("org.projectlombok:lombok:1.18.34")
 }
 
 tasks.processResources {

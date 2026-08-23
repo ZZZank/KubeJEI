@@ -1,7 +1,6 @@
 package zank.mods.kube_jei.mixins;
 
 import com.google.common.collect.ImmutableList;
-import lombok.val;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.recipe.types.IRecipeType;
 import mezz.jei.api.runtime.IIngredientManager;
@@ -40,7 +39,7 @@ public abstract class MixinRecipeRegistration {
         ContextMap contextMap,
         CallbackInfo ci
     ) {
-        val denyEvent = new DenyRecipeEventJS();
+        var denyEvent = new DenyRecipeEventJS();
         KubeJEIEvents.DENY_RECIPES.post(denyEvent);
         kJei$denyPredicates = ImmutableList.copyOf(denyEvent.denyPredicates);
     }
@@ -60,7 +59,7 @@ public abstract class MixinRecipeRegistration {
 
     @Unique
     private <T> boolean kJei$filterRecipe(T recipe, IRecipeType<T> recipeType) {
-        for (val denyPredicate : kJei$denyPredicates) {
+        for (var denyPredicate : kJei$denyPredicates) {
             if (denyPredicate.shouldDeny(recipeType, recipe)) {
                 return false;
             }

@@ -1,7 +1,5 @@
 package zank.mods.kube_jei.util;
 
-import lombok.val;
-
 import java.util.function.Supplier;
 
 /**
@@ -44,7 +42,7 @@ public class Lazy<T> implements Supplier<T> {
      * @return last value
      */
     public T pop() {
-        val old = cached;
+        var old = cached;
         forget();
         return old;
     }

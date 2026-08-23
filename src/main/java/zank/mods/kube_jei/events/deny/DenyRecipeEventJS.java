@@ -2,7 +2,6 @@ package zank.mods.kube_jei.events.deny;
 
 import com.google.common.collect.*;
 import dev.latvian.mods.kubejs.typings.Info;
-import lombok.val;
 import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -34,13 +33,13 @@ public class DenyRecipeEventJS implements KubeJEIEvent {
 
         //direct denied
         denyPredicates.add((recipeType, jeiRecipe) -> {
-            val recipeIds = directDenied.get(recipeType.getUid());
+            var recipeIds = directDenied.get(recipeType.getUid());
             return jeiRecipe instanceof RecipeHolder<?> holder && recipeIds.contains(holder.id());
         });
         //defined category denied
         denyPredicates.add((recipeType, jeiRecipe) -> {
-            val predicates = categoryDenied.get(recipeType.getUid());
-            for (val predicate : predicates) {
+            var predicates = categoryDenied.get(recipeType.getUid());
+            for (var predicate : predicates) {
                 if (predicate.shouldDeny(jeiRecipe)) {
                     return true;
                 }
