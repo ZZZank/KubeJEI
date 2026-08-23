@@ -49,6 +49,11 @@ public class JEIPlugin implements IModPlugin {
     }
 
     @Override
+    public void registerSlotDisplayInterpreters(ISlotDisplayInterpreterRegistration registration) {
+        KubeJEIEvents.REGISTER_SLOT_DISPLAY_INTERPRETERS.post(new RegisterSlotDisplayInterpretersEventJS(registration));
+    }
+
+    @Override
     public void registerExtraIngredients(IExtraIngredientRegistration registration) {
         KubeJEIEvents.REGISTER_EXTRA_INGREDIENTS.post(new RegisterExtraIngredientsEventJS(registration));
     }

@@ -47,6 +47,8 @@ public interface KubeJEIEvents {
     EventHandler REGISTER_RUNTIME = GROUP.client("registerRuntime", () -> RegisterRuntimeEventJS.class);
     EventHandler REGISTER_VANILLA_CATEGORY_EXTENSIONS =
         GROUP.client("registerVanillaCategoryExtensions", () -> RegisterVanillaCategoryExtensionsEventJS.class);
+    EventHandler REGISTER_SLOT_DISPLAY_INTERPRETERS =
+        GROUP.client("registerSlotDisplayInterpreters", () -> RegisterSlotDisplayInterpretersEventJS.class);
 
     //endregion
     //region extended function
