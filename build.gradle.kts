@@ -20,6 +20,7 @@ val modAuthor = prop("mod_author")
 val modDescription = prop("mod_description")
 val license = prop("license")
 val jeiVersion = prop("jei_version")
+val kubejsVersion = prop("kubejs_version")
 
 base {
     archivesName.set(prop("archives_base_name"))
@@ -74,7 +75,7 @@ dependencies {
 
     neoForge("net.neoforged:neoforge:$neoForgeVersion")
 
-    implementation("dev.latvian.mods:kubejs-neoforge:2101.7.2-build.368")
+    implementation("dev.latvian.mods:kubejs-neoforge:$minecraftVersion-$kubejsVersion")
     implementation("mezz.jei:jei-$minecraftVersion-neoforge:$jeiVersion")
 
     // 8.0.3
@@ -95,7 +96,11 @@ tasks.processResources {
                 "mod_id" to modId,
                 "mod_name" to modName,
                 "mod_authors" to modAuthor,
-                "mod_description" to modDescription
+                "mod_description" to modDescription,
+                "minecraft_version" to minecraftVersion,
+                "neoForge_version" to neoForgeVersion,
+                "jei_version" to jeiVersion,
+                "kubejs_version" to kubejsVersion
             )
         )
     }
