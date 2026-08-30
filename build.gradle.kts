@@ -26,7 +26,7 @@ base {
     archivesName.set(prop("archives_base_name"))
 }
 
-version = modVersion
+version = "$minecraftVersion-$modVersion"
 group = mavenGroup
 
 loom {
@@ -76,10 +76,16 @@ dependencies {
     neoForge("net.neoforged:neoforge:$neoForgeVersion")
 
     implementation("dev.latvian.mods:kubejs-neoforge:$minecraftVersion-$kubejsVersion")
+    // the one bundled in KubeJS is crashing the game
+    implementation("dev.latvian.mods:better-advanced-tooltips:2601.1.0-build.9")
     implementation("mezz.jei:jei-$minecraftVersion-neoforge:$jeiVersion")
 
-    // 8.0.3
-    implementation("curse.maven:probejs-585406:8304356")
+    // modernfix-neoforge-5.27.21+mc26.1.2.jar
+    runtimeOnly("curse.maven:modernfix-790626:8727139")
+
+    // 8.0.3 for 1.21.1
+    // TODO: update
+    compileOnly("curse.maven:probejs-585406:8304356")
 }
 
 tasks.processResources {
