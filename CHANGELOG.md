@@ -1,4 +1,13 @@
-# KubeJS 1.9.1 -> 2.0.0
+## KubeJEI 2.0.0 for 26.1.2 neoforge
+
+updated to 26.1.2 NeoForge
+
+- New event: `registerSlotDisplayInterpreters`
+- Some methods in `KubeJEIHelpers` have been removed/changed to adapt to newer version of Minecraft & JEI
+
+---
+
+## KubeJEI 1.9.1 -> 2.0.0
 
 Completely rewritten for Minecraft 1.21.1
 
